@@ -230,6 +230,11 @@ body.sw{opacity:0}
 #pick{flex:none;background:#25d366;color:#06240f;font:800 14px system-ui,sans-serif;padding:13px 20px;border-radius:99px;display:flex;gap:8px;align-items:center;box-shadow:0 6px 18px rgba(37,211,102,.25)}
 #pick svg{width:18px;height:18px;fill:currentColor}
 @media(max-width:520px){.ecta{flex-direction:column;align-items:stretch;text-align:center}#pick{justify-content:center}}
+
+.modal{overflow:hidden}
+.modal .sheet{max-height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:max(28px,env(safe-area-inset-bottom))}
+.modal .sheet input{scroll-margin:90px}
+#fab{display:grid!important;right:16px;bottom:16px}
 #vtop{position:fixed;left:14px;bottom:18px;z-index:290;background:rgba(20,20,20,.9);backdrop-filter:blur(8px);color:#fff;border:1px solid #3a3a3a;border-radius:99px;padding:11px 16px;font:700 13px system-ui,sans-serif;display:none;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
 #vtop.on{display:flex}
 
@@ -325,8 +330,12 @@ $("#pick").addEventListener("click",()=>{
 const vt=$("#vtop"); vt.onclick=()=>scrollTo({top:Math.max(0,$("#escolha").offsetTop-4),behavior:"smooth"});
 addEventListener("scroll",()=>{const e=$("#escolha"); vt.classList.toggle("on",scrollY>e.offsetTop+e.offsetHeight+200)},{passive:true});
 const modal=$("#modal");
-function abrir(opc){ modal.classList.remove("fin"); $("#sel").textContent=opc?("Opção "+opc):"Contratação do show"; modal.dataset.o=opc||""; modal.classList.add("on")}
-function fechar(){modal.classList.remove("on")}
+/* teclado do celular: o painel acompanha a área visível, sem cortar o botão */
+function ajustaVV(){const v=window.visualViewport; if(!v||!modal.classList.contains("on")){modal.style.top=modal.style.height="";return} modal.style.top=v.offsetTop+"px"; modal.style.height=v.height+"px"; modal.style.bottom="auto"}
+if(window.visualViewport){visualViewport.addEventListener("resize",ajustaVV);visualViewport.addEventListener("scroll",ajustaVV)}
+document.addEventListener("focusin",e=>{if(e.target.matches("#modal input")){setTimeout(()=>{ajustaVV();e.target.scrollIntoView({block:"center",behavior:"smooth"})},300)}});
+function abrir(opc){ setTimeout(ajustaVV,50); modal.classList.remove("fin"); $("#sel").textContent=opc?("Opção "+opc):"Contratação do show"; modal.dataset.o=opc||""; modal.classList.add("on")}
+function fechar(){modal.classList.remove("on");ajustaVV()}
 document.addEventListener("click",e=>{
   const p=e.target.closest(".pick"); if(p){abrir(p.dataset.i);return}
   if(e.target.closest("[data-open]")){abrir("");return}
