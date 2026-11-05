@@ -1069,15 +1069,15 @@ async function trocarMidia(it,file){
 /* ---------- agenda ---------- */
 const MESES3=["JAN","FEV","MAR","ABR","MAI","JUN","JUL","AGO","SET","OUT","NOV","DEZ"],DIAS3=["DOM","SEG","TER","QUA","QUI","SEX","SÁB"];
 const hojeISO=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
-const futuros=L=>(L||[]).filter(s=>s&&s.d&&s.l&&s.d>=hojeISO()).sort((a,b)=>a.d.localeCompare(b.d)||(a.h||"").localeCompare(b.h||""));
+const futuros=L=>(L||[]).filter(s=>s&&s.d&&s.l&&s.h&&s.d>=hojeISO()).sort((a,b)=>a.d.localeCompare(b.d)||(a.h||"").localeCompare(b.h||""));
 const escH=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-function agRow(s){return `<div class="agr"><input class="ad" type="date" value="${s.d||""}"><input class="al" placeholder="Local e cidade (ex.: Bar do Zé — Goiânia)" maxlength="80" value="${escH(s.l||"")}"><button class="x2" aria-label="Remover">×</button><div class="hh"><input class="ah" type="time" value="${s.h||""}"><span class="nota2" style="align-self:center">Horário (opcional)</span></div></div>`}
+function agRow(s){return `<div class="agr"><input class="ad" type="date" value="${s.d||""}"><input class="al" placeholder="Local e cidade (ex.: Bar do Zé — Goiânia)" maxlength="80" value="${escH(s.l||"")}"><button class="x2" aria-label="Remover">×</button><div class="hh"><input class="ah" type="time" value="${s.h||""}"><span class="nota2" style="align-self:center">Horário (obrigatório)</span></div></div>`}
 function desenharAgendaForm(){const L=futuros(ST.agenda);$("#ag-list").innerHTML=L.length?L.map(agRow).join(""):agRow({})}
 $("#ag-add").onclick=()=>$("#ag-list").insertAdjacentHTML("beforeend",agRow({}));
 $("#ag-list").addEventListener("click",e=>{const x=e.target.closest(".x2");if(x)x.closest(".agr").remove()});
 function lerAgendaForm(){return $$("#ag-list .agr").map(r=>({d:$(".ad",r).value,l:$(".al",r).value.trim(),h:$(".ah",r).value})).filter(s=>s.d||s.l)}
 $("#ag-save").onclick=async()=>{const e=$("#ag-e"),ok=$("#ag-ok");e.textContent="";ok.textContent="";const L=lerAgendaForm();
-  if(L.some(s=>!s.d||!s.l)){e.textContent="Preencha a data e o local de cada show (ou remova a linha).";return}
+  if(L.some(s=>!s.d||!s.l||!s.h)){e.textContent="Preencha data, local e horário de cada show (ou remova a linha).";return}
   if(L.length>30){e.textContent="Máximo de 30 shows.";return}
   const o=futuros(L).map(s=>{const r={d:s.d,l:s.l.slice(0,80)};if(s.h)r.h=s.h;return r});
   try{await dbPut("agenda/"+PAGE.art,o.length?o:null);ST.agenda=o;ok.textContent=" ✓ Agenda salva";desenharAgendaForm();agendaPublica(o)}catch(x){e.textContent="Erro ao salvar. Verifique a internet e a sessão."}};
