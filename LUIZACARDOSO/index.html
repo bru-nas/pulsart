@@ -351,8 +351,17 @@ html:not(.go) .hero .photo,html:not(.go) .hero .txt>*,html:not(.go) h1{animation
 #pn .box{background:#151311;border:1px solid rgba(232,220,195,.25);border-top:3px solid #a3151a;padding:6px 20px 22px;margin-top:16px}
 #ctr{background:#fff;color:#111;font-family:'Times New Roman',Georgia,serif;padding:34px 38px;margin-top:22px;font-size:13.5px;line-height:1.5;text-align:justify}
 #ctr{position:relative;overflow:hidden}
-#ctr .wm{position:absolute;left:50%;top:50%;width:78%;height:auto;transform:translate(-50%,-50%);opacity:.07;pointer-events:none;margin:0}
+#ctr .wm{position:absolute;left:50%;top:50%;width:78%;height:auto;transform:translate(-50%,-50%);opacity:.27;pointer-events:none;margin:0}
 #ctr>*:not(.wm){position:relative}
+#ctr h1{text-shadow:none!important;-webkit-text-stroke:0!important;filter:none!important;transform:none!important;background:none!important;-webkit-text-fill-color:#111!important;color:#111!important;opacity:1!important;font-style:normal!important;text-transform:none!important}
+#ctr .wm{display:none}
+#ctr .wms{position:absolute;left:50%;width:72%;height:auto;transform:translate(-50%,-50%);opacity:.27;pointer-events:none;margin:0}
+#ctr .rod{display:block;text-align:center;margin-top:34px;padding-top:12px;border-top:1px solid #bbb}
+#ctr .rod img,#ctr .rodp img{height:46px;width:auto;max-width:60%;object-fit:contain;margin:0 auto}
+#ctr .rodp{display:none!important}
+#wmfix{display:none}@media print{#wmfix{display:block;position:fixed;left:50%;top:50%;width:72%;height:auto;transform:translate(-50%,-50%);opacity:.27;z-index:0;pointer-events:none}#ctr{position:static!important}}
+@media print{#ctr .wm{display:none}#ctr .wms,#ctr .rod{display:none}}
+#ctr .lg{display:block;margin:0 auto 16px;height:72px;width:auto;max-width:74%;object-fit:contain}
 #ctr h1{font-family:'Times New Roman',serif;font-size:17px;text-align:center;line-height:1.3;margin-bottom:18px;color:#111;text-shadow:none;animation:none;letter-spacing:0}
 #ctr h4{font-size:13.5px;margin:15px 0 4px;text-transform:uppercase}
 #ctr p{margin:4px 0}
@@ -361,7 +370,7 @@ html:not(.go) .hero .photo,html:not(.go) .hero .txt>*,html:not(.go) h1{animation
 #ctr .dt{text-align:right;margin-top:22px}
 @media(max-width:560px){#ctr{padding:22px 16px;font-size:12.5px}}
 @media print{
- @page{margin:16mm}
+ @page{margin:16mm 16mm 26mm 16mm}
  html,body{background:#fff!important;overflow:visible!important;height:auto!important}
  body:before,body:after{display:none!important}
  body>*:not(#pn){display:none!important}
@@ -370,7 +379,7 @@ html:not(.go) .hero .photo,html:not(.go) .hero .txt>*,html:not(.go) h1{animation
  #pn .nopr{display:none!important}
  #ctr{margin:0;padding:0;font-size:12pt}
  #ctr{overflow:visible}
- #ctr .wm{position:fixed;opacity:.07}
+ #ctr .wm{position:fixed;opacity:.15}
 }
 
 /* ---- painel v2: abas, itens, agenda ---- */
@@ -425,16 +434,16 @@ html:not(.go) .hero .photo,html:not(.go) .hero .txt>*,html:not(.go) h1{animation
 #pn .tabs2 button.on{background:#b85c38;border-color:transparent}
 #pn .box{border-top-color:#b85c38}
 @media print{
- @page{margin:16mm}
+ @page{margin:16mm 16mm 26mm 16mm}
  html,body{background:#fff!important;overflow:visible!important;height:auto!important}
  body:before,body:after{display:none!important}
  body>*:not(#pn){display:none!important}
  #pn{position:static;display:block!important;background:#fff;overflow:visible}
  #pn .in{padding:0;max-width:none}#pn .nopr{display:none!important}
- #ctr{margin:0;padding:0;font-size:12pt;overflow:visible}#ctr .wm{position:fixed;opacity:.07}
+ #ctr{margin:0;padding:0;font-size:12pt;overflow:visible}#ctr .wm{position:fixed;opacity:.15}
 }
 #ctr{background:#fff;color:#111;font-family:'Times New Roman',Georgia,serif;padding:34px 38px;margin-top:22px;font-size:13.5px;line-height:1.5;text-align:justify;position:relative;overflow:hidden}
-#ctr .wm{position:absolute;left:50%;top:50%;width:78%;height:auto;transform:translate(-50%,-50%);opacity:.07;pointer-events:none;margin:0}
+#ctr .wm{position:absolute;left:50%;top:50%;width:78%;height:auto;transform:translate(-50%,-50%);opacity:.27;pointer-events:none;margin:0}
 #ctr>*:not(.wm){position:relative}
 #ctr h1{font-family:'Times New Roman',serif;font-size:17px;text-align:center;line-height:1.3;margin-bottom:18px;color:#111;text-shadow:none;animation:none;letter-spacing:0;text-transform:none}
 #ctr h4{font-size:13.5px;margin:15px 0 4px;text-transform:uppercase}#ctr p{margin:4px 0}
@@ -948,6 +957,8 @@ const durExt=h=>{const n=+h,i=Math.floor(n),meia=(n-i)>=.5; if(!i)return"30 minu
 const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 
 let TXT="";
+function pgRod(src){if(document.getElementById("pgrod"))return;const im=new Image();im.onload=()=>{const nw=im.naturalWidth,nh=im.naturalHeight,sc=Math.min(44/nh,200/nw),W=Math.round(nw*sc),H=Math.round(nh*sc),cv=document.createElement("canvas");cv.width=W*2;cv.height=H*2;cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);const st=document.createElement("style");st.id="pgrod";st.textContent="@media print{@page{margin:16mm 16mm 26mm 16mm;@bottom-left{content:image-set(url("+cv.toDataURL("image/png")+") 2x);vertical-align:bottom;text-align:left}}}";document.head.appendChild(st)};im.src=src}
+let _mo=0;function marcaPag(){const c=$("#ctr");if(!_mo){_mo=1;new ResizeObserver(()=>marcaPag()).observe(c)}const w=c.querySelector(".wm");if(!w||!c.clientWidth)return;pgRod(w.src);if(!document.getElementById("wmfix")){const x=new Image();x.id="wmfix";x.alt="";x.src=w.src;document.getElementById("pn").appendChild(x)}c.querySelectorAll(".wms").forEach(x=>x.remove());const ph=c.clientWidth*1.414,H=c.scrollHeight,n=Math.max(1,Math.ceil(H/ph));for(let i=0;i<n;i++){const im=new Image();im.className="wms";im.alt="";im.src=w.src;im.style.top=(i*ph+Math.min(ph,H-i*ph)/2)+"px";c.appendChild(im)}}
 $("#c-gerar").onclick=()=>{
   const s=load(), d=s.d||{}, e=$("#c-e"); e.textContent="";
   const f=$("#c-fmt").value.split("|"), v=+$("#c-val").value, ext=+$("#c-ext").value||0, mot=$("#c-mot").value, comp=$("#c-comp").value.trim(), tot=v+ext;
@@ -999,7 +1010,7 @@ $("#c-gerar").onclick=()=>{
   S.slice(1).forEach(([ti,ps])=>{h+=`<h4>${esc(ti)}</h4>`+ps.map(p=>`<p>${esc(p)}</p>`).join("");t+="\n*"+ti+"*\n"+ps.join("\n")+"\n"});
   h+=`<p style="margin-top:16px">${fim}</p><p class="dt">${esc(cidade.split(",")[0])}, ${dataC}.</p><div class="sg"><div>Assinatura do Contratante<br>${esc(cn)}</div><div>Assinatura do Contratado<br>${esc(d.nome)}</div></div>`;
   t+="\n"+fim+"\n\n"+cidade.split(",")[0]+", "+dataC+".\n\n______________________\nContratante: "+cn+"\n\n______________________\nContratado: "+d.nome;
-  $("#ctr").innerHTML=h; TXT=t; view("v-ctr")};
+  h+=`<div class="rod"><img alt="" src="${{LOGOD}}"></div><div class="rodp"><img alt="" src="${{LOGOD}}"></div>`;$("#ctr").innerHTML=h; TXT=t; view("v-ctr"); marcaPag()};
 $("#r-voltar").onclick=()=>view("v-app");
 $("#r-print").onclick=()=>window.print();
 $("#r-copy").onclick=async()=>{try{await navigator.clipboard.writeText(TXT);$("#r-copy").textContent="Copiado ✓"}catch(e){$("#r-copy").textContent="Não foi possível copiar"}setTimeout(()=>$("#r-copy").textContent="Copiar texto",2000)};
