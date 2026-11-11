@@ -329,8 +329,17 @@ footer{font-size:11.5px;color:var(--mut);margin-top:26px}
 #pn .box{background:#16110c;border:1px solid rgba(246,239,230,.25);border-top:3px solid #d9943a;padding:6px 20px 22px;margin-top:16px}
 #ctr{background:#fff;color:#111;font-family:'Times New Roman',Georgia,serif;padding:34px 38px;margin-top:22px;font-size:13.5px;line-height:1.5;text-align:justify}
 #ctr{position:relative;overflow:hidden}
-#ctr .wm{position:absolute;left:50%;top:50%;width:78%;height:auto;transform:translate(-50%,-50%);opacity:.07;pointer-events:none;margin:0}
+#ctr .wm{position:absolute;left:50%;top:50%;width:78%;height:auto;transform:translate(-50%,-50%);opacity:.27;pointer-events:none;margin:0}
 #ctr>*:not(.wm){position:relative}
+#ctr h1{text-shadow:none!important;-webkit-text-stroke:0!important;filter:none!important;transform:none!important;background:none!important;-webkit-text-fill-color:#111!important;color:#111!important;opacity:1!important;font-style:normal!important;text-transform:none!important}
+#ctr .wm{display:none}
+#ctr .wms{position:absolute;left:50%;width:72%;height:auto;transform:translate(-50%,-50%);opacity:.27;pointer-events:none;margin:0}
+#ctr .rod{display:block;text-align:center;margin-top:34px;padding-top:12px;border-top:1px solid #bbb}
+#ctr .rod img,#ctr .rodp img{height:46px;width:auto;max-width:60%;object-fit:contain;margin:0 auto}
+#ctr .rodp{display:none!important}
+#wmfix{display:none}@media print{#wmfix{display:block;position:fixed;left:50%;top:50%;width:72%;height:auto;transform:translate(-50%,-50%);opacity:.27;z-index:0;pointer-events:none}#ctr{position:static!important}}
+@media print{#ctr .wm{display:none}#ctr .wms,#ctr .rod{display:none}}
+#ctr .lg{display:block;margin:0 auto 16px;height:72px;width:auto;max-width:74%;object-fit:contain}
 #ctr h1{font-family:'Times New Roman',serif;font-size:17px;text-align:center;line-height:1.3;margin-bottom:18px;color:#111;text-shadow:none;animation:none;letter-spacing:0}
 #ctr h4{font-size:13.5px;margin:15px 0 4px;text-transform:uppercase}
 #ctr p{margin:4px 0}
@@ -339,7 +348,7 @@ footer{font-size:11.5px;color:var(--mut);margin-top:26px}
 #ctr .dt{text-align:right;margin-top:22px}
 @media(max-width:560px){#ctr{padding:22px 16px;font-size:12.5px}}
 @media print{
- @page{margin:16mm}
+ @page{margin:16mm 16mm 26mm 16mm}
  html,body{background:#fff!important;overflow:visible!important;height:auto!important}
  body:before,body:after{display:none!important}
  body>*:not(#pn){display:none!important}
@@ -348,7 +357,7 @@ footer{font-size:11.5px;color:var(--mut);margin-top:26px}
  #pn .nopr{display:none!important}
  #ctr{margin:0;padding:0;font-size:12pt}
  #ctr{overflow:visible}
- #ctr .wm{position:fixed;opacity:.07}
+ #ctr .wm{position:fixed;opacity:.15}
 }
 
 /* ---- painel v2: abas, itens, agenda ---- */
@@ -805,13 +814,16 @@ watch();
   <h2 id="lg-t">Área do artista</h2><p class="h" id="lg-p">Digite a sua senha.</p>
   <label>Senha</label><input type="password" id="lg-s" autocomplete="current-password">
   <div id="lg-n" style="display:none"><label>Repita a senha</label><input type="password" id="lg-s2" autocomplete="new-password">
-  <label>Código de acesso</label><input id="lg-c" autocomplete="off" autocapitalize="characters" placeholder="Enviado junto com o link"></div>
+   <label>Seu e-mail (para recuperar a senha se esquecer)</label><input type="email" id="lg-em" autocomplete="email" inputmode="email" placeholder="voce@gmail.com"></div>
   <div class="er" id="lg-e"></div><button class="bt" id="lg-b">Entrar</button>
   <div style="margin-top:16px"><button class="lnk" id="lg-m">Primeiro acesso? Criar minha senha</button></div>
+  <div style="margin-top:10px"><button class="lnk" id="lg-f">Esqueci minha senha</button></div>
  </div>
 
  <div id="v-app" class="nopr" style="display:none">
   <h2>Painel do artista</h2>
+  <div class="box" id="rec-box" style="display:none"><h3>E-mail para recuperar a senha</h3><p class="h">Cadastre o seu e-mail. Se esquecer a senha, é para ele que enviamos o link para criar outra.</p>
+   <input type="email" id="rec-em" autocomplete="email" inputmode="email" placeholder="voce@gmail.com"><div class="er" id="rec-e"></div><button class="bt" id="rec-b">Salvar e-mail</button></div>
   <div class="tabs2 nopr" id="tabs2"><button data-p="ag" class="on">Agenda</button><button data-p="pr">Preços</button><button data-p="ft">Fotos</button><button data-p="vd">Vídeos</button><button data-p="au">Áudios</button><button data-p="ctr">Contratos</button></div>
   <div class="pane on" data-p="ag">
    <div class="box"><h3>Agenda de shows</h3><p class="h">Aparece no site. Os shows que já passaram saem sozinhos da lista.</p>
@@ -824,7 +836,7 @@ watch();
     <div class="er" id="ag-ie"></div><canvas id="ag-cv" width="10" height="10" hidden></canvas>
    </div>
   </div>
-  <div class="pane" data-p="pr"><div class="box"><h3>Preços dos shows</h3><p class="h">O novo valor aparece no site na hora. Depois de trocar, cada preço só pode ser alterado de novo daqui a 6 meses.</p><div id="pr-list"></div></div></div>
+  <div class="pane" data-p="pr"><div class="box"><h3>Preços dos shows</h3><p class="h">O novo valor aparece no site na hora e você pode mudar quando quiser.</p><div id="pr-list"></div></div></div>
   <div class="pane" data-p="ft"><div class="box"><h3>Fotos</h3><p class="h">Escolha a foto no celular. Ela é reduzida automaticamente. Cada foto só pode ser trocada de novo daqui a 6 meses.</p><div id="ft-list"></div></div></div>
   <div class="pane" data-p="vd"><div class="box"><h3>Vídeos</h3><p class="h">O vídeo é comprimido no seu aparelho (leva quase o tempo dele) — mantenha a tela ligada. Máximo de 90 segundos. Cada vídeo só pode ser trocado de novo daqui a 6 meses.</p><div id="vd-list"></div></div></div>
   <div class="pane" data-p="au"><div class="box"><h3>Áudios</h3><p class="h">O áudio é comprimido no seu aparelho (leva o tempo dele) — mantenha a tela ligada. Máximo de 7 minutos. Cada áudio só pode ser trocado de novo daqui a 6 meses.</p><div id="au-list"></div></div></div>
@@ -905,7 +917,7 @@ $("#pbtn").addEventListener("click",async e=>{if(!REMA)return;e.stopImmediatePro
 
 
 /* ================= NÚCLEO v2: Firebase (REST) + painel + agenda ================= */
-const FB={db:"https://pulsart-45f7c-default-rtdb.firebaseio.com",key:"AIzaSyBqKFrj9SxTOjdIztwcHt_Oc2QdbiSNHb8",dom:"painel.pulsart.com.br"};
+const FB={worker:"https://pulsart-email.miztella.workers.dev",db:"https://pulsart-45f7c-default-rtdb.firebaseio.com",key:"AIzaSyBqKFrj9SxTOjdIztwcHt_Oc2QdbiSNHb8",dom:"painel.pulsart.com.br"};
 const SEIS_MESES=15552000000;
 const FBR={tok:null,ref:null,exp:0,uid:null};
 const EMAILART=()=>PAGE.art+"@"+FB.dom;
@@ -928,39 +940,54 @@ const fmtData=ms=>{const d=new Date(ms);return String(d.getDate()).padStart(2,"0
 
 /* ---------- login / primeiro acesso ---------- */
 let modoNovo=false;
+const emailOk=s=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test((s||"").trim());
+$("#lg-f").onclick=async()=>{const e=$("#lg-e"),f=$("#lg-f");e.style.color="";e.textContent="";f.disabled=true;
+  try{const r=await fetch(FB.worker+"/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({slug:PAGE.art})});const j=await r.json().catch(()=>({}));
+    if(j.ok){e.style.color="#9fd69f";e.textContent="Enviamos o link para "+j.para+". Confira também o spam."}
+    else if(j.erro==="sem_email")e.textContent="Esta página ainda não tem e-mail de recuperação cadastrado. Fale com a PULSART.";
+    else if(j.erro==="espere")e.textContent="Já enviamos um link agora há pouco. Espere 1 minuto e confira o e-mail (e o spam).";
+    else e.textContent="Não consegui enviar agora. Tente de novo em instantes."}
+  catch(_){e.textContent="Sem conexão. Verifique a internet e tente de novo."}
+  f.disabled=false};
 function modoLogin(novo){modoNovo=novo;
   $("#lg-t").textContent=novo?"Criar minha senha":"Área do artista";
   $("#lg-p").textContent=novo?"Primeiro acesso: escolha a senha que só você vai usar. Depois é só entrar com ela, de qualquer aparelho.":"Digite a sua senha.";
-  $("#lg-n").style.display=novo?"block":"none";
+  $("#lg-n").style.display=novo?"block":"none";$("#lg-f").style.display=novo?"none":"inline";
   $("#lg-b").textContent=novo?"Criar senha e entrar":"Entrar";
   $("#lg-m").textContent=novo?"Já tenho senha — entrar":"Primeiro acesso? Criar minha senha";
   $("#lg-e").textContent=""}
 function abrirPainel(){ pn.classList.add("on"); document.body.style.overflow="hidden"; pauseAll();
   FBR.tok=null;FBR.ref=null;FBR.exp=0;FBR.uid=null;
-  $("#lg-s").value=$("#lg-s2").value="";modoLogin(false);view("v-login")}
+  $("#lg-s").value=$("#lg-s2").value=$("#lg-em").value="";modoLogin(false);view("v-login")}
 $("#lg-m").onclick=()=>modoLogin(!modoNovo);
 $("#lg-s").onkeydown=$("#lg-s2").onkeydown=e=>{if(e.key==="Enter")$("#lg-b").click()};
 const msgErro=m=>({"EMAIL_EXISTS":"Esse site já tem uma senha. Use “Já tenho senha — entrar”.","EMAIL_NOT_FOUND":"Ainda não existe senha. Use “Primeiro acesso”.","INVALID_PASSWORD":"Senha incorreta.","INVALID_LOGIN_CREDENTIALS":"Senha incorreta (ou o primeiro acesso ainda não foi feito).","WEAK_PASSWORD":"Use pelo menos 6 caracteres.","TOO_MANY_ATTEMPTS_TRY_LATER":"Muitas tentativas. Espere alguns minutos e tente de novo.","OPERATION_NOT_ALLOWED":"O login por senha não está ativado no Firebase."}[(m||"").split(" ")[0]]||"Não deu certo ("+m+"). Verifique a internet e tente de novo.");
 $("#lg-b").onclick=async()=>{
-  const e=$("#lg-e"),b=$("#lg-b"),p=$("#lg-s").value; e.textContent="";
+  const e=$("#lg-e"),b=$("#lg-b"),p=$("#lg-s").value; e.textContent="";e.style.color="";
   if(!p){e.textContent="Digite a senha.";return}
   b.disabled=true;
   try{
     if(modoNovo){
       if(p.length<6){e.textContent="Use pelo menos 6 caracteres.";return}
       if(p!==$("#lg-s2").value){e.textContent="As senhas não conferem.";return}
+      if(!emailOk($("#lg-em").value)){e.textContent="Digite um e-mail válido (é para recuperar a senha).";return}
       try{await fbAuth("signUp",p)}catch(x){ if(x.message==="EMAIL_EXISTS"){await fbAuth("signInWithPassword",p)} else throw x }
       try{await dbPut("artistas/"+PAGE.art,{uid:FBR.uid})}
       catch(x){ if(x.status===401||x.status===403){ let ja=false; try{ja=!!(await dbGetA("privado/"+PAGE.art+"/ok"))}catch(_){}
           e.textContent="Esse site já tem dono (outra senha já foi criada). Use “Já tenho senha — entrar”."; return} throw x }
       try{await dbPut("privado/"+PAGE.art+"/ok",true)}catch(_){}
+      try{await dbPut("privado/"+PAGE.art+"/em",$("#lg-em").value.trim().toLowerCase())}catch(_){}
     }else{ await fbAuth("signInWithPassword",p) }
     await depoisLogin()
   }catch(x){e.textContent=msgErro(x.message)}
   finally{b.disabled=false}};
 async function depoisLogin(){
   try{const d=await dbGetA("privado/"+PAGE.art+"/d"); if(d){const s=load();s.d=d;save(s)}}catch(_){}
-  entrar(); await carregarStatus(); abaPainel("ag")}
+  entrar(); await carregarStatus(); abaPainel("ag");
+  try{const em=await dbGetA("privado/"+PAGE.art+"/em");$("#rec-box").style.display=em?"none":"block"}catch(_){}}
+$("#rec-b").onclick=async()=>{const e=$("#rec-e"),v=$("#rec-em").value.trim().toLowerCase();e.textContent="";
+  if(!emailOk(v)){e.textContent="Digite um e-mail válido.";return}
+  try{await dbPut("privado/"+PAGE.art+"/em",v);$("#rec-box").style.display="none"}catch(_){e.textContent="Não consegui salvar. Verifique a internet."}};
 $("#sair").addEventListener("click",()=>{FBR.tok=null;FBR.ref=null;FBR.exp=0;save({});});
 $("#d-salvar").addEventListener("click",()=>{ setTimeout(async()=>{try{const s=load();if(s.d)await dbPut("privado/"+PAGE.art+"/d",s.d)}catch(_){$("#d-ok").textContent=" (salvo só neste aparelho — sem conexão)"}},80)});
 
@@ -983,9 +1010,9 @@ const infoTrava=(ts,vazio)=>{const t=travaDe(ts);return t?{trv:1,txt:"🔒 Troca
 
 /* ---------- preços ---------- */
 function desenharPrecos(){
-  $("#pr-list").innerHTML=PAGE.precos.map(p=>{const t=ST.precos[p.id]&&ST.precos[p.id].ts,i={trv:0,txt:t?"Última troca em "+fmtData(t):"Valor original do site"};
+  $("#pr-list").innerHTML=PAGE.precos.map(p=>{const t=ST.precos[p.id]&&ST.precos[p.id].ts,i={trv:0,txt:t?"Última troca em "+fmtData(t):(p.get()?"Valor original do site":"Sem valor no site (aparece \"sob consulta\")")};
     return `<div class="it" data-id="${p.id}" style="display:block"><div><b>${p.label}</b><small class="${i.trv?"trv":"ok"}">${i.txt}</small></div>
-    <div class="row2" style="margin-top:10px"><span style="align-self:center;color:#cfc3aa">R$</span><input type="number" inputmode="numeric" min="1" max="99999" step="1" value="${p.get()}" ${i.trv?"disabled":""}><button class="bt o" ${i.trv?"disabled":""}>Salvar</button></div><div class="ex er" style="min-height:0"></div></div>`}).join("")}
+    <div class="row2" style="margin-top:10px"><span style="align-self:center;color:#cfc3aa">R$</span><input type="number" inputmode="numeric" min="1" max="99999" step="1" value="${p.get()||""}" ${i.trv?"disabled":""}><button class="bt o" ${i.trv?"disabled":""}>Salvar</button></div><div class="ex er" style="min-height:0"></div></div>`}).join("")}
 $("#pr-list").addEventListener("click",async e=>{
   const b=e.target.closest("button"); if(!b||b.disabled)return; const it=b.closest(".it"),p=PAGE.precos.find(x=>x.id===it.dataset.id),inp=$("input",it),er=$(".ex",it);
   const v=Math.round(+inp.value); er.textContent="";
@@ -1011,8 +1038,8 @@ function desenharMidia(){
       const i=infoTrava(ST.midia[m.id],"✓ Original do site — liberado para trocar"), th=m.thumb?m.thumb():"";
       h+=`<div class="it" data-id="${m.id}"><div class="th" style="${th?`background-image:url('${th}')`:""}">${th?"":ICON[tp]}</div><div><b>${m.label}</b><small class="${i.trv?"trv":"ok"}">${i.txt}</small></div>
       <label class="bt o" style="margin:0;display:${i.trv?"none":"inline-block"};cursor:pointer;text-align:center">Trocar<input type="file" accept="${tp==="img"?"image/*":tp==="vid"?"video/*":"audio/*"}" hidden></label><div class="ex"></div></div>`});
-    $("#"+pre+"-list").innerHTML=h});
-  [["#ft-list"],["#vd-list"],["#au-list"]].forEach(([s])=>$(s).onchange=e=>{if(e.target.type!=="file")return;const f=e.target.files&&e.target.files[0];if(f)trocarMidia(e.target.closest(".it"),f);e.target.value=""})}
+    const box=$("#"+pre+"-list");if(box)box.innerHTML=h});
+  [["#ft-list"],["#vd-list"],["#au-list"]].forEach(([s])=>{const bx=$(s);if(bx)bx.onchange=e=>{if(e.target.type!=="file")return;const f=e.target.files&&e.target.files[0];if(f)trocarMidia(e.target.closest(".it"),f);e.target.value=""}})}
 const pickMime=L=>L.find(t=>{try{return MediaRecorder.isTypeSupported(t)}catch(e){return false}})||"";
 const lerBlob=b=>new Promise((ok,er)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=er;r.readAsDataURL(b)});
 async function imgComprimir(file,max,q){
@@ -1098,24 +1125,32 @@ async function desenharArte(fmt){
   try{await Promise.all([document.fonts.load("64px "+T.fh),document.fonts.load("300 36px "+T.fb),document.fonts.load("500 36px "+T.fb)])}catch(e){}
   const [foto,logo]=await Promise.all([carregaImg(T.foto()),carregaImg(T.logo())]);
   cx.fillStyle=T.bg;cx.fillRect(0,0,W,H);
-  const topH=Math.round(H*(fmt==="reels"?.36:.33));
-  const py=fmt==="reels"?200:150,ph=topH+80-py;
+  const NEO=T.estilo==="neon", R=fmt==="reels";
+  const topH=NEO?(R?833:587):Math.round(H*(R?.36:.33));
+  const py=NEO?(R?70:50):(R?200:150),ph=NEO?(R?620:430):topH+80-py;
   if(foto){cx.save();const ch=Math.round(foto.height*(T.cortaFoto||1)),s0=Math.max(W/foto.width,ph/ch),iw=W/s0,ih=ph/s0;cx.drawImage(foto,(foto.width-iw)/2,Math.max(0,(ch-ih)*.1),iw,ih,0,py,W,ph);cx.restore();
     let g=cx.createLinearGradient(0,py,0,py+ph);g.addColorStop(0,T.bg);g.addColorStop(.28,"rgba(0,0,0,0)");g.addColorStop(.72,"rgba(0,0,0,.1)");g.addColorStop(1,T.bg);cx.fillStyle=g;cx.fillRect(0,py,W,ph)}
   if(T.estilo==="vinil"){
     cx.save();cx.translate(W*.97,H*.94);for(let r=120;r<1100;r+=26){cx.beginPath();cx.arc(0,0,r,0,7);cx.strokeStyle="rgba(232,220,195,"+(r<300?.10:.055)+")";cx.lineWidth=2;cx.stroke()}
     cx.beginPath();cx.arc(0,0,96,0,7);cx.fillStyle=T.ac;cx.globalAlpha=.4;cx.fill();cx.restore();cx.globalAlpha=1;
     cx.strokeStyle="rgba(232,220,195,.5)";cx.lineWidth=2;cx.strokeRect(34,34,W-68,H-68);cx.strokeStyle="rgba(232,220,195,.2)";cx.strokeRect(46,46,W-92,H-92);
+  }else if(T.estilo==="neon"){
+    cx.save();const gl=cx.createLinearGradient(0,H*.84,0,H);gl.addColorStop(0,"rgba(0,0,0,0)");gl.addColorStop(1,T.ac2+"55");cx.fillStyle=gl;cx.fillRect(0,H*.84,W,H*.16);
+    cx.strokeStyle=T.ac2+"88";cx.lineWidth=2;const hz=H*.9;for(let k=-14;k<=14;k++){cx.beginPath();cx.moveTo(W/2+k*40,hz);cx.lineTo(W/2+k*210,H);cx.stroke()}
+    for(let k=0;k<7;k++){const y=hz+Math.pow(k/6,2)*(H-hz);cx.beginPath();cx.moveTo(0,y);cx.lineTo(W,y);cx.stroke()}
+    cx.restore();const bg2=cx.createLinearGradient(0,0,W,H);bg2.addColorStop(0,T.ac);bg2.addColorStop(1,T.ac2);
+    cx.save();cx.shadowColor=T.ac2;cx.shadowBlur=26;cx.strokeStyle=bg2;cx.lineWidth=4;cx.strokeRect(36,36,W-72,H-72);cx.restore();
+    cx.strokeStyle=T.ac+"44";cx.lineWidth=2;cx.strokeRect(54,54,W-108,H-108);
   }else{
     let g=cx.createRadialGradient(W*.5,H*1.02,60,W*.5,H*1.02,H*.7);g.addColorStop(0,T.ac+"66");g.addColorStop(1,"transparent");cx.fillStyle=g;cx.fillRect(0,0,W,H);
     g=cx.createRadialGradient(W*.1,topH,20,W*.1,topH,520);g.addColorStop(0,T.ac+"33");g.addColorStop(1,"transparent");cx.fillStyle=g;cx.fillRect(0,0,W,H);
   }
-  if(logo){const lw=Math.min(560,W*.52),lh=lw*logo.height/logo.width;cx.drawImage(logo,(W-lw)/2,fmt==="reels"?96:62,lw,lh)}
+  if(logo){const lw=NEO?(R?330:260):Math.min(560,W*.52),lh=lw*logo.height/logo.width;cx.drawImage(logo,(W-lw)/2,NEO?(R?630:440):(R?96:62),lw,lh)}
   cx.textAlign="center";cx.fillStyle=T.ac2||T.tx;cx.font="64px "+T.fh;
   const ty=topH+(T.estilo==="vinil"?60:34);
   cx.fillStyle=T.tx;cx.font=(T.pesoTit||"400")+" "+(fmt==="reels"?132:116)+"px "+T.fh;cx.fillText("AGENDA",W/2,ty+(fmt==="reels"?110:100));
   cx.fillStyle=T.ac;cx.font="500 30px "+T.fb;cx.letterSpacing="10px";cx.fillText("PRÓXIMOS SHOWS",W/2+5,ty+(fmt==="reels"?170:152));cx.letterSpacing="0px";
-  const L=futuros(ST.agenda).slice(0,fmt==="reels"?8:6), y0=ty+(fmt==="reels"?230:204), yEnd=H-(fmt==="reels"?210:150), avail=yEnd-y0, rh=Math.min(fmt==="reels"?190:165,avail/Math.max(L.length,1)), x0=110, yIni=y0+Math.max(0,(avail-rh*L.length)/2-20);
+  const L=futuros(ST.agenda).slice(0,NEO?(R?6:4):(R?8:6)), y0=ty+(fmt==="reels"?230:204), yEnd=H-(fmt==="reels"?210:150), avail=yEnd-y0, rh=Math.min(fmt==="reels"?190:165,avail/Math.max(L.length,1)), x0=110, yIni=y0+Math.max(0,(avail-rh*L.length)/2-20);
   L.forEach((s,i)=>{const y=yIni+i*rh,[a,m,d]=s.d.split("-").map(Number),dt=new Date(a,m-1,d),cy=y+rh/2;
     cx.textAlign="center";cx.fillStyle=T.tx;cx.font=(T.pesoTit||"400")+" "+Math.round(rh*.5)+"px "+T.fh;cx.fillText(String(d).padStart(2,"0"),x0+50,cy+rh*.1);
     cx.fillStyle=T.ac;cx.font="500 "+Math.round(rh*.19)+"px "+T.fb;cx.letterSpacing="4px";cx.fillText(MESES3[m-1],x0+50,cy+rh*.34);cx.letterSpacing="0px";
@@ -1171,6 +1206,8 @@ const durExt=h=>{const n=+h,i=Math.floor(n),meia=(n-i)>=.5; if(!i)return"30 minu
 const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 
 let TXT="";
+function pgRod(src){if(document.getElementById("pgrod"))return;const im=new Image();im.onload=()=>{const nw=im.naturalWidth,nh=im.naturalHeight,sc=Math.min(44/nh,200/nw),W=Math.round(nw*sc),H=Math.round(nh*sc),cv=document.createElement("canvas");cv.width=W*2;cv.height=H*2;cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);const st=document.createElement("style");st.id="pgrod";st.textContent="@media print{@page{margin:16mm 16mm 26mm 16mm;@bottom-left{content:image-set(url("+cv.toDataURL("image/png")+") 2x);vertical-align:bottom;text-align:left}}}";document.head.appendChild(st)};im.src=src}
+let _mo=0;function marcaPag(){const c=$("#ctr");if(!_mo){_mo=1;new ResizeObserver(()=>marcaPag()).observe(c)}const w=c.querySelector(".wm");if(!w||!c.clientWidth)return;pgRod(w.src);if(!document.getElementById("wmfix")){const x=new Image();x.id="wmfix";x.alt="";x.src=w.src;document.getElementById("pn").appendChild(x)}c.querySelectorAll(".wms").forEach(x=>x.remove());const ph=c.clientWidth*1.414,H=c.scrollHeight,n=Math.max(1,Math.ceil(H/ph));for(let i=0;i<n;i++){const im=new Image();im.className="wms";im.alt="";im.src=w.src;im.style.top=(i*ph+Math.min(ph,H-i*ph)/2)+"px";c.appendChild(im)}}
 $("#c-gerar").onclick=()=>{
   const s=load(), d=s.d||{}, e=$("#c-e"); e.textContent="";
   const f=$("#c-fmt").value.split("|"), v=+$("#c-val").value, ext=+$("#c-ext").value||0, mot=$("#c-mot").value, comp=$("#c-comp").value.trim(), tot=v+ext;
@@ -1222,7 +1259,7 @@ $("#c-gerar").onclick=()=>{
   S.slice(1).forEach(([ti,ps])=>{h+=`<h4>${esc(ti)}</h4>`+ps.map(p=>`<p>${esc(p)}</p>`).join("");t+="\n*"+ti+"*\n"+ps.join("\n")+"\n"});
   h+=`<p style="margin-top:16px">${fim}</p><p class="dt">${esc(cidade.split(",")[0])}, ${dataC}.</p><div class="sg"><div>Assinatura do Contratante<br>${esc(cn)}</div><div>Assinatura das Contratadas<br>Bruna e Miztella</div></div>`;
   t+="\n"+fim+"\n\n"+cidade.split(",")[0]+", "+dataC+".\n\n______________________\nContratante: "+cn+"\n\n______________________\nContratadas: Bruna e Miztella";
-  $("#ctr").innerHTML=h; TXT=t; view("v-ctr")};
+  h+=`<div class="rod"><img alt="" src="${{LOGOD}}"></div><div class="rodp"><img alt="" src="${{LOGOD}}"></div>`;$("#ctr").innerHTML=h; TXT=t; view("v-ctr"); marcaPag()};
 $("#r-voltar").onclick=()=>view("v-app");
 $("#r-print").onclick=()=>window.print();
 $("#r-copy").onclick=async()=>{try{await navigator.clipboard.writeText(TXT);$("#r-copy").textContent="Copiado ✓"}catch(e){$("#r-copy").textContent="Não foi possível copiar"}setTimeout(()=>$("#r-copy").textContent="Copiar texto",2000)};
