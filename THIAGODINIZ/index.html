@@ -482,6 +482,7 @@ setTimeout(function(){sp.style.display="none"},3500);
    <label>Valor do show (R$) — pode alterar</label><input id="c-val" type="number" min="0" step="0.01" inputmode="decimal">
    <div class="g2"><div><label>Custo extra (R$, opcional)</label><input id="c-ext" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00"></div><div><label>Motivo do custo extra</label><select id="c-mot"><option>Deslocamento</option><option>Hospedagem</option><option>Alimentação</option><option>Hora extra</option><option>Equipamento ou som adicional</option><option>Outro</option></select></div></div>
    <label>Complemento do motivo (opcional)</label><input id="c-comp" placeholder="Ex.: evento em Pirenópolis, 120 km">
+   <label>Informações adicionais (opcional)</label><textarea id="c-obs" rows="3" placeholder="Ex.: horário de passagem de som, local de montagem, combinados extras..." style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(128,128,128,.4);background:rgba(128,128,128,.12);color:inherit;font:inherit;resize:vertical"></textarea>
    <p class="h" id="c-tot" style="margin-top:12px"></p>
    <div class="er" id="c-e"></div><button class="bt" id="c-gerar">Gerar contrato</button>
   </div>
@@ -865,9 +866,9 @@ async function aplicarPublico(){
 aplicarPublico();
 
 $("#d-salvar").onclick=()=>{const s=load();s.d={nome:$("#d-nome").value.trim(),cpf:$("#d-cpf").value.trim(),banco:$("#d-banco").value.trim(),pix:$("#d-pix").value.trim(),sinal:+$("#d-sinal").value||0,foro:$("#d-foro").value.trim()};save(s);$("#d-ok").textContent=" ✓ salvo";setTimeout(()=>$("#d-ok").textContent="",2000)};
-function tot_(){const v=+$("#c-val").value||0,x=+$("#c-ext").value||0; $("#c-tot").textContent=v?("Total do contrato: "+brl(v+x)):""}
+function tot_(){const v=+$("#c-val").value||0,x=+$("#c-ext").value||0,hx=$("#c-mot").value==="Hora extra"; $("#c-tot").textContent=v?("Total do contrato: "+brl(hx?v:v+x)+(hx&&x>0?" (hora extra à parte: "+brl(x)+", só se houver)":"")):""}
 function setVal(){const v=$("#c-fmt").value.split("|")[2]; $("#c-val").value=v; tot_()}
-["c-val","c-ext"].forEach(i=>$("#"+i).addEventListener("input",tot_));
+["c-val","c-ext"].forEach(i=>$("#"+i).addEventListener("input",tot_));$("#c-mot").addEventListener("change",tot_);
 $("#c-fmt").onchange=setVal;
 
 /* ---- helpers de texto ---- */
@@ -892,7 +893,7 @@ function pgRod(src){if(document.getElementById("pgrod"))return;const im=new Imag
 let _mo=0;function marcaPag(){const c=$("#ctr");if(!_mo){_mo=1;new ResizeObserver(()=>marcaPag()).observe(c)}const w=c.querySelector(".wm");if(!w||!c.clientWidth)return;pgRod(w.src);if(!document.getElementById("wmfix")){const x=new Image();x.id="wmfix";x.alt="";x.src=w.src;document.getElementById("pn").appendChild(x)}c.querySelectorAll(".wms").forEach(x=>x.remove());const ph=c.clientWidth*1.414,H=c.scrollHeight,n=Math.max(1,Math.ceil(H/ph));for(let i=0;i<n;i++){const im=new Image();im.className="wms";im.alt="";im.src=w.src;im.style.top=(i*ph+Math.min(ph,H-i*ph)/2)+"px";c.appendChild(im)}}
 $("#c-gerar").onclick=()=>{
   const s=load(), d=s.d||{}, e=$("#c-e"); e.textContent="";
-  const f=$("#c-fmt").value.split("|"), v=+$("#c-val").value, ext=+$("#c-ext").value||0, mot=$("#c-mot").value, comp=$("#c-comp").value.trim(), tot=v+ext;
+  const f=$("#c-fmt").value.split("|"), v=+$("#c-val").value, ext=+$("#c-ext").value||0, mot=$("#c-mot").value, comp=$("#c-comp").value.trim(), obs=($("#c-obs")?$("#c-obs").value.trim():""), hx=(mot==="Hora extra"&&ext>0), tot=hx?v:v+ext;
   const cn=$("#c-nome").value.trim(), cc=$("#c-cpf").value.trim(), loc=$("#c-local").value.trim(), dt=$("#c-data").value, hr=$("#c-hora").value, du=$("#c-dur").value;
   if(!d.nome||!d.cpf||!d.pix){e.textContent="Preencha e salve primeiro 'Meus dados' (nome, CPF e Pix).";return}
   if(!cn||!cc||!loc||!dt||!hr||!du||!v){e.textContent="Preencha todos os campos do contrato.";return}
@@ -907,12 +908,13 @@ $("#c-gerar").onclick=()=>{
      `Contratado: ${d.nome.toUpperCase()}, inscrito no CPF: ${d.cpf}, que se apresenta artisticamente como ${NOME_ART.toUpperCase()}, doravante denominado simplesmente CONTRATADO.`]],
    ["II – DO OBJETO",["O presente contrato tem como objeto a prestação de serviços artísticos musicais pelo CONTRATADO em favor do CONTRATANTE, conforme descrito nas cláusulas seguintes."]],
    ["III – DO VALOR E FORMA DE PAGAMENTO",[
-     ...(ext>0?[`Valor do show: ${brl(v)} (${reaisExt(v)}).`,`Custo extra: ${brl(ext)} (${reaisExt(ext)}), referente a ${mot==="Outro"?(comp||"despesas adicionais"):mot.toLowerCase()+(comp?" — "+comp:"")}.`,`Valor total dos serviços: ${brl(tot)} (${reaisExt(tot)}).`]:[`Valor total dos serviços: ${brl(v)} (${reaisExt(v)}).`]),
+     ...(hx?[`Valor total dos serviços: ${brl(v)} (${reaisExt(v)}).`,`Hora extra (facultativa): ${brl(ext)} (${reaisExt(ext)})${comp?" — "+comp:""}. Esse valor não está incluído no valor total dos serviços e só será devido se houver prorrogação da apresentação por solicitação do CONTRATANTE.`]:ext>0?[`Valor do show: ${brl(v)} (${reaisExt(v)}).`,`Custo extra: ${brl(ext)} (${reaisExt(ext)}), referente a ${mot==="Outro"?(comp||"despesas adicionais"):mot.toLowerCase()+(comp?" — "+comp:"")}.`,`Valor total dos serviços: ${brl(tot)} (${reaisExt(tot)}).`]:[`Valor total dos serviços: ${brl(v)} (${reaisExt(v)}).`]),
      `O pagamento será efetuado da seguinte forma: ${pg}`,
      `PIX: ${d.pix} — ${d.nome}${banco}.`]],
    ["IV – DA DATA E FORMAÇÃO DA PRESTAÇÃO DO SERVIÇO",[
      `Evento a ser realizado em ${loc}, no dia ${dataExt(dt)}, a partir das ${hExt(hr)}, sendo ${durExt(du)} de show.`,
      `Formação contratada: ${f[0]} (${f[1].toLowerCase()}).`]],
+   ...(obs?[["INFORMAÇÕES ADICIONAIS",obs.split(/\n+/)]]:[]),
    ["V – DA RESPONSABILIDADE CIVIL",["Ambas as partes assumem a responsabilidade por eventuais danos causados a terceiros decorrentes da prestação dos serviços, sendo certo que cada uma responde pelos atos de seus prepostos."]],
    ["VI – DAS OBRIGAÇÕES DO CONTRATANTE E DO CONTRATADO",[
      "a) São obrigações do Contratante:",
