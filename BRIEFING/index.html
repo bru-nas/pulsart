@@ -169,7 +169,7 @@ setTimeout(function(){document.body.classList.add("go");sp.style.display="none";
 setTimeout(function(){sp.remove();document.documentElement.classList.remove("lock")},1100)}
 setTimeout(abrir,1700);sp.addEventListener("click",abrir)})();
 (function(){
-var API="https://COLE-AQUI-O-ENDERECO-DO-WORKER.workers.dev"; // ← troque pelo endereço do seu Worker
+var API="https://pulsart-briefing.miztella.workers.dev"; // ← troque pelo endereço do seu Worker
 var MAXF=10,MAXV=5,MAXA=5,MAXAB=25e6,MAXVB=300e6,TOTALB=1e9,PART=32*1024*1024,MAXFB=15e6,$=function(i){return document.getElementById(i)};
 var files={foto:[],video:[],audio:[],logo:[]};
 function fmt(b){return b>=1e6?(b/1e6).toFixed(1)+' MB':Math.max(1,Math.round(b/1e3))+' KB'}
