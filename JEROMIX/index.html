@@ -665,7 +665,7 @@ footer.jf svg{width:18px;height:18px;fill:currentColor}
 .hero.jx .jb .hlogo{width:100%;margin:0}
 @media(min-width:900px){.hero.jx .jb{width:min(480px,36vw);margin:0 0 6px}}
 @media(min-width:1500px){.hero.jx .jb{width:min(560px,32vw)}}
-@media(prefers-reduced-motion:reduce){.jb .bm{display:none}}</style><div class="splash jx" id="splash" aria-hidden="true"><div class="mark"><div class="lw" id="lw"><i class="rs"></i><i class="bm"></i><i class="lt" style="left:0.0000%;width:8.4178%;height:56.5789%;background-size:1187.952% 176.744%;background-position:0.000% 0;--ox:73.49%"></i><i class="lt" style="left:8.4178%;width:12.2718%;height:50.0000%;background-size:814.876% 200.000%;background-position:9.595% 0;--ox:83.16%"></i><i class="lt" style="left:20.6897%;width:16.1258%;height:50.0000%;background-size:620.126% 200.000%;background-position:24.667% 0;--ox:83.16%"></i><i class="lt" style="left:36.8154%;width:17.4442%;height:50.0000%;background-size:573.256% 200.000%;background-position:44.595% 0;--ox:83.16%"></i><i class="lt" style="left:54.2596%;width:22.6166%;height:50.0000%;background-size:442.152% 200.000%;background-position:70.118% 0;--ox:83.16%"></i><i class="lt" style="left:76.8763%;width:6.8966%;height:50.0000%;background-size:1450.000% 200.000%;background-position:82.571% 0;--ox:83.16%"></i><i class="lt" style="left:83.7728%;width:16.2272%;height:50.0000%;background-size:616.250% 200.000%;background-position:100.000% 0;--ox:83.16%"></i></div></div></div>
+</style><div class="splash jx" id="splash" aria-hidden="true"><div class="mark"><div class="lw" id="lw"><i class="rs"></i><i class="bm"></i><i class="lt" style="left:0.0000%;width:8.4178%;height:56.5789%;background-size:1187.952% 176.744%;background-position:0.000% 0;--ox:73.49%"></i><i class="lt" style="left:8.4178%;width:12.2718%;height:50.0000%;background-size:814.876% 200.000%;background-position:9.595% 0;--ox:83.16%"></i><i class="lt" style="left:20.6897%;width:16.1258%;height:50.0000%;background-size:620.126% 200.000%;background-position:24.667% 0;--ox:83.16%"></i><i class="lt" style="left:36.8154%;width:17.4442%;height:50.0000%;background-size:573.256% 200.000%;background-position:44.595% 0;--ox:83.16%"></i><i class="lt" style="left:54.2596%;width:22.6166%;height:50.0000%;background-size:442.152% 200.000%;background-position:70.118% 0;--ox:83.16%"></i><i class="lt" style="left:76.8763%;width:6.8966%;height:50.0000%;background-size:1450.000% 200.000%;background-position:82.571% 0;--ox:83.16%"></i><i class="lt" style="left:83.7728%;width:16.2272%;height:50.0000%;background-size:616.250% 200.000%;background-position:100.000% 0;--ox:83.16%"></i></div></div></div>
 <script>
 (function(){var D=document,H=D.documentElement,sp=D.getElementById("splash"),fim=false,t=[],raf=0;
 function T(f,ms){t.push(setTimeout(f,ms))}
@@ -680,7 +680,7 @@ function passo(now){if(fim)return;if(!t0)t0=now;var ms=now-t0,s=ms/1000,k;
   if(ms>MEDE){k=Math.min(1,(ms-MEDE)/SOSSEGA);v=v+(1-v)*ea(k)}
   L[i].style.clipPath="inset("+((1-v)*100).toFixed(2)+"% 0 0 0)"}
  if(ms<MEDE+SOSSEGA)raf=requestAnimationFrame(passo);else{for(var j=0;j<L.length;j++){L[j].style.clipPath="none"}}}
-var reduz=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+var reduz=false;
 sp.classList.add("on");
 if(reduz){T(function(){sp.classList.add("lit")},300);T(abrir,1500)}
 else{raf=requestAnimationFrame(passo);T(function(){sp.classList.add("lit")},MEDE+SOSSEGA);T(abrir,MEDE+SOSSEGA+1000)}
