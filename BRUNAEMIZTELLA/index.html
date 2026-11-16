@@ -417,53 +417,92 @@ footer{font-size:11.5px;color:var(--mut);margin-top:26px}
 .car{--cw:300px}
 .faq{max-width:980px}
 }</style><style id="bm-desk2">@media(min-width:900px){
-/* fundo grande com a foto da dupla */
-.hero{display:block;position:relative;max-width:none;margin:0;padding:0;min-height:100svh;min-height:max(100svh,640px);overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
-.hero .photo{position:absolute;inset:0;max-width:none;margin:0;border-radius:0;box-shadow:none;order:0;z-index:0}
-.hero .photo img.fg{width:100%;height:100%;object-fit:cover;object-position:50% 22%}.hero .photo img.bgb{display:none}
-.hero .photo::before{height:160px}
-.hero .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0a0806 0,#0a0806 12%,rgba(10,8,6,.92) 26%,rgba(10,8,6,.45) 48%,rgba(10,8,6,.1) 70%,rgba(10,8,6,.25) 100%)}
+/* capa: foto em cima com degradê, logo grande embaixo */
+.hero{position:relative;display:flex;flex-direction:column;align-items:center;max-width:none;margin:0;padding:0;min-height:0;overflow:hidden}
+.hero .photo{position:relative;width:100%;max-width:none;height:58svh;min-height:440px;max-height:720px;margin:0;border-radius:0;box-shadow:none;order:0;background:#0a0806}
+.hero .photo img{width:100%;height:100%;object-fit:cover;object-position:50% 12%}
+.hero .photo::before{height:120px}
+.hero .photo::after{content:"";position:absolute;left:0;right:0;bottom:0;height:50%;background:linear-gradient(0deg,#0a0806 0,#0a0806 12%,rgba(10,8,6,.9) 30%,rgba(10,8,6,.55) 52%,rgba(10,8,6,.22) 75%,rgba(10,8,6,0) 100%)}
 .hero .show{display:none}
-.hero .in{position:relative;z-index:2;order:0;text-align:center;max-width:860px;padding:0 40px 64px;margin:0 auto}
+.hero .in{position:relative;z-index:2;order:0;text-align:center;max-width:900px;padding:0 40px 48px;margin:0 auto}
+.hero .hlogo{display:block;width:min(560px,38vw);margin:-8vh auto 10px;filter:drop-shadow(0 4px 26px rgba(0,0,0,.65))}
 .hero .eyebrow.dk{justify-content:center}
-.hero h1{font-size:clamp(40px,4.2vw,64px);margin:14px 0 14px}
-.hero .sub{margin:0 auto 26px;max-width:560px;font-size:18px}
-.hero .btns{justify-content:center}
-/* tudo mais junto */
-.wrap{max-width:1080px;padding:0 32px}
-section{padding:64px 0}
-h2{font-size:38px;margin:10px 0 8px}
-.lead{max-width:560px}
-.pillars{gap:14px;margin-top:24px}.pillar{padding:20px;gap:12px}
-.opts{gap:16px;margin-top:24px}
-.incl{margin-top:20px;gap:14px}
-.grid{gap:12px;margin-top:24px}
-.ytlist{gap:14px;margin-top:20px}
-.cond{gap:14px;margin-top:22px}
-.faq{margin-top:26px}
-.tabs{margin-top:20px}
-.car{margin:10px -32px 0}
-.pal .wrap{column-gap:40px}
-#agenda{padding:48px 0 16px}
+.hero h1{font-size:clamp(38px,3.6vw,58px);margin:12px 0 12px}
+.hero .sub{margin:0 auto 26px;max-width:600px;font-size:19px}
+.hero .btns{justify-content:center;gap:16px}
+.hero .btns .btn{padding:20px 38px;font-size:15px}
+/* mais cheio: letras, botões e cards maiores */
+.wrap{max-width:1280px;padding:0 40px}
+section{padding:56px 0}
+h2{font-size:48px;margin:10px 0 8px}
+.eyebrow{font-size:13px}
+.lead{font-size:19px;max-width:700px}
+.btn{font-size:15px;padding:19px 36px}
+.pillars{gap:16px;margin-top:22px}
+.pillar{padding:28px;gap:14px}
+.pillar .ic{width:54px;height:54px;font-size:27px}
+.pillar h3{font-size:20px}.pillar p{font-size:16px}
+.stamp{font-size:20px;max-width:none;padding:22px 26px}
+.opts{gap:16px;margin-top:22px}
+.opt{padding:28px 24px 24px}
+.opt h3{font-size:22px}
+.opt .inst span{font-size:14px;padding:7px 13px}
+.opt .price{font-size:40px}
+.opt .price small,.opt .note{font-size:14.5px}
+.opt .btn{padding:19px 20px}
+.opt .see{font-size:14.5px}
+.incl{margin-top:24px;gap:16px}.incl div{font-size:16px}
+.tab{font-size:15px;padding:13px 22px}
+.tabdesc{font-size:16px}
+.car{--cw:300px;margin:10px -40px 0}
+.after .btn{padding:20px 44px}
+.player{padding:26px;border-radius:26px}.pbtn{width:78px;height:78px}.pinfo b{font-size:19px}
+.grid{gap:12px;margin-top:22px}
+.ytlist{gap:16px;margin-top:24px}
+.cond{gap:14px;margin-top:20px}
+.crow{padding:24px}.crow .n{font-size:34px}.crow p{font-size:16px}
+.faq{max-width:1000px;margin-top:22px}.faq summary{font-size:17px}.faq p{font-size:15.5px}
+.final h2{font-size:48px}.final .logo{width:min(340px,70%)}
+.social a{font-size:15px;padding:13px 22px}
+#agenda{padding:56px 0 16px}
+}.field label{letter-spacing:.04em}
 }
 @media(min-width:1500px){
-.wrap{max-width:1200px;padding:0 40px}
-.hero{max-width:none;padding:0}
-.hero h1{font-size:clamp(52px,3.8vw,76px)}
-.hero .sub{font-size:20px;max-width:620px}
+.wrap{max-width:1440px;padding:0 56px}
+.hero h1{font-size:clamp(48px,3.4vw,70px)}
+.hero .sub{font-size:22px;max-width:680px}
+.car{--cw:330px;margin:10px -56px 0}
+h2{font-size:54px}
+.opt .price{font-size:44px}
 }@media(max-width:899px){
-.hero{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:max(100svh,700px);overflow:hidden}
-.hero .photo{position:absolute;inset:0;max-width:none;margin:0;z-index:0;background:#0a0806}
-.hero .photo img{display:none}
-.hero .photo .c{position:absolute;left:0;right:0;background-repeat:no-repeat;background-size:172% auto}
-.hero .photo .c1{top:0;height:min(430px,78vw*1.15);background-position:0 0;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent);mask-image:linear-gradient(180deg,#000 70%,transparent)}
-.hero .photo .c2{top:calc(min(430px,78vw*1.15) - 70px);height:calc(172vw*.7067*.74);background-position:100% 0;-webkit-mask-image:linear-gradient(180deg,transparent,#000 24%,#000 70%,transparent);mask-image:linear-gradient(180deg,transparent,#000 24%,#000 70%,transparent)}
-.hero .photo::before{z-index:2}
-.hero .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0a0806 0,rgba(10,8,6,.92) 26%,rgba(10,8,6,.55) 44%,rgba(10,8,6,0) 64%)}
+.hero{position:relative;overflow:hidden}
+.hero .photo{max-width:none;height:auto;margin:0;background:#0a0806;overflow:hidden}
+.hero .photo img{width:100%;height:auto;aspect-ratio:900/636;object-fit:cover}
+.hero .photo::before{height:50px}
+.hero .photo::after{content:"";position:absolute;left:0;right:0;bottom:0;height:50%;background:linear-gradient(0deg,#0a0806 0,#0a0806 56%,rgba(10,8,6,.55) 78%,rgba(10,8,6,0) 100%);pointer-events:none}
 .hero .show{display:none}
-.hero .in{position:relative;z-index:2;width:100%;padding:0 20px 40px}
-.hero .in p{font-size:17px;margin-bottom:22px}
+.hero .hlogo{display:block;position:relative;z-index:2;width:min(76vw,330px);margin:-34px auto 14px;filter:drop-shadow(0 3px 18px rgba(0,0,0,.65))}
+.hero .in{padding:0 20px 18px}
+.hero .in p{margin-bottom:16px}
+section{padding:42px 0}
+.pillars{margin-top:18px}.opts{margin-top:18px}.grid{margin-top:18px}.player{margin-top:18px}
+.tabs{margin-top:16px}.cond{margin-top:18px}.faq{margin-top:16px}
+.final{padding-bottom:96px}
 }
+/* letras mais juntas (todas as telas) */
+body{letter-spacing:-.012em}
+h1,h2{letter-spacing:-.028em!important;word-spacing:.1em}
+h2 em,.hero h1 em{letter-spacing:0!important}
+.eyebrow{letter-spacing:.1em}
+.btn{letter-spacing:.02em}
+.opt .tag{letter-spacing:.06em}.opt h3,.pillar h3{letter-spacing:-.02em}
+.count{letter-spacing:.1em}
+/* fundo: seções se misturam, sem faixas duras */
+.sob{background:radial-gradient(90% 55% at 50% 50%,rgba(217,148,58,.11),transparent 72%),var(--bg)}
+.pal{background:radial-gradient(90% 60% at 50% 50%,rgba(217,148,58,.12),transparent 72%),var(--bg)}
+.vids,.yt{background:linear-gradient(180deg,var(--bg) 0,var(--bg2) 22%,var(--bg2) 78%,var(--bg) 100%)}
+.final{background:radial-gradient(90% 55% at 50% 100%,rgba(217,148,58,.2),transparent 72%),var(--bg)}
+html,body{background:var(--bg)}
 </style>
 </head>
 <body>
@@ -485,7 +524,7 @@ h2{font-size:38px;margin:10px 0 8px}
     <div class="show">Show</div>
   </div>
   <div class="in">
-    <div class="eyebrow dk">Duo de vozes femininas</div>
+    <img class="hlogo dk" data-asset="logo.png" alt="Bruna e Miztella"><div class="eyebrow dk">Duo de vozes femininas</div>
     <h1 class="dk">Todo tipo de repertório, <em>do seu jeito</em></h1>
     <div class="sub dk">O show é montado de acordo com o que o seu evento precisa: estilo, músicas e formato.</div>
     <p>Duo de vozes femininas com <b>todo tipo de repertório</b>.<br>O show do jeito do seu evento.</p>
@@ -1326,6 +1365,5 @@ $("#r-zap").onclick=()=>{const a=document.createElement("a");a.href="https://wa.
 
 })();
 </script>
-<script>(function(){var f=document.querySelector('.hero .photo img');if(!f)return;var p=f.parentNode,a=document.createElement('div'),b=document.createElement('div');a.className='c c1';b.className='c c2';a.setAttribute('aria-hidden','true');b.setAttribute('aria-hidden','true');p.appendChild(a);p.appendChild(b);function s(){if(f.src){var u='url("'+f.src+'")';a.style.backgroundImage=u;b.style.backgroundImage=u}}s();new MutationObserver(s).observe(f,{attributes:true,attributeFilter:['src']});})();</script>
 </body>
 </html>
