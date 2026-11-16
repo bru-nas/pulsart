@@ -482,4 +482,26 @@ setTimeout(function(){requestAnimationFrame(step)},800)}
 function abrir(){if(done)return;done=true;sp.classList.add("out");
 setTimeout(function(){sp.style.display="none";draw()},1000);
 setTimeout(function(){sp.remove();document.documentElement.classList.remove("lock")},1100)}
-setTimeout(abrir,1700);sp.addEventListener("click",abrir)})();</script></body></html>
+setTimeout(abrir,1700);sp.addEventListener("click",abrir)})();</script><style>
+@media(min-width:1000px){
+#pv{min-height:min(88vh,760px);padding:60px 56px}
+#pv .pvw{max-width:1180px;width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);column-gap:90px;align-items:center;text-align:left}
+#pv .pvhome{grid-column:1;grid-row:1/span 3;justify-self:center}
+#pv .pvt{grid-column:1;grid-row:4;text-align:center;font-size:.8rem;margin-top:6px}
+#pv .pvn{display:none}
+#pv h1.pvh{grid-column:2;grid-row:1;font-size:2.3rem!important;letter-spacing:.14em!important;line-height:1.25!important;text-align:left;padding-left:0!important;margin:0 0 18px}
+#pv p.pvp{grid-column:2;grid-row:2;font-size:1.25rem!important;max-width:560px;margin:0!important;text-align:left}
+#pv .pvb{grid-column:2;grid-row:3;justify-self:start;font-size:1rem;padding:21px 42px;margin-top:34px}
+#escolha .et{font-size:14px}
+#escolha .sw-card{padding:16px 18px;gap:7px}#escolha .sw-card b{font-size:14px}#escolha .sw-card span{font-size:23px!important}#escolha .sw-card em{font-size:16px!important}#escolha .sw-card u{width:19px;height:19px}
+#pick{font-size:1.1rem;padding:20px 34px}
+.ecta .cur small{font-size:12px}.ecta b,.ecta .cur b{font-size:1.15rem}
+#vtop{font-size:15px;padding:13px 20px}
+#como .ct{font-size:1.7rem}#como .cs{font-size:1.15rem}
+#como li h3{font-size:1.2rem}#como li p{font-size:1.02rem}
+.top .bt{font-size:.95rem;padding:12px 22px}
+.b1,.b2{font-size:.95rem}
+}
+@media(max-width:999px){#escolha .sw-card b{font-size:13px}#escolha .sw-card span{font-size:19px!important}#escolha .sw-card em{font-size:14px!important}#pick{font-size:.95rem;padding:16px 24px}}
+body.t3{--fh:'Inter Tight',system-ui,sans-serif;--fq:'Inter Tight',system-ui,sans-serif;--fw:600}
+</style></body></html>
