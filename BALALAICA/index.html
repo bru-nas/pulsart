@@ -969,8 +969,8 @@ document.addEventListener("play",function(e){if(e.target.tagName==="VIDEO")a.pau
   <div class="box"><h3>Novo contrato</h3>
    <div class="g2"><div><label>Nome do contratante</label><input id="c-nome"></div><div><label>CPF do contratante</label><input id="c-cpf" inputmode="numeric"></div></div>
    <label>Local do evento (endereço)</label><input id="c-local">
-   <div class="g2"><div><label>Data do evento</label><input id="c-data" type="date"></div><div><label>Horário de início</label><input id="c-hora" type="time"></div></div>
-   <div class="g2"><div><label>Duração do show (horas)</label><input id="c-dur" type="number" min="1" step="0.5" value="3"></div><div><label>Formato</label><select id="c-fmt"><option value="Só a banda|Apresentação de até 2h30, sem estruturas|6000">Só a banda — Apresentação de até 2h30, sem estruturas</option><option value="Pacote Slim|Banda, som, iluminação e palco|8500">Pacote Slim — Banda, som, iluminação e palco</option><option value="Pacote VIP|Slim, painel de LED de 8 m² e DJ|10000">Pacote VIP — Slim, painel de LED de 8 m² e DJ</option><option value="Pacote Premium|Balé, painel de LED de 16 m² e DJ|15000">Pacote Premium — Balé, painel de LED de 16 m² e DJ</option></select></div></div>
+   <div class="g2"><div><label>Data do evento</label><input id="c-data" type="text" inputmode="numeric" autocomplete="off" maxlength="10" placeholder="dd/mm/aaaa"></div><div><label>Horário de início</label><input id="c-hora" type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="hh:mm"></div></div>
+   <div class="g2"><div><label>Tempo de show</label><input id="c-dur" type="text" autocomplete="off" value="3h" placeholder="Ex.: 2h30, 3h, 1h45"></div><div><label>Formato</label><select id="c-fmt"><option value="Só a banda|Apresentação de até 2h30, sem estruturas|6000">Só a banda — Apresentação de até 2h30, sem estruturas</option><option value="Pacote Slim|Banda, som, iluminação e palco|8500">Pacote Slim — Banda, som, iluminação e palco</option><option value="Pacote VIP|Slim, painel de LED de 8 m² e DJ|10000">Pacote VIP — Slim, painel de LED de 8 m² e DJ</option><option value="Pacote Premium|Balé, painel de LED de 16 m² e DJ|15000">Pacote Premium — Balé, painel de LED de 16 m² e DJ</option></select></div></div>
    <label>Valor do show (R$) — pode alterar</label><input id="c-val" type="number" min="0" step="0.01" inputmode="decimal">
    <div class="g2"><div><label>Custo extra (R$, opcional)</label><input id="c-ext" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00"></div><div><label>Motivo do custo extra</label><select id="c-mot"><option>Deslocamento</option><option>Hospedagem</option><option>Alimentação</option><option>Hora extra</option><option>Equipamento ou som adicional</option><option>Outro</option></select></div></div>
    <label>Complemento do motivo (opcional)</label><input id="c-comp" placeholder="Ex.: evento em Pirenópolis, 120 km">
@@ -1380,9 +1380,21 @@ function inteiroExt(n){ if(n===0)return"zero"; const mi=Math.floor(n/1000),re=n%
   return p.join(" ").replace(/ e e /g," e ") }
 function reaisExt(v){ const r=Math.floor(v+1e-9), c=Math.round((v-r)*100); let s=inteiroExt(r)+(r===1?" real":" reais"); if(c)s+=" e "+inteiroExt(c)+(c===1?" centavo":" centavos"); return s }
 const brl=v=>"R$ "+v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+/* digitação livre: data, horário e tempo de show */
+const _dig=s=>s.replace(/\D/g,"");
+$("#c-data").addEventListener("input",e=>{let d=_dig(e.target.value).slice(0,8),o=d.slice(0,2);if(d.length>2)o+="/"+d.slice(2,4);if(d.length>4)o+="/"+d.slice(4);e.target.value=o});
+$("#c-hora").addEventListener("input",e=>{let d=_dig(e.target.value).slice(0,4),o=d.slice(0,2);if(d.length>2)o+=":"+d.slice(2);e.target.value=o});
+$("#c-hora").addEventListener("blur",e=>{const v=e.target.value;if(/^\d{1,2}$/.test(v))e.target.value=String(+v).padStart(2,"0")+":00";else if(/^\d{1,2}:\d$/.test(v))e.target.value=v+"0"});
+function lerData(v){const m=v.trim().match(/^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{4}|\d{2})$/);if(!m)return null;let d=+m[1],mo=+m[2],a=+m[3];if(a<100)a+=2000;const x=new Date(a,mo-1,d);if(x.getFullYear()!==a||x.getMonth()!==mo-1||x.getDate()!==d)return null;return a+"-"+String(mo).padStart(2,"0")+"-"+String(d).padStart(2,"0")}
+function lerHora(v){const m=v.trim().toLowerCase().match(/^(\d{1,2})\s*(?:[:h]\s*(\d{1,2})?)?$/);if(!m)return null;const h=+m[1],mi=m[2]?+m[2]:0;if(h>23||mi>59)return null;return String(h).padStart(2,"0")+":"+String(mi).padStart(2,"0")}
+function lerDur(v){let s=v.trim().toLowerCase().replace(",",".");if(!s)return null;let mins=null,m;
+ if(/^\d+(\.\d+)?$/.test(s))mins=Math.round(parseFloat(s)*60);
+ else if((m=s.match(/^(?:(\d+)\s*(?:h|hr|hrs|horas?|:))\s*(?:(\d{1,2})\s*(?:m|min|minutos?)?)?$/)))mins=(+m[1])*60+(m[2]?+m[2]:0);
+ else if((m=s.match(/^(\d+)\s*(?:m|min|minutos?)$/)))mins=+m[1];
+ return mins&&mins>0&&mins<=1440?mins:null}
 const dataExt=d=>{const[a,m,dd]=d.split("-");return `${+dd} de ${MESES[+m-1]} de ${a}`};
 const hExt=t=>{const[h,m]=t.split(":");return m==="00"?`${+h}h`:`${+h}:${m}h`};
-const durExt=h=>{const n=+h,i=Math.floor(n),meia=(n-i)>=.5; if(!i)return"30 minutos (meia hora)"; const fem=i===1?"uma":i===2?"duas":inteiroExt(i),pl=i>1?"horas":"hora"; return meia?`${i}h30 (${fem} ${pl} e meia)`:`${i}h (${fem} ${pl})`};
+const durExt=mn=>{const h=Math.floor(mn/60),m=mn%60,fem=h===1?"uma":h===2?"duas":inteiroExt(h),pl=h>1?"horas":"hora"; if(!h)return `${m} minutos`; if(!m)return `${h}h (${fem} ${pl})`; if(m===30)return `${h}h30 (${fem} ${pl} e meia)`; return `${h}h${String(m).padStart(2,"0")} (${fem} ${pl} e ${inteiroExt(m)} ${m===1?"minuto":"minutos"})`};
 const esc=s=>s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 
 let TXT="";
@@ -1391,9 +1403,13 @@ let _mo=0;function marcaPag(){const c=$("#ctr");if(!_mo){_mo=1;new ResizeObserve
 $("#c-gerar").onclick=()=>{
   const s=load(), d=s.d||{}, e=$("#c-e"); e.textContent="";
   const f=$("#c-fmt").value.split("|"), v=+$("#c-val").value, ext=+$("#c-ext").value||0, mot=$("#c-mot").value, comp=$("#c-comp").value.trim(), obs=($("#c-obs")?$("#c-obs").value.trim():""), hx=(mot==="Hora extra"&&ext>0), tot=hx?v:v+ext;
-  const cn=$("#c-nome").value.trim(), cc=$("#c-cpf").value.trim(), loc=$("#c-local").value.trim(), dt=$("#c-data").value, hr=$("#c-hora").value, du=$("#c-dur").value;
+  const cn=$("#c-nome").value.trim(), cc=$("#c-cpf").value.trim(), loc=$("#c-local").value.trim(), dtr=$("#c-data").value, hrr=$("#c-hora").value, dur=$("#c-dur").value;
   if(!d.nome||!d.cpf||!d.pix){e.textContent="Preencha e salve primeiro 'Meus dados' (nome, CPF e Pix).";return}
-  if(!cn||!cc||!loc||!dt||!hr||!du||!v){e.textContent="Preencha todos os campos do contrato.";return}
+  if(!cn||!cc||!loc||!dtr.trim()||!hrr.trim()||!dur.trim()||!v){e.textContent="Preencha todos os campos do contrato.";return}
+  const dt=lerData(dtr),hr=lerHora(hrr),du=lerDur(dur);
+  if(!dt){e.textContent="Data inválida. Digite assim: 18/12/2026.";return}
+  if(!hr){e.textContent="Horário inválido. Digite assim: 20:30.";return}
+  if(!du){e.textContent="Tempo de show inválido. Digite assim: 2h30, 3h ou 1h45.";return}
   const sp=d.sinal||0, sinal=Math.round(tot*sp)/100, hoje=new Date(), hj=`${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,"0")}-${String(hoje.getDate()).padStart(2,"0")}`;
   const pg=sp>0&&sp<100?`${sp}% (sinal) no ato da contratação, no valor de ${brl(sinal)} (${reaisExt(sinal)}), e o saldo restante de ${brl(tot-sinal)} (${reaisExt(tot-sinal)}) no dia da apresentação.`:(sp>=100?"integralmente no ato da contratação.":"integralmente no dia da apresentação.");
   const banco=d.banco?` — ${d.banco}`:"";
@@ -1440,7 +1456,7 @@ $("#c-gerar").onclick=()=>{
   S.slice(1).forEach(([ti,ps])=>{h+=`<h4>${esc(ti)}</h4>`+ps.map(p=>`<p>${esc(p)}</p>`).join("");t+="\n*"+ti+"*\n"+ps.join("\n")+"\n"});
   h+=`<p style="margin-top:16px">${fim}</p><p class="dt">${esc(cidade.split(",")[0])}, ${dataC}.</p><div class="sg"><div>Assinatura do Contratante<br>${esc(cn)}</div><div>Assinatura do Contratado<br>${esc(d.nome)}</div></div>`;
   t+="\n"+fim+"\n\n"+cidade.split(",")[0]+", "+dataC+".\n\n______________________\nContratante: "+cn+"\n\n______________________\nContratado: "+d.nome;
-  h+=`<div class="rod"><img alt="" src="${{LOGOD}}"></div><div class="rodp"><img alt="" src="${{LOGOD}}"></div>`;$("#ctr").innerHTML=h; TXT=t; view("v-ctr"); marcaPag()};
+  h+=`<div class="rod"><img alt="" src="${LOGOD}"></div><div class="rodp"><img alt="" src="${LOGOD}"></div>`;$("#ctr").innerHTML=h; TXT=t; view("v-ctr"); marcaPag()};
 $("#r-voltar").onclick=()=>view("v-app");
 $("#r-print").onclick=()=>window.print();
 $("#r-copy").onclick=async()=>{try{await navigator.clipboard.writeText(TXT);$("#r-copy").textContent="Copiado ✓"}catch(e){$("#r-copy").textContent="Não foi possível copiar"}setTimeout(()=>$("#r-copy").textContent="Copiar texto",2000)};
