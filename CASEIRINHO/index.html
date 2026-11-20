@@ -91,6 +91,41 @@ section.about,section.info{background:none}
 .szs{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .szs i{font-style:normal;font-size:12px;font-weight:600;border:1.5px solid var(--terra);color:var(--terra2);border-radius:8px;padding:4px 9px}
 .cta2{text-align:center;margin-top:46px}
+
+/* escolha + carrinho */
+.pc .im2 figure{cursor:pointer;outline:3px solid transparent;outline-offset:-3px;transition:outline-color .2s}
+.pc .im2 figure.on{outline-color:var(--terra)}
+.pc .im2 figure.on figcaption{background:linear-gradient(transparent,rgba(163,77,30,.92))}
+.szs button{font:600 12px 'Poppins',sans-serif;background:transparent;border:1.5px solid var(--terra);color:var(--terra2);border-radius:10px;padding:5px 10px;cursor:pointer;line-height:1.25;text-align:center}
+.szs button small{display:block;font-weight:500;font-size:11px;opacity:.85}
+.szs button.on{background:var(--terra);color:#fff}
+.add{width:100%;margin-top:12px;background:var(--olive);color:#fff;border:0;border-radius:99px;padding:11px 14px;font:600 14px 'Poppins',sans-serif;cursor:pointer;transition:background .2s,transform .15s}
+.add:hover{background:#5b6a42}.add:active{transform:scale(.98)}.add.ok{background:var(--terra)}
+.cbar{position:fixed;left:50%;bottom:14px;transform:translate(-50%,120px);z-index:60;width:min(560px,calc(100% - 24px));background:var(--terra2);color:#fff;border:0;border-radius:99px;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;font:600 15px 'Poppins',sans-serif;cursor:pointer;box-shadow:0 14px 34px -10px rgba(59,42,30,.6);transition:transform .35s}
+.cbar.on{transform:translate(-50%,0)}
+.ov{position:fixed;inset:0;z-index:100;background:rgba(59,42,30,.55);display:none;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.sheet{background:var(--cream);width:min(640px,100%);max-height:94vh;overflow:auto;border-radius:24px 24px 0 0;padding:20px 20px 28px;position:relative}
+@media(min-width:700px){.ov{align-items:center}.sheet{border-radius:24px;max-height:90vh}}
+.sheet h3{font-family:'Playfair Display',serif;font-size:28px;color:var(--terra2);margin:0 0 12px;line-height:1.1;padding-right:40px}
+.xc{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(59,42,30,.1);font-size:20px;cursor:pointer;color:var(--brown)}
+.bx{background:var(--white);border-radius:16px;padding:14px 16px;margin:12px 0}
+.ci{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(59,42,30,.08);font-size:14px}
+.ci:last-child{border-bottom:0}.ci small{display:block;color:var(--soft);font-size:12px}
+.qt{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.qt button{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--terra);background:#fff;color:var(--terra2);font-weight:700;cursor:pointer;line-height:1}
+.sheet label{display:block;font-size:13px;font-weight:600;color:var(--soft);margin-top:10px}
+.sheet input[type=text],.sheet input[type=tel]{width:100%;padding:12px;border-radius:10px;border:1px solid #cdbfae;font:14px 'Poppins',sans-serif;margin-top:4px;background:#fff}
+.pay{display:block;width:100%;text-align:left;background:#fff;border:2px solid #ddd;border-radius:12px;padding:12px 14px;margin-top:8px;cursor:pointer;font:14px 'Poppins',sans-serif;color:var(--brown)}
+.pay small{display:block;color:var(--soft)}.pay.on{border-color:var(--terra);background:#fdf1ea}
+.tl{display:flex;justify-content:space-between;padding:4px 0;font-size:14.5px}
+.tl.t{font-size:20px;font-weight:700;border-top:1px dashed #bbb;margin-top:6px;padding-top:10px}
+.cf{width:100%;margin-top:10px;background:var(--olive);color:#fff;border:0;border-radius:99px;padding:16px;font:700 16px 'Poppins',sans-serif;cursor:pointer}
+.err{color:#b33;font-size:13px;margin-top:8px;min-height:18px}
+.pixb{background:var(--brown);color:var(--cream);border-radius:16px;padding:20px;text-align:center;margin:12px 0}
+.pixb .k{font-size:24px;font-weight:700;margin:8px 0;word-break:break-all}
+.pixb button{background:var(--gold);color:var(--brown);border:0;border-radius:99px;padding:10px 20px;font:700 13.5px 'Poppins',sans-serif;cursor:pointer;margin-top:10px}
+.wab{display:block;text-align:center;background:#25D366;color:#fff;border-radius:99px;padding:16px;font:700 16px 'Poppins',sans-serif;text-decoration:none;margin-top:12px}
 /* vídeos */
 .vids>.wrap{background:rgba(59,42,30,.95)!important;color:var(--cream)}
 .vids .sh h2{color:#F3C98F}.vids .sh small{color:var(--gold)}.vids .sh p{color:#d6c4ad}
@@ -133,7 +168,7 @@ footer a{color:#F3C98F}
 <div class="bgfix" aria-hidden="true"></div>
 <header class="nav"><div class="wrap">
   <a class="lg" id="lg" href="#topo"><b>Caseirinho</b></a>
-  <nav><a class="h" href="#sobre">Quem somos</a><a class="h" href="#temperos">Temperos</a><a class="h" href="#entrega">Entrega</a><a class="btn s" href="pedido/">Fazer pedido</a></nav>
+  <nav><a class="h" href="#sobre">Quem somos</a><a class="h" href="#temperos">Temperos</a><a class="h" href="#entrega">Entrega</a><a class="btn s" href="#temperos">Fazer pedido</a></nav>
 </div></header>
 
 <div class="hero" id="topo"><div class="wrap">
@@ -141,7 +176,7 @@ footer a{color:#F3C98F}
     <span class="eb">Temperos artesanais · Goiás</span>
     <h1 id="hT">Chega de cheiro de alho nas mãos.</h1>
     <p class="lead" id="hS">Tempero artesanal pronto, com sabor de comida caseira. Do mais simples ao defumado, direto na sua cozinha.</p>
-    <div class="cta"><a class="btn" href="pedido/">Fazer meu pedido</a><a class="btn o" href="#temperos">Ver os temperos</a></div>
+    <div class="cta"><a class="btn" href="#temperos">Fazer meu pedido</a><a class="btn o" href="#temperos">Ver os temperos</a></div>
     <div class="ft"><span>Sem descascar alho</span><span>Feito artesanalmente</span><span>Pix ou cartão</span></div>
   </div>
   <img class="logo" src="logo.webp" alt="Caseirinho Temperos &amp; Sabores">
@@ -164,7 +199,7 @@ footer a{color:#F3C98F}
 <section id="temperos"><div class="wrap">
   <div class="sh rv"><small>Nossos temperos</small><h2>Escolha o seu sabor</h2><p>Quatro linhas feitas para a cozinha do dia a dia, para a salada e para o churrasco.</p></div>
   <div id="linhas"></div>
-  <div class="cta2 rv"><a class="btn" href="pedido/">Montar meu pedido</a></div>
+  
 </div></section>
 
 <section class="vids" id="videos" hidden><div class="wrap">
@@ -175,9 +210,9 @@ footer a{color:#F3C98F}
 <section id="como"><div class="wrap">
   <div class="sh rv"><small>Simples assim</small><h2>Como pedir</h2></div>
   <div class="st">
-    <div class="sp rv"><div class="n">1</div><b>Escolha os temperos</b><p>Veja as linhas, escolha o sabor e o tamanho.</p></div>
+    <div class="sp rv"><div class="n">1</div><b>Escolha os temperos</b><p>Toque no tempero, escolha o tamanho e adicione ao carrinho.</p></div>
     <div class="sp rv"><div class="n">2</div><b>Informe seu CEP</b><p>A entrega é calculada na hora, pelo seu endereço.</p></div>
-    <div class="sp rv"><div class="n">3</div><b>Pague e confirme</b><p>Pix ou cartão na entrega. É só avisar pelo WhatsApp.</p></div>
+    <div class="sp rv"><div class="n">3</div><b>Pague e confirme</b><p>Pix (com comprovante pelo WhatsApp) ou cartão na entrega.</p></div>
     <div class="sp rv"><div class="n">4</div><b>Receba em casa</b><p>Seu tempero chega pronto para usar.</p></div>
   </div>
 </div></section>
@@ -205,10 +240,14 @@ footer a{color:#F3C98F}
 <section class="ct" id="contato"><div class="wrap">
   <h2 class="rv">Bora temperar?</h2>
   <p class="rv">Faça o pedido pelo site em poucos minutos ou fale com a gente pelo WhatsApp.</p>
-  <div class="row rv"><a class="btn" href="pedido/">Fazer pedido</a><a class="btn wa" id="wa" href="https://wa.me/556282694287?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Caseirinho." target="_blank" rel="noopener">Falar no WhatsApp</a></div>
+  <div class="row rv"><a class="btn" href="#temperos">Fazer pedido</a><a class="btn wa" id="wa" href="https://wa.me/556282694287?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Caseirinho." target="_blank" rel="noopener">Falar no WhatsApp</a></div>
 </div></section>
 
 <footer><div class="wrap"><img src="logo.webp" alt="Caseirinho"><div>Caseirinho Temperos &amp; Sabores · (62) 8269-4287</div><div style="margin-top:6px;opacity:.7">Site feito pela <a href="https://www.pulsart.com.br" target="_blank" rel="noopener">PULSART</a></div></div></footer>
+
+
+<button class="cbar" id="cbar" type="button"><span id="cbN">🛒 0 itens</span><span id="cbT">Ver meu pedido →</span></button>
+<div class="ov" id="ov"><div class="sheet" id="sheet"><button class="xc" type="button" id="xc" aria-label="Fechar">×</button><div id="sheetBody"></div></div></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
@@ -232,29 +271,58 @@ var LINHAS=[
   ["bbq_ponto","BBQ ao Ponto","sal grosso saborizado com alho e cebola, 250g"],
   ["bbq_grelhado","BBQ Grelhado","sal grosso saborizado com ervas, 250g"]]}
 ];
+var KEYS=["dia_a_dia","pure","saladete","churrasco"];
+var SZ={dia_a_dia:[["300","300g",16],["500","500g",25],["1000","1kg",40]],pure:[["300","300g",25],["500","500g",35]],saladete:[["sem_refil","Somente refil 250g",15],["com_moedor","Com refil + moedor 250g",25]],churrasco:[["refil","Somente refil",15],["embalagem","Com embalagem",25]]};
+LINHAS.forEach(function(L,i){L.k=KEYS[i];L.S=SZ[L.k]});
+var PIX_KEY="62982694287",PIX_KEY_TYPE="Celular",PIX_OWNER="Bruna Miztella Honorato Carvalho",PIX_BANK="PagBank",WHATSAPP_NUMBER="556282694287";
+var FREE_SHIPPING_THRESHOLD=100,SHIPPING_FEE=15,CARD_FEE=0.03,ORIGIN_CEP="74730170";
+var BRACKETS=[{maxKm:5,price:5},{maxKm:10,price:10},{maxKm:15,price:15},{maxKm:Infinity,price:20}];
 var FOTOS={},VIDEOS=[],SITE={};
+var SEL={},cart=[],pay="pix",frete=null,origem=null,cepT=null;
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function safeUrl(u){u=String(u||"").trim();return /^https?:\/\//i.test(u)?u:""}
+function selOf(L,p){if(!SEL[p[0]])SEL[p[0]]=L.S[0][0];return SEL[p[0]]}
+function szOf(L,k){return L.S.filter(function(z){return z[0]===k})[0]}
 function renderLinhas(){
   var h="";
-  LINHAS.forEach(function(L){
+  LINHAS.forEach(function(L,li){
     h+='<div class="ln rv"><div class="lh"><div><h3>'+esc(L.t)+'</h3><p>'+esc(L.d)+'</p></div><div class="pr">'+esc(L.de)+'</div></div><div class="grid">';
     L.p.forEach(function(p){
-      var im="",chips=L.sz;
+      var cur=selOf(L,p),im="";
       if(L.opt){
-        chips=L.opt.map(function(o){return o[1]});
-        im='<div class="im2">'+L.opt.map(function(o){var f=FOTOS[p[0]+"__"+o[0]];return '<figure>'+(f?'<img loading="lazy" src="'+f+'" alt="'+esc(p[1]+" - "+o[1])+'">':'<img class="ph2" src="'+LOGO+'" alt="">')+'<figcaption>'+esc(o[1])+'</figcaption></figure>'}).join("")+'</div>';
+        im='<div class="im2">'+L.S.map(function(o){var f=FOTOS[p[0]+"__"+o[0]];return '<figure data-pick="'+o[0]+'" class="'+(cur===o[0]?"on":"")+'">'+(f?'<img loading="lazy" src="'+f+'" alt="'+esc(p[1]+" - "+o[1])+'">':'<img class="ph2" src="'+LOGO+'" alt="">')+'<figcaption>'+esc(o[1])+'</figcaption></figure>'}).join("")+'</div>';
       }else{
         var f=FOTOS[p[0]];
         im='<div class="im">'+(f?'<img loading="lazy" src="'+f+'" alt="'+esc(p[1])+'">':'<img class="ph2" src="'+LOGO+'" alt="">')+'</div>';
       }
-      h+='<div class="pc">'+im+'<div class="bd"><b>'+esc(p[1])+'</b><span>'+esc(p[2])+'</span><div class="szs">'+chips.map(function(z){return'<i>'+esc(z)+'</i>'}).join("")+'</div></div></div>';
+      var chips=L.S.map(function(z){return '<button type="button" data-pick="'+z[0]+'" class="'+(cur===z[0]?"on":"")+'">'+esc(L.opt?z[1]:z[1])+'<small>R$ '+z[2].toFixed(2).replace(".",",")+'</small></button>'}).join("");
+      h+='<div class="pc" data-l="'+li+'" data-p="'+p[0]+'">'+im+'<div class="bd"><b>'+esc(p[1])+'</b><span>'+esc(p[2])+'</span><div class="szs">'+chips+'</div><button type="button" class="add" data-add="1">Adicionar ao carrinho · R$ '+szOf(L,cur)[2].toFixed(2).replace(".",",")+'</button></div></div>';
     });
     h+='</div></div>';
   });
   document.getElementById("linhas").innerHTML=h;
   reveal();
 }
+function R(v){return "R$ "+v.toFixed(2).replace(".",",")}
+document.addEventListener("click",function(e){
+  var pc=e.target.closest&&e.target.closest(".pc"); if(!pc)return;
+  var L=LINHAS[+pc.dataset.l],pk=pc.dataset.p,pr=L.p.filter(function(x){return x[0]===pk})[0];
+  var pick=e.target.closest("[data-pick]");
+  if(pick){
+    SEL[pk]=pick.dataset.pick;
+    [].forEach.call(pc.querySelectorAll("[data-pick]"),function(n){n.classList.toggle("on",n.dataset.pick===SEL[pk])});
+    pc.querySelector(".add").textContent="Adicionar ao carrinho · "+R(szOf(L,SEL[pk])[2]);
+    return;
+  }
+  var ad=e.target.closest("[data-add]");
+  if(ad){
+    var z=szOf(L,selOf(L,pr));
+    cart.push({lineKey:L.k,prodKey:pk,prodLabel:pr[1],sizeKey:z[0],sizeLabel:z[1],price:z[2]});
+    atualizaBarra();
+    var old=ad.textContent;ad.classList.add("ok");ad.textContent="✓ Adicionado ao carrinho";
+    setTimeout(function(){ad.classList.remove("ok");ad.textContent="Adicionar ao carrinho · "+R(z[2])},1300);
+  }
+});
 function renderVideos(){
   var sec=document.getElementById("videos");
   if(!VIDEOS.length){sec.hidden=true;return}
@@ -268,6 +336,149 @@ document.addEventListener("click",function(e){
   var t=e.target.closest&&e.target.closest(".vt"); if(!t||t.querySelector("video"))return;
   try{firebase.database().ref("catalogo/videosData/"+t.dataset.n).once("value").then(function(s){var d=s.val();if(!d)return;t.innerHTML='<video controls autoplay playsinline src="'+d+'"></video>'})}catch(x){}
 });
+
+/* ---------- carrinho e pedido (dentro do site) ---------- */
+function totais(){
+  var sub=0;cart.forEach(function(i){sub+=i.price});
+  var ship=0,grat=frete&&frete.km!==null&&frete.km<=3;
+  if(sub>0&&sub<FREE_SHIPPING_THRESHOLD&&!grat)ship=frete?frete.price:SHIPPING_FEE;
+  var pre=sub+ship,fee=pay==="card"?pre*CARD_FEE:0;
+  return{sub:sub,ship:ship,fee:fee,total:pre+fee};
+}
+function atualizaBarra(){
+  var b=document.getElementById("cbar"),n=cart.length;
+  b.classList.toggle("on",n>0&&!document.getElementById("ov").classList.contains("on"));
+  document.getElementById("cbN").textContent="🛒 "+n+(n===1?" item":" itens")+" · "+R(totais().sub);
+}
+function abre(){document.getElementById("ov").classList.add("on");document.body.style.overflow="hidden";atualizaBarra();desenha()}
+function fecha(){document.getElementById("ov").classList.remove("on");document.body.style.overflow="";atualizaBarra()}
+document.getElementById("cbar").addEventListener("click",abre);
+document.getElementById("xc").addEventListener("click",fecha);
+document.getElementById("ov").addEventListener("click",function(e){if(e.target.id==="ov")fecha()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")fecha()});
+function grupos(){
+  var g=[],m={};
+  cart.forEach(function(i){var k=i.prodKey+"|"+i.sizeKey;if(!m[k]){m[k]={it:i,q:0,k:k};g.push(m[k])}m[k].q++});
+  return g;
+}
+function mexe(k,d){
+  if(d>0){var i=cart.filter(function(x){return x.prodKey+"|"+x.sizeKey===k})[0];if(i)cart.push(JSON.parse(JSON.stringify(i)))}
+  else{for(var j=cart.length-1;j>=0;j--){if(cart[j].prodKey+"|"+cart[j].sizeKey===k){cart.splice(j,1);break}}}
+  atualizaBarra();
+  if(!cart.length){fecha();return}
+  desenha(true);
+}
+function desenha(keep){
+  var box=document.getElementById("sheetBody");
+  var f={n:"",t:"",e:"",c:""};
+  if(keep){["inNome","inTel","inEnd","inCep"].forEach(function(id,i){var el=document.getElementById(id);if(el)f["ntec"[i]==="n"?"n":"ntec"[i]]=el.value})}
+  if(!cart.length){box.innerHTML='<h3>Seu pedido</h3><p>Seu carrinho está vazio. Escolha um tempero e toque em “Adicionar ao carrinho”.</p>';return}
+  var t=totais(),h='<h3>Seu pedido</h3><div class="bx" id="itens">';
+  grupos().forEach(function(g){
+    h+='<div class="ci"><div>'+esc(g.it.prodLabel)+'<small>'+esc(g.it.sizeLabel)+' · '+R(g.it.price)+'</small></div><div class="qt"><button type="button" data-m="-1" data-k="'+g.k+'">−</button><b>'+g.q+'</b><button type="button" data-m="1" data-k="'+g.k+'">+</button></div></div>';
+  });
+  h+='</div><div class="bx"><label for="inNome">Seu nome</label><input type="text" id="inNome" autocomplete="name" placeholder="Como podemos te chamar?">'+
+   '<label for="inTel">WhatsApp</label><input type="tel" id="inTel" autocomplete="tel" placeholder="(62) 9xxxx-xxxx">'+
+   '<label for="inCep">CEP de entrega</label><input type="text" id="inCep" inputmode="numeric" maxlength="9" placeholder="Ex: 74000-000">'+
+   '<div id="cepSt" style="font-size:12.5px;color:var(--olive);margin-top:6px"></div>'+
+   '<label for="inEnd">Endereço (rua, número, bairro)</label><input type="text" id="inEnd" autocomplete="street-address" placeholder="Rua, número, bairro"></div>'+
+   '<div class="bx"><b style="font-size:14px">Forma de pagamento</b>'+
+   '<button type="button" class="pay'+(pay==="pix"?" on":"")+'" data-pay="pix"><b>💰 Pix</b><small>Pague e envie o comprovante pelo WhatsApp</small></button>'+
+   '<button type="button" class="pay'+(pay==="card"?" on":"")+'" data-pay="card"><b>💳 Cartão na entrega (maquininha)</b><small>Acrescenta 3% de taxa da maquininha</small></button></div>'+
+   '<div class="bx" id="tots"></div><div class="err" id="err"></div><button type="button" class="cf" id="cf">CONFIRMAR PEDIDO</button>';
+  box.innerHTML=h;
+  document.getElementById("inNome").value=f.n;document.getElementById("inTel").value=f.t;document.getElementById("inEnd").value=f.e;document.getElementById("inCep").value=f.c;
+  document.getElementById("inCep").addEventListener("input",onCep);
+  document.getElementById("cf").addEventListener("click",finaliza);
+  if(keep&&frete)document.getElementById("cepSt").textContent=frete.msg||"";
+  pintaTotais();
+}
+function pintaTotais(){
+  var t=totais(),h='<div class="tl"><span>Subtotal</span><span>'+R(t.sub)+'</span></div><div class="tl"><span>Entrega</span><span>'+(t.ship===0?"Grátis":R(t.ship))+'</span></div>';
+  if(t.fee>0)h+='<div class="tl"><span>Taxa da maquininha (3%)</span><span>'+R(t.fee)+'</span></div>';
+  h+='<div class="tl t"><span>TOTAL</span><span>'+R(t.total)+'</span></div>';
+  var el=document.getElementById("tots");if(el)el.innerHTML=h;
+}
+document.getElementById("sheet").addEventListener("click",function(e){
+  var m=e.target.closest("[data-m]");if(m){mexe(m.dataset.k,+m.dataset.m);return}
+  var p=e.target.closest("[data-pay]");if(p){pay=p.dataset.pay;[].forEach.call(document.querySelectorAll("[data-pay]"),function(n){n.classList.toggle("on",n.dataset.pay===pay)});pintaTotais()}
+});
+function kmEntre(a,b,c,d){var r=function(v){return v*Math.PI/180},x=Math.sin(r(c-a)/2),y=Math.sin(r(d-b)/2),q=x*x+Math.cos(r(a))*Math.cos(r(c))*y*y;return 6371*2*Math.atan2(Math.sqrt(q),Math.sqrt(1-q))}
+function faixa(km){for(var i=0;i<BRACKETS.length;i++)if(km<=BRACKETS[i].maxKm)return BRACKETS[i].price;return 20}
+async function coords(cep){
+  var r=await fetch("https://cep.awesomeapi.com.br/json/"+cep);
+  if(!r.ok)throw new Error("cep");var d=await r.json();
+  if(!d.lat||!d.lng)throw new Error("cep");
+  return{lat:parseFloat(d.lat),lng:parseFloat(d.lng),city:d.city||"",state:d.state||""};
+}
+function onCep(){
+  clearTimeout(cepT);
+  var st=document.getElementById("cepSt"),c=document.getElementById("inCep").value.replace(/\D/g,"");
+  frete=null;
+  if(c.length!==8){st.textContent="";pintaTotais();return}
+  st.style.color="var(--soft)";st.textContent="Calculando taxa de entrega...";
+  cepT=setTimeout(async function(){
+    try{
+      if(!origem)origem=await coords(ORIGIN_CEP);
+      var d=await coords(c);
+      if(String(d.city).trim().toLowerCase()==="senador canedo"&&String(d.state).trim().toUpperCase()==="GO"){
+        frete={km:null,price:10,msg:"Senador Canedo/GO — taxa de entrega fixa: R$ 10,00"};
+      }else{
+        var km=kmEntre(origem.lat,origem.lng,d.lat,d.lng),pr=faixa(km);
+        frete={km:km,price:pr,msg:"Distância: ~"+km.toFixed(1).replace(".",",")+" km — taxa de entrega: "+(km<=3?"Grátis!":R(pr))};
+      }
+      st.style.color="var(--olive)";st.textContent=frete.msg;
+    }catch(x){frete=null;st.style.color="#b33";st.textContent="Não foi possível calcular pelo CEP. Será usada a taxa padrão de "+R(SHIPPING_FEE)+"."}
+    pintaTotais();
+  },600);
+}
+function finaliza(){
+  var nome=document.getElementById("inNome").value.trim(),err=document.getElementById("err");
+  var tel=document.getElementById("inTel").value.trim(),end=document.getElementById("inEnd").value.trim();
+  if(!nome){err.textContent="Digite seu nome para confirmar.";document.getElementById("inNome").focus();return}
+  if(!cart.length){err.textContent="Seu carrinho está vazio.";return}
+  var t=totais(),o={
+    id:"ord_"+Date.now()+"_"+Math.floor(Math.random()*1000),customer:nome,phone:tel,address:end,
+    cep:document.getElementById("inCep").value.trim(),distanciaKm:frete?frete.km:null,
+    items:cart.slice(),subtotal:t.sub,shipping:t.ship,cardFee:t.fee,total:t.total,
+    paymentMethod:pay,status:pay==="pix"?"aguardando_pagamento":"pagamento_na_entrega",
+    produzido:false,pago:false,entregue:false,createdAt:Date.now(),source:"app"
+  };
+  try{
+    if(typeof firebase!=="undefined"&&typeof firebaseConfig!=="undefined"&&firebaseConfig.apiKey!=="COLE_AQUI"){
+      if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
+      firebase.database().ref("pedidos/"+o.id).set(o);
+    }else{
+      var l=JSON.parse(localStorage.getItem("caseirinho_pedidos_local")||"[]");l.push(o);localStorage.setItem("caseirinho_pedidos_local",JSON.stringify(l));
+    }
+  }catch(x){console.error("pedido:",x)}
+  sucesso(o);
+}
+function copiaPix(b){
+  var ok=function(){var t=b.textContent;b.textContent="✅ Copiado!";setTimeout(function(){b.textContent=t},1800)};
+  try{navigator.clipboard.writeText(PIX_KEY).then(ok,function(){prompt("Chave Pix:",PIX_KEY)})}catch(x){prompt("Chave Pix:",PIX_KEY)}
+}
+function sucesso(o){
+  var tx="Olá! Fiz um pedido no site da Caseirinho:\n";
+  grupos_de(o.items).forEach(function(g){tx+="- "+g.q+"x "+g.it.prodLabel+" ("+g.it.sizeLabel+")\n"});
+  tx+="\nTotal: "+R(o.total)+"\nPagamento: "+(o.paymentMethod==="pix"?"Pix":"Cartão na entrega")+"\nNome: "+o.customer+(o.address?"\nEndereço: "+o.address:"")+(o.cep?"\nCEP: "+o.cep:"");
+  var link="https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(tx);
+  var h='<h3>✅ Pedido feito!</h3>';
+  if(o.paymentMethod==="pix"){
+    var pf=PIX_KEY.length===11?"("+PIX_KEY.slice(0,2)+") "+PIX_KEY.slice(2,7)+"-"+PIX_KEY.slice(7):PIX_KEY;
+    h+='<div class="pixb"><div>Chave Pix ('+PIX_KEY_TYPE+')</div><div class="k">'+pf+'</div><div>'+esc(PIX_OWNER)+'</div><div style="font-size:13px;opacity:.8">'+PIX_BANK+'</div><div style="font-size:18px;margin-top:10px">Valor: '+R(o.total)+'</div><button type="button" id="cpx">📋 Copiar chave Pix</button></div>'+
+       '<p style="text-align:center">Pague a chave acima e depois toque no botão abaixo para enviar o comprovante pelo WhatsApp.</p>';
+  }else{
+    h+='<div class="pixb"><div>Pagamento na entrega</div><div class="k">Cartão</div><div style="font-size:18px">Valor total (com taxa): '+R(o.total)+'</div></div><p style="text-align:center">O pagamento é feito na entrega, na maquininha. Toque no botão abaixo para avisar que seu pedido está confirmado.</p>';
+  }
+  h+='<a class="wab" href="'+link+'" target="_blank" rel="noopener">💬 Ir para o WhatsApp</a><button type="button" class="cf" style="background:transparent;color:var(--soft);text-decoration:underline;font-size:14px;font-weight:500" id="fx">Fechar</button>';
+  cart=[];frete=null;atualizaBarra();
+  document.getElementById("sheetBody").innerHTML=h;
+  document.getElementById("fx").addEventListener("click",fecha);
+  var c=document.getElementById("cpx");if(c)c.addEventListener("click",function(){copiaPix(c)});
+  document.getElementById("sheet").scrollTop=0;
+}
+function grupos_de(items){var g=[],m={};items.forEach(function(i){var k=i.prodKey+"|"+i.sizeKey;if(!m[k]){m[k]={it:i,q:0};g.push(m[k])}m[k].q++});return g}
 function aplicaSite(){
   if(SITE.titulo)document.getElementById("hT").textContent=SITE.titulo;
   if(SITE.sub)document.getElementById("hS").textContent=SITE.sub;
