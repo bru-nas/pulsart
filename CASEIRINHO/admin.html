@@ -507,6 +507,7 @@ const TABS = [
   { key:"caixa", label:"Caixa" },
   { key:"ficha", label:"Ficha Técnica" },
   { key:"midia", label:"Fotos e Vídeos" },
+  { key:"site", label:"Site" },
 ];
 let activeTab = "pedidos";
 
@@ -527,6 +528,7 @@ function renderMain(){
   else if (activeTab === "plataformas") renderPlataformas(panel);
   else if (activeTab === "caixa") renderCaixa(panel);
   else if (activeTab === "midia") renderMidia(panel);
+  else if (activeTab === "site") renderSite(panel);
 }
 
 function allOrderItems(){
@@ -1861,6 +1863,46 @@ if (localStorage.getItem("caseirinho_admin_unlocked") === "1") {
   document.getElementById("lockScreen").style.display = "none";
   document.getElementById("appContent").style.display = "block";
   runInit();
+}
+
+/* ---------- ABA SITE: textos, foto e links do site institucional ---------- */
+const SITE_PADRAO={titulo:"Chega de cheiro de alho nas mãos.",sub:"Tempero artesanal pronto, com sabor de comida caseira. Do mais simples ao defumado, direto na sua cozinha.",sobreT:"Sabor de casa, sem o trabalho da cozinha.",
+ sobre:"Cansado de descascar, picar e bater alho todo dia? E daquele cheiro que não sai das mãos?\nNa Caseirinho, a gente faz esse trabalho por você. Nossos temperos artesanais chegam prontos, com gosto de comida de casa e a praticidade que a sua rotina pede.\nTem opção para cada gosto: do tradicional ao defumado, o Saladete para dar vida às saladas e os sais saborizados para o churrasco ficar no ponto. É só abrir o pote e temperar."};
+async function renderSite(panel){
+  panel.innerHTML=`<h2>Site</h2><div class="subtitle">Carregando...</div>`;
+  if(!dbReady){ panel.innerHTML=`<h2>Site</h2><div class="empty">O Firebase não está configurado neste aparelho.</div>`; return; }
+  let S={};
+  try{ S=(await firebase.database().ref("catalogo/site").once("value")).val()||{}; }catch(e){ panel.innerHTML=`<h2>Site</h2><div class="empty">Não consegui ler o banco de dados. Verifique a internet.</div>`; return; }
+  const q=v=>String(v==null?"":v).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+  const L=S.links||{};
+  let h=`<h2>Site</h2><div class="subtitle">Edite os textos, a foto e os links do site da Caseirinho (pulsart.com.br/CASEIRINHO). Deixe um campo vazio para voltar ao texto padrão.</div>
+  <div class="mid-card"><b>Chamada principal</b><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+   <input class="vt" id="st_t" maxlength="90" placeholder="${q(SITE_PADRAO.titulo)}" value="${q(S.titulo)}">
+   <textarea class="vt" id="st_s" rows="2" maxlength="220" placeholder="${q(SITE_PADRAO.sub)}">${q(S.sub)}</textarea></div></div>
+  <div class="mid-card"><b>Quem somos</b><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+   <input class="vt" id="st_at" maxlength="90" placeholder="${q(SITE_PADRAO.sobreT)}" value="${q(S.sobreT)}">
+   <textarea class="vt" id="st_a" rows="8" maxlength="1500" placeholder="Cada linha vira um parágrafo.">${q(S.sobre||SITE_PADRAO.sobre)}</textarea>
+   <div class="mid-row">${S.foto?`<img class="mid-th" src="${S.foto}" alt="">`:`<div class="mid-th">sem foto</div>`}
+    <div style="display:flex;flex-direction:column;gap:6px"><label class="mid-btn">${S.foto?"Trocar foto":"Enviar foto"} do Quem somos<input type="file" accept="image/*" hidden id="st_f"></label>${S.foto?`<button class="mid-btn g" id="st_fx">Remover foto</button>`:""}</div></div></div></div>
+  <div class="mid-card"><b>Links do site (até 8)</b><div class="subtitle" style="margin:4px 0 8px">Instagram, iFood, cardápio, etc. Aparecem como botões na seção de entrega. Só links que começam com https://</div>`;
+  for(let i=1;i<=8;i++){ const x=L["n"+i]||{};
+    h+=`<div style="display:flex;gap:6px;margin-bottom:6px;flex-wrap:wrap"><input class="vt" data-lr="${i}" maxlength="40" placeholder="Nome (ex.: Instagram)" value="${q(x.r)}" style="flex:1;min-width:120px"><input class="vt" data-lu="${i}" maxlength="400" placeholder="https://..." value="${q(x.u)}" style="flex:2;min-width:180px"></div>`; }
+  h+=`</div><button class="mid-btn" id="st_save" style="padding:14px 26px;font-size:15px">Salvar site</button> <span class="mid-st" id="st_st"></span>`;
+  panel.innerHTML=h;
+  const say=(t,er)=>{const e=document.getElementById("st_st");e.textContent=t;e.className="mid-st"+(er?" er":"")};
+  const ref=firebase.database().ref("catalogo/site");
+  document.getElementById("st_f").onchange=async ev=>{ const f=ev.target.files&&ev.target.files[0]; if(!f)return;
+    try{ say("Reduzindo a foto…"); const d=await imgComprimir(f,1000,.8); await ref.update({foto:d}); say("Foto salva ✓"); setTimeout(()=>renderSite(panel),600); }catch(e){ say("Não consegui salvar a foto.",1) } };
+  const fx=document.getElementById("st_fx"); if(fx) fx.onclick=async()=>{ if(!confirm("Remover a foto?"))return; try{ await ref.child("foto").remove(); renderSite(panel); }catch(e){ say("Não deu certo.",1) } };
+  document.getElementById("st_save").onclick=async()=>{
+    const v=id=>document.getElementById(id).value.trim();
+    const links={}; let bad=0;
+    for(let i=1;i<=8;i++){ const r=panel.querySelector('[data-lr="'+i+'"]').value.trim(), u=panel.querySelector('[data-lu="'+i+'"]').value.trim();
+      if(!r&&!u) continue; if(!/^https:\/\//i.test(u)){ bad=i; break; } links["n"+i]={r:(r||"Link").slice(0,40),u:u.slice(0,400)}; }
+    if(bad){ say("O link "+bad+" precisa começar com https://",1); return; }
+    const sobre=v("st_a"); const out={titulo:v("st_t"),sub:v("st_s"),sobreT:v("st_at"),sobre:(sobre===SITE_PADRAO.sobre?"":sobre),links:links};
+    try{ await ref.update(out); say("Site salvo ✓"); }catch(e){ say("Não consegui salvar. Verifique a internet.",1) }
+  };
 }
 </script>
 </body>
