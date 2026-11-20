@@ -1953,6 +1953,8 @@ async function renderSite(panel){
    <textarea class="vt" id="st_a" rows="8" maxlength="1500" placeholder="Cada linha vira um parágrafo.">${q(S.sobre||SITE_PADRAO.sobre)}</textarea>
    <div class="mid-row">${S.foto?`<img class="mid-th" src="${S.foto}" alt="">`:`<div class="mid-th">sem foto</div>`}
     <div style="display:flex;flex-direction:column;gap:6px"><label class="mid-btn">${S.foto?"Trocar foto":"Enviar foto"} do Quem somos<input type="file" accept="image/*" hidden id="st_f"></label>${S.foto?`<button class="mid-btn g" id="st_fx">Remover foto</button>`:""}</div></div></div></div>
+  <div class="mid-card"><b>Loja na Shopee</b><div class="subtitle" style="margin:4px 0 8px">Quem mora fora de Goiânia, Aparecida e Senador Canedo é levado para esta loja. Deixe vazio para usar o link padrão.</div>
+   <input class="vt" id="st_shp" maxlength="400" placeholder="https://br.shp.ee/dH8pWX6j" value="${q(S.shopee)}"></div>
   <div class="mid-card"><b>Links do site (até 8)</b><div class="subtitle" style="margin:4px 0 8px">Instagram, iFood, cardápio, etc. Aparecem como botões na seção de entrega. Só links que começam com https://</div>`;
   for(let i=1;i<=8;i++){ const x=L["n"+i]||{};
     h+=`<div style="display:flex;gap:6px;margin-bottom:6px;flex-wrap:wrap"><input class="vt" data-lr="${i}" maxlength="40" placeholder="Nome (ex.: Instagram)" value="${q(x.r)}" style="flex:1;min-width:120px"><input class="vt" data-lu="${i}" maxlength="400" placeholder="https://..." value="${q(x.u)}" style="flex:2;min-width:180px"></div>`; }
@@ -1969,7 +1971,8 @@ async function renderSite(panel){
     for(let i=1;i<=8;i++){ const r=panel.querySelector('[data-lr="'+i+'"]').value.trim(), u=panel.querySelector('[data-lu="'+i+'"]').value.trim();
       if(!r&&!u) continue; if(!/^https:\/\//i.test(u)){ bad=i; break; } links["n"+i]={r:(r||"Link").slice(0,40),u:u.slice(0,400)}; }
     if(bad){ say("O link "+bad+" precisa começar com https://",1); return; }
-    const sobre=v("st_a"); const out={titulo:v("st_t"),sub:v("st_s"),sobreT:v("st_at"),sobre:(sobre===SITE_PADRAO.sobre?"":sobre),links:links};
+    const shp=v("st_shp"); if(shp&&!/^https:\/\//i.test(shp)){ say("O link da Shopee precisa começar com https://",1); return; }
+    const sobre=v("st_a"); const out={shopee:shp,titulo:v("st_t"),sub:v("st_s"),sobreT:v("st_at"),sobre:(sobre===SITE_PADRAO.sobre?"":sobre),links:links};
     try{ await ref.update(out); say("Site salvo ✓"); }catch(e){ say("Não consegui salvar. Verifique a internet.",1) }
   };
 }

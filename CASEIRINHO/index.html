@@ -229,6 +229,10 @@ footer a{color:#F3C98F}
       <li><b>Pix</b>: pague antes e envie o comprovante</li>
       <li><b>Cartão na entrega</b> (taxa de 3% da maquininha)</li>
     </ul></div>
+    <div class="ic rv"><h3>Também na Shopee</h3><ul>
+      <li>Mora <b>fora de Goiânia, Aparecida e Senador Canedo</b>? Compre pela nossa loja na Shopee</li>
+      <li>Lá o valor <b>já vem com o frete incluso</b></li>
+    </ul><p style="margin:14px 0 0"><a class="btn s" id="shpA" target="_blank" rel="noopener" href="https://br.shp.ee/dH8pWX6j">Abrir a loja na Shopee</a></p></div>
     <div class="ic rv"><h3>Escolha do jeito que preferir</h3><ul>
       <li><b>Saladete e Churrasco</b> em refil: compre uma vez a embalagem ou o moedor e depois só o refil</li>
       <li>Potes de 300 g, 500 g e 1 kg na Linha Dia a Dia</li>
@@ -278,6 +282,7 @@ var PIX_KEY="62982694287",PIX_KEY_TYPE="Celular",PIX_OWNER="Bruna Miztella Honor
 var FREE_SHIPPING_THRESHOLD=100,SHIPPING_FEE=15,CARD_FEE=0.03,ORIGIN_CEP="74730170";
 var BRACKETS=[{maxKm:5,price:5},{maxKm:10,price:10},{maxKm:15,price:15},{maxKm:Infinity,price:20}];
 var FOTOS={},VIDEOS=[],SITE={};
+var SHOPEE="https://br.shp.ee/dH8pWX6j",CIDADES=["goiania","aparecida de goiania","senador canedo"],fora=false;
 var SEL={},cart=[],pay="pix",frete=null,origem=null,cepT=null;
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function safeUrl(u){u=String(u||"").trim();return /^https?:\/\//i.test(u)?u:""}
@@ -385,7 +390,7 @@ function desenha(keep){
    '<div class="bx"><b style="font-size:14px">Forma de pagamento</b>'+
    '<button type="button" class="pay'+(pay==="pix"?" on":"")+'" data-pay="pix"><b>💰 Pix</b><small>Pague e envie o comprovante pelo WhatsApp</small></button>'+
    '<button type="button" class="pay'+(pay==="card"?" on":"")+'" data-pay="card"><b>💳 Cartão na entrega (maquininha)</b><small>Acrescenta 3% de taxa da maquininha</small></button></div>'+
-   '<div class="bx" id="tots"></div><div class="err" id="err"></div><button type="button" class="cf" id="cf">CONFIRMAR PEDIDO</button>';
+   '<div class="bx" id="shp" style="display:none;border:2px solid var(--terra)"><b>Para a sua região, compre na Shopee</b><p style="margin:6px 0 12px;font-size:14px;color:var(--soft)">Entregamos direto só em Goiânia, Aparecida de Goiânia e Senador Canedo. Para outras cidades, compre na nossa loja na Shopee, com o frete já incluso no valor.</p><a class="wab" id="shpB" target="_blank" rel="noopener" href="#" style="margin:0">🛍️ Abrir a loja na Shopee</a></div><div class="bx" id="tots"></div><div class="err" id="err"></div><button type="button" class="cf" id="cf">CONFIRMAR PEDIDO</button>';
   box.innerHTML=h;
   document.getElementById("inNome").value=f.n;document.getElementById("inTel").value=f.t;document.getElementById("inEnd").value=f.e;document.getElementById("inCep").value=f.c;
   document.getElementById("inCep").addEventListener("input",onCep);
@@ -393,11 +398,18 @@ function desenha(keep){
   if(keep&&frete)document.getElementById("cepSt").textContent=frete.msg||"";
   pintaTotais();
 }
+function aplicaFora(){
+  var a=document.getElementById("shp"),c=document.getElementById("cf"),t=document.getElementById("tots");
+  if(!a)return;
+  a.style.display=fora?"block":"none";if(c)c.style.display=fora?"none":"block";if(t)t.style.display=fora?"none":"block";
+  var b=document.getElementById("shpB");if(b)b.href=SHOPEE;
+}
 function pintaTotais(){
   var t=totais(),h='<div class="tl"><span>Subtotal</span><span>'+R(t.sub)+'</span></div><div class="tl"><span>Entrega</span><span>'+(t.ship===0?"Grátis":R(t.ship))+'</span></div>';
   if(t.fee>0)h+='<div class="tl"><span>Taxa da maquininha (3%)</span><span>'+R(t.fee)+'</span></div>';
   h+='<div class="tl t"><span>TOTAL</span><span>'+R(t.total)+'</span></div>';
   var el=document.getElementById("tots");if(el)el.innerHTML=h;
+  aplicaFora();
 }
 document.getElementById("sheet").addEventListener("click",function(e){
   var m=e.target.closest("[data-m]");if(m){mexe(m.dataset.k,+m.dataset.m);return}
@@ -414,13 +426,17 @@ async function coords(cep){
 function onCep(){
   clearTimeout(cepT);
   var st=document.getElementById("cepSt"),c=document.getElementById("inCep").value.replace(/\D/g,"");
-  frete=null;
+  frete=null;fora=false;
   if(c.length!==8){st.textContent="";pintaTotais();return}
   st.style.color="var(--soft)";st.textContent="Calculando taxa de entrega...";
   cepT=setTimeout(async function(){
     try{
       if(!origem)origem=await coords(ORIGIN_CEP);
       var d=await coords(c);
+      var cn=String(d.city).normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().toLowerCase();
+      if(d.state&&d.city&&!(String(d.state).toUpperCase()==="GO"&&CIDADES.indexOf(cn)>=0)){
+        fora=true;frete=null;st.style.color="#b33";st.textContent=d.city+"/"+d.state+" — fora da nossa região de entrega.";pintaTotais();return;
+      }
       if(String(d.city).trim().toLowerCase()==="senador canedo"&&String(d.state).trim().toUpperCase()==="GO"){
         frete={km:null,price:10,msg:"Senador Canedo/GO — taxa de entrega fixa: R$ 10,00"};
       }else{
@@ -433,6 +449,7 @@ function onCep(){
   },600);
 }
 function finaliza(){
+  if(fora)return;
   var nome=document.getElementById("inNome").value.trim(),err=document.getElementById("err");
   var tel=document.getElementById("inTel").value.trim(),end=document.getElementById("inEnd").value.trim();
   if(!nome){err.textContent="Digite seu nome para confirmar.";document.getElementById("inNome").focus();return}
@@ -472,7 +489,7 @@ function sucesso(o){
     h+='<div class="pixb"><div>Pagamento na entrega</div><div class="k">Cartão</div><div style="font-size:18px">Valor total (com taxa): '+R(o.total)+'</div></div><p style="text-align:center">O pagamento é feito na entrega, na maquininha. Toque no botão abaixo para avisar que seu pedido está confirmado.</p>';
   }
   h+='<a class="wab" href="'+link+'" target="_blank" rel="noopener">💬 Ir para o WhatsApp</a><button type="button" class="cf" style="background:transparent;color:var(--soft);text-decoration:underline;font-size:14px;font-weight:500" id="fx">Fechar</button>';
-  cart=[];frete=null;atualizaBarra();
+  cart=[];frete=null;fora=false;atualizaBarra();
   document.getElementById("sheetBody").innerHTML=h;
   document.getElementById("fx").addEventListener("click",fecha);
   var c=document.getElementById("cpx");if(c)c.addEventListener("click",function(){copiaPix(c)});
@@ -480,6 +497,7 @@ function sucesso(o){
 }
 function grupos_de(items){var g=[],m={};items.forEach(function(i){var k=i.prodKey+"|"+i.sizeKey;if(!m[k]){m[k]={it:i,q:0};g.push(m[k])}m[k].q++});return g}
 function aplicaSite(){
+  if(safeUrl(SITE.shopee)){SHOPEE=safeUrl(SITE.shopee);var sa=document.getElementById("shpA");if(sa)sa.href=SHOPEE}
   if(SITE.titulo)document.getElementById("hT").textContent=SITE.titulo;
   if(SITE.sub)document.getElementById("hS").textContent=SITE.sub;
   if(SITE.sobreT)document.getElementById("aT").textContent=SITE.sobreT;
