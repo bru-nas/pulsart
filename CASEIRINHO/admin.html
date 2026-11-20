@@ -130,14 +130,22 @@
 </head>
 <body>
 
-<div id="lockScreen" style="position:fixed; inset:0; background:var(--cream, #FBF3E7); z-index:9999; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:14px; padding:20px;">
+<div id="lockScreen" style="position:fixed; inset:0; background:var(--cream, #FBF3E7); z-index:9999; overflow:auto; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; padding:24px;">
   <div style="font-size:40px;">🔒</div>
   <div style="font-weight:700; font-size:18px; color:#5c4530;">Caseirinho Admin</div>
-  <input type="password" id="lockPassword" placeholder="Senha" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" style="padding:12px 16px; border-radius:10px; border:1.5px solid #d8c3a5; font-size:16px; width:220px; text-align:center;">
+  <div id="lockMsg" style="font-size:13px; color:#6B5645; max-width:300px; text-align:center;">Digite a sua senha.</div>
+  <input type="password" id="lockPassword" placeholder="Senha" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" class="lk-in">
+  <div id="lockNovo" style="display:none; flex-direction:column; gap:12px; align-items:center;">
+    <input type="password" id="lockPassword2" placeholder="Repita a senha" autocomplete="new-password" autocapitalize="none" autocorrect="off" spellcheck="false" class="lk-in">
+    <input type="email" id="lockEmail" placeholder="Seu e-mail (para recuperar a senha)" autocomplete="email" inputmode="email" autocapitalize="none" autocorrect="off" spellcheck="false" class="lk-in">
+  </div>
   <button id="lockButton" style="padding:12px 24px; border-radius:10px; border:none; background:#b5651d; color:white; font-weight:600; font-size:15px; cursor:pointer;">Entrar</button>
-  <div id="lockError" style="color:#c0392b; font-size:13px; height:16px;"></div>
+  <div id="lockError" style="color:#c0392b; font-size:13px; min-height:16px; max-width:300px; text-align:center;"></div>
+  <button id="lockToggle" type="button" style="background:none;border:none;color:#6B5645;text-decoration:underline;font-size:13px;cursor:pointer;">Primeiro acesso? Criar minha senha</button>
+  <button id="lockForgot" type="button" style="background:none;border:none;color:#6B5645;text-decoration:underline;font-size:13px;cursor:pointer;">Esqueci minha senha</button>
   <a href="./" style="color:#6B5645;font-size:13px;text-decoration:underline;">← Voltar ao site</a>
 </div>
+<style>.lk-in{padding:12px 16px; border-radius:10px; border:1.5px solid #d8c3a5; font-size:16px; width:260px; max-width:100%; text-align:center;}</style>
 
 <div id="appContent" style="display:none;">
 <header>
@@ -1836,21 +1844,79 @@ function iniciarAvisos(){
     const o={id,...snap.val()}; STATE.appOrders.push(o); novoPedidoAviso(o); if(activeTab==="pedidos")renderMain(); });
 }
 
-const ADMIN_PASSWORD = "brunaemiztella";
-
-function tryUnlock(){
-  const input = document.getElementById("lockPassword").value;
-  if (input.trim().toLowerCase() === ADMIN_PASSWORD) {
-    localStorage.setItem("caseirinho_admin_unlocked", "1");
-    document.getElementById("lockScreen").style.display = "none";
-    document.getElementById("appContent").style.display = "block";
-    runInit();
-  } else {
-    document.getElementById("lockError").textContent = "Senha incorreta.";
-  }
+/* ---------- ACESSO: mesmo login e "Esqueci minha senha" das páginas de artista da PULSART ---------- */
+const FBP={db:"https://pulsart-45f7c-default-rtdb.firebaseio.com",key:"AIzaSyBqKFrj9SxTOjdIztwcHt_Oc2QdbiSNHb8",dom:"painel.pulsart.com.br",slug:"caseirinho",worker:"https://pulsart-email.miztella.workers.dev"};
+const FBR={tok:null,ref:null,exp:0,uid:null};
+const $l=id=>document.getElementById(id);
+let lockNovo=false;
+async function fbAuth(modo,senha){
+  const r=await fetch("https://identitytoolkit.googleapis.com/v1/accounts:"+modo+"?key="+FBP.key,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:FBP.slug+"@"+FBP.dom,password:senha,returnSecureToken:true})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error((j.error&&j.error.message)||"erro");
+  FBR.tok=j.idToken;FBR.ref=j.refreshToken;FBR.exp=Date.now()+(Math.max(+j.expiresIn||3600,120)-60)*1000;FBR.uid=j.localId;return j}
+async function fbToken(){
+  if(Date.now()<FBR.exp)return FBR.tok;
+  const r=await fetch("https://securetoken.googleapis.com/v1/token?key="+FBP.key,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"grant_type=refresh_token&refresh_token="+encodeURIComponent(FBR.ref||"")});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error("Sua sessão expirou. Entre de novo.");
+  FBR.tok=j.id_token;FBR.ref=j.refresh_token;FBR.exp=Date.now()+(Math.max(+j.expires_in||3600,120)-60)*1000;return FBR.tok}
+async function pDbGetA(p){const t=await fbToken();const r=await fetch(FBP.db+"/"+p+".json?auth="+t);if(!r.ok)throw new Error("get "+r.status);return r.json()}
+async function pDbPut(p,v){const t=await fbToken();const r=await fetch(FBP.db+"/"+p+".json?auth="+t,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(v)});if(!r.ok){const e=new Error("put "+r.status);e.status=r.status;throw e}return r.json()}
+const emailOk=s=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test((s||"").trim());
+const msgErro=m=>({"EMAIL_EXISTS":"Esse admin já tem uma senha. Use “Já tenho senha — entrar”.","EMAIL_NOT_FOUND":"Ainda não existe senha. Use “Primeiro acesso”.","INVALID_PASSWORD":"Senha incorreta.","INVALID_LOGIN_CREDENTIALS":"Senha incorreta (ou o primeiro acesso ainda não foi feito).","WEAK_PASSWORD":"Use pelo menos 6 caracteres.","TOO_MANY_ATTEMPTS_TRY_LATER":"Muitas tentativas. Espere alguns minutos e tente de novo.","OPERATION_NOT_ALLOWED":"O login por senha não está ativado no Firebase."}[(m||"").split(" ")[0]]||"Não deu certo ("+m+"). Verifique a internet e tente de novo.");
+function lockModo(novo){lockNovo=novo;
+  $l("lockMsg").textContent=novo?"Primeiro acesso: escolha a senha que só você vai usar e informe o seu e-mail para recuperar a senha se esquecer.":"Digite a sua senha.";
+  $l("lockNovo").style.display=novo?"flex":"none";
+  $l("lockPassword").autocomplete=novo?"new-password":"current-password";
+  $l("lockButton").textContent=novo?"Criar senha e entrar":"Entrar";
+  $l("lockToggle").textContent=novo?"Já tenho senha — entrar":"Primeiro acesso? Criar minha senha";
+  $l("lockError").textContent="";$l("lockError").style.color="#c0392b"}
+function abrirApp(){
+  localStorage.setItem("caseirinho_admin_unlocked","1");
+  $l("lockScreen").style.display="none";$l("appContent").style.display="block";runInit();avisoEmailRec()}
+async function tryUnlock(){
+  const e=$l("lockError"),b=$l("lockButton"),p=$l("lockPassword").value;e.style.color="#c0392b";e.textContent="";
+  if(!p){e.textContent="Digite a senha.";return}
+  b.disabled=true;
+  try{
+    if(lockNovo){
+      const em=($l("lockEmail").value||"").trim().toLowerCase();
+      if(p.length<6){e.textContent="Use pelo menos 6 caracteres.";return}
+      if(p!==$l("lockPassword2").value){e.textContent="As senhas não conferem.";return}
+      if(!emailOk(em)){e.textContent="Digite um e-mail válido para recuperar a senha.";return}
+      try{await fbAuth("signUp",p)}catch(x){ if(x.message==="EMAIL_EXISTS"){await fbAuth("signInWithPassword",p)} else throw x }
+      try{await pDbPut("artistas/"+FBP.slug,{uid:FBR.uid})}
+      catch(x){ if(x.status===401||x.status===403){ e.textContent="Esse admin já tem dono (outra senha já foi criada). Use “Já tenho senha — entrar”."; return} throw x }
+      try{await pDbPut("privado/"+FBP.slug+"/ok",true)}catch(_){}
+      try{await pDbPut("privado/"+FBP.slug+"/em",em)}catch(_){}
+    }else{ await fbAuth("signInWithPassword",p) }
+    abrirApp();
+  }catch(x){e.textContent=msgErro(x.message)}
+  finally{b.disabled=false}
 }
-document.getElementById("lockButton").addEventListener("click", tryUnlock);
-document.getElementById("lockPassword").addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
+async function esqueciSenha(){
+  const e=$l("lockError"),f=$l("lockForgot");e.style.color="#c0392b";e.textContent="";f.disabled=true;
+  try{const r=await fetch(FBP.worker+"/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({slug:FBP.slug})});const j=await r.json().catch(()=>({}));
+    if(j.ok){e.style.color="#2e7d32";e.textContent="Enviamos o link para "+j.para+". Confira também o spam."}
+    else if(j.erro==="sem_email")e.textContent="Ainda não há e-mail de recuperação cadastrado. Faça o primeiro acesso ou fale com a PULSART.";
+    else if(j.erro==="espere")e.textContent="Já enviamos um link agora há pouco. Espere 1 minuto e confira o e-mail (e o spam).";
+    else e.textContent="Não consegui enviar agora. Tente de novo em instantes."}
+  catch(_){e.textContent="Sem conexão. Verifique a internet e tente de novo."}
+  f.disabled=false}
+async function avisoEmailRec(){
+  try{ if(!FBR.tok)return; const em=await pDbGetA("privado/"+FBP.slug+"/em"); if(em)return;
+    const d=document.createElement("div");d.id="recBox";d.style.cssText="margin:10px auto;max-width:520px;padding:12px 14px;border:1.5px dashed #b5651d;border-radius:12px;background:#fff8ee;font-size:13px;color:#5c4530;display:flex;gap:8px;flex-wrap:wrap;align-items:center";
+    d.innerHTML='<b style="width:100%">Cadastre um e-mail para recuperar a senha se esquecer</b><input id="recEm" type="email" placeholder="voce@gmail.com" autocapitalize="none" style="flex:1;min-width:180px;padding:8px 10px;border-radius:8px;border:1.5px solid #d8c3a5"><button id="recBt" style="padding:8px 16px;border-radius:8px;border:none;background:#b5651d;color:#fff;font-weight:600;cursor:pointer">Salvar</button><span id="recEr" style="width:100%;color:#c0392b"></span>';
+    document.getElementById("appContent").insertBefore(d,document.getElementById("appContent").firstChild);
+    document.getElementById("recBt").onclick=async()=>{const v=document.getElementById("recEm").value.trim().toLowerCase(),er=document.getElementById("recEr");er.textContent="";
+      if(!emailOk(v)){er.textContent="Digite um e-mail válido.";return}
+      try{await pDbPut("privado/"+FBP.slug+"/em",v);d.remove()}catch(_){er.textContent="Não consegui salvar. Verifique a internet."}};
+  }catch(_){}
+}
+$l("lockButton").addEventListener("click",tryUnlock);
+["lockPassword","lockPassword2","lockEmail"].forEach(id=>$l(id).addEventListener("keydown",ev=>{if(ev.key==="Enter")tryUnlock()}));
+$l("lockToggle").addEventListener("click",()=>lockModo(!lockNovo));
+$l("lockForgot").addEventListener("click",esqueciSenha);
 
 function runInit(){
   (async function init(){
