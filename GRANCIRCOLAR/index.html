@@ -808,6 +808,108 @@ const PAGE={art:"grancircolar",agendaAntes:".contact",
   logo:()=>document.getElementById("splogo").src,foto:()=>document.querySelector('[data-m="hero"]').src},
  aplicar(id,m){const el=document.querySelector('[data-m="'+id+'"]');if(!el)return;if(el.tagName==="IMG"){el.src=m.url;return}}};
 /*ADAPTER_END*/
+/*EXT_BEGIN — troca de fotos, vídeos, áudios e links pelo painel (PULSART)*/
+(function(){
+ const Q=(s,r)=>(r||document).querySelector(s), QA=(s,r)=>[].slice.call((r||document).querySelectorAll(s));
+ const NOPAN='#v-app,#v-login,#v-ctr,.nopr';
+ const dentroPainel=e=>!!e.closest(NOPAN);
+ const jaTem=new Set(PAGE.midia.map(m=>m.id));
+ const hostDe=h=>{try{return new URL(h,location.href).hostname.replace(/^www\./,"")}catch(_){return ""}};
+ /* ---------- marca fotos, vídeos e áudios que ainda não podem ser trocados ---------- */
+ const SKIP=/(^|[\s_-])(lgo|logo|hlogo|mark|ico|icon|sbt|lbx|fl-ph|brand)([\s_-]|$)/i;
+ let nf=0,nv=0,na=0;
+ const novas=[];
+ QA("img").forEach(e=>{
+   if(e.dataset.m||dentroPainel(e))return;
+   if(SKIP.test(e.className||"")||/logo/i.test(e.alt||"")||/logo|mark/i.test((e.getAttribute("src")||"").slice(0,40)))return;
+   if(e.closest(".brand,.lgo,.lbx,#lbx,nav,header"))return;
+   const a=e.closest("a");if(a&&/youtu/i.test(a.getAttribute("href")||""))return;
+   if(e.closest("[class*=yt]")&&/youtu/i.test((e.closest("a")||{}).href||""))return;
+   nf++;const id="xf"+nf;e.dataset.m=id;e.dataset.x="1";
+   novas.push({id:id,tipo:"img",label:(e.alt&&e.alt.trim()?e.alt.trim().slice(0,48):"Foto "+nf),grupo:"Fotos"})});
+ QA("video").forEach(e=>{
+   if(e.dataset.m||dentroPainel(e))return;
+   nv++;const id="xv"+nv;e.dataset.m=id;e.dataset.x="1";
+   const lb=(e.getAttribute("aria-label")||(e.closest("figure")&&Q("figcaption",e.closest("figure"))&&Q("figcaption",e.closest("figure")).textContent)||"").trim();
+   novas.push({id:id,tipo:"vid",label:(lb?lb.slice(0,48):"Vídeo "+nv),grupo:"Vídeos"})});
+ QA("audio").forEach(e=>{
+   if(e.dataset.m||dentroPainel(e))return;
+   na++;const id="xa"+na;e.dataset.m=id;e.dataset.x="1";
+   const c=e.closest("li,.cl,.card,.item,.faixa,.trk,.track,figure,div"),h=c&&Q("h3,h4,b,strong,.t,.nm",c);
+   novas.push({id:id,tipo:"aud",label:(h&&h.textContent.trim()?h.textContent.trim().slice(0,48):"Áudio "+na),grupo:"Áudios"})});
+ novas.forEach(m=>{if(!jaTem.has(m.id)){
+   m.thumb=()=>{const e=Q('[data-m="'+m.id+'"]');return e?(e.tagName==="IMG"?(e.currentSrc||e.src||""):(e.poster||"")):""};
+   PAGE.midia.push(m)}});
+ /* ---------- como aplicar uma troca nos itens marcados por este bloco ---------- */
+ const limpaLoader=e=>{const n=e.getAttribute("data-mb");if(n!=null){e.removeAttribute("data-mb");const s=document.getElementById("mb"+n);if(s)s.remove()}
+   ["data-src","data-lazy","data-original"].forEach(a=>e.removeAttribute(a))};
+ const playOrig=e=>HTMLMediaElement.prototype.play.call(e);
+ function ativar(e,id){return carregarMidia(id).then(r=>{e.dataset.rem="";e.src=r.url;const b=e.parentNode&&Q(".xplay",e.parentNode);if(b)b.remove();e.load();return r})}
+ function deixarPreguicoso(e,id){
+   e.removeAttribute("src");QA("source",e).forEach(s=>s.remove());e.preload="none";e.dataset.rem="1";
+   e.play=function(){return this.dataset.rem?ativar(this,id).then(()=>playOrig(this)):playOrig(this)};
+   if(e.tagName==="VIDEO"){const w=e.parentNode;if(w&&!Q(".xplay",w)){if(getComputedStyle(w).position==="static")w.style.position="relative";
+     const b=document.createElement("button");b.type="button";b.className="xplay";b.textContent="▶";b.setAttribute("aria-label","Tocar vídeo");
+     b.style.cssText="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;border:2px solid #fff;font-size:26px;cursor:pointer;z-index:6";
+     b.onclick=ev=>{ev.stopPropagation();ev.preventDefault();b.textContent="…";ativar(e,id).then(()=>playOrig(e).catch(()=>{})).catch(()=>{b.textContent="▶"})};w.appendChild(b)}}
+   else e.addEventListener("pointerdown",()=>{if(e.dataset.rem)ativar(e,id).then(()=>playOrig(e).catch(()=>{})).catch(()=>{})},{once:true})}
+ const aplicarOrig=PAGE.aplicar;
+ PAGE.aplicar=function(id,m){
+   const e=Q('[data-m="'+id+'"]');
+   if(!e||!e.dataset.x)return aplicarOrig.apply(this,arguments);
+   limpaLoader(e);
+   if(e.tagName==="IMG"){e.removeAttribute("srcset");e.src=m.url;return}
+   if(e.tagName==="VIDEO"){if(m.poster)e.poster=m.poster;QA(".xplay",e.parentNode||document).forEach(b=>b.remove());
+     if(m.lazy)deixarPreguicoso(e,id);else{QA("source",e).forEach(s=>s.remove());e.dataset.rem="";e.src=m.url;e.load()}return}
+   if(e.tagName==="AUDIO"){if(m.lazy)deixarPreguicoso(e,id);else{QA("source",e).forEach(s=>s.remove());e.dataset.rem="";e.src=m.url;e.load()}}};
+ /* ---------- abas Vídeos, Áudios e Links no painel ---------- */
+ const tabs=Q("#tabs2"),ctrB=tabs&&Q('button[data-p="ctr"]',tabs),ctrP=Q('#v-app .pane[data-p="ctr"]');
+ function aba(p,nome,html){if(!tabs||!ctrB||!ctrP)return;
+   if(!Q('button[data-p="'+p+'"]',tabs)){const b=document.createElement("button");b.dataset.p=p;b.textContent=nome;tabs.insertBefore(b,ctrB)}
+   if(!Q('#v-app .pane[data-p="'+p+'"]')){const d=document.createElement("div");d.className="pane";d.dataset.p=p;d.innerHTML=html;ctrP.parentNode.insertBefore(d,ctrP)}}
+ const tem=t=>PAGE.midia.some(m=>m.tipo===t);
+ if(tem("vid"))aba("vd","Vídeos",'<div class="box"><h3>Vídeos</h3><p class="h">O vídeo é comprimido no seu aparelho (leva quase o tempo dele) — mantenha a tela ligada. Máximo de 90 segundos. Cada vídeo só pode ser trocado de novo daqui a 6 meses.</p><div id="vd-list"></div></div>');
+ if(tem("aud"))aba("au","Áudios",'<div class="box"><h3>Áudios</h3><p class="h">O áudio é comprimido no seu aparelho (leva o tempo dele) — mantenha a tela ligada. Máximo de 7 minutos. Cada áudio só pode ser trocado de novo daqui a 6 meses.</p><div id="au-list"></div></div>');
+ /* ---------- links ---------- */
+ const grupos=[];const porHref={};
+ const hash=s=>{let x=5381;for(let i=0;i<s.length;i++)x=((x<<5)+x+s.charCodeAt(i))|0;return "l"+(x>>>0).toString(36)};
+ QA("a[href]").forEach(a=>{
+   const h=a.getAttribute("href")||"";
+   if(dentroPainel(a)||!/^(https?:|mailto:|tel:)/i.test(h)||a.hasAttribute("download")||/pulsart\.com\.br/i.test(h))return;
+   if(!porHref[h]){const g={id:hash(h),orig:h,els:[],txt:""};porHref[h]=g;grupos.push(g)}
+   const g=porHref[h];g.els.push(a);
+   if(!g.txt){const t=(a.textContent||"").replace(/\s+/g," ").trim()||a.getAttribute("aria-label")||(Q("img",a)&&Q("img",a).alt)||"";g.txt=t.slice(0,46)}});
+ const ids={};grupos.forEach(g=>{while(ids[g.id])g.id+="x";ids[g.id]=1});
+ const REDES=[[/instagram\./i,"Instagram"],[/youtu/i,"YouTube"],[/wa\.me|whatsapp/i,"WhatsApp"],[/spotify/i,"Spotify"],[/tiktok/i,"TikTok"],[/facebook|fb\.com/i,"Facebook"],[/maps|goo\.gl\/maps/i,"Mapa"],[/^mailto:/i,"E-mail"],[/^tel:/i,"Telefone"],[/deezer/i,"Deezer"],[/music\.apple/i,"Apple Music"],[/soundcloud/i,"SoundCloud"],[/kwai/i,"Kwai"],[/twitter|x\.com/i,"X"],[/linkedin/i,"LinkedIn"]];
+ const nomeRede=h=>{const r=REDES.find(x=>x[0].test(h));return r?r[1]:hostDe(h)||"Link"};
+ const escH=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+ if(grupos.length)aba("lk","Links",'<div class="box"><h3>Links</h3><p class="h">Troque aqui os links do site (redes sociais, vídeos do YouTube, WhatsApp, mapa…). A mudança aparece no site na hora e você pode voltar ao original quando quiser.</p><div id="lk-list"></div></div>');
+ function normaliza(v,orig){v=(v||"").trim();if(!v)return "";
+   if(/^@[\w.]+$/.test(v)&&/instagram/i.test(orig))return "https://instagram.com/"+v.slice(1);
+   if(/^\+?[\d\s().-]{10,16}$/.test(v)&&/wa\.me/i.test(orig)){let d=v.replace(/\D/g,"");if(d.length<=11)d="55"+d;const q=(orig.match(/\?.*$/)||[""])[0];return "https://wa.me/"+d+q}
+   if(/^(https?:\/\/|mailto:|tel:)/i.test(v))return v;
+   if(/^[\w-]+(\.[\w-]+)+(\/\S*)?$/.test(v))return "https://"+v;return ""}
+ const atual=g=>g.els[0].getAttribute("href");
+ function desenharLinks(){const bx=Q("#lk-list");if(!bx)return;
+   bx.innerHTML=grupos.map(g=>{const cur=atual(g),mud=cur!==g.orig;
+     return `<div class="it" data-id="${g.id}" style="display:block"><div><b>${escH(nomeRede(g.orig))}${g.txt&&g.txt.toLowerCase()!==nomeRede(g.orig).toLowerCase()?" — "+escH(g.txt):""}</b><small class="${mud?"trv":"ok"}">${mud?"Link trocado (o original era "+escH(g.orig.slice(0,60))+")":"Link original do site"}${g.els.length>1?" · aparece em "+g.els.length+" lugares":""}</small></div>
+     <div class="row2" style="margin-top:10px"><input type="text" inputmode="url" autocapitalize="off" value="${escH(cur)}"><button class="bt o" data-a="s">Salvar</button></div>${mud?'<button class="bt o" data-a="o" style="margin-top:8px">Voltar ao original</button>':""}<div class="ex er" style="min-height:0"></div></div>`}).join("")}
+ const bxL=Q("#lk-list");
+ if(bxL)bxL.addEventListener("click",async ev=>{
+   const b=ev.target.closest("button");if(!b||b.disabled)return;const it=b.closest(".it"),g=grupos.find(x=>x.id===it.dataset.id),inp=Q("input",it),er=Q(".ex",it);er.textContent="";
+   const orig=b.dataset.a==="o";let nv=orig?g.orig:normaliza(inp.value,g.orig);
+   if(!nv){er.textContent="Digite um link válido (começando com https://).";return}
+   if(nv===atual(g)){er.textContent="Esse já é o link atual.";return}
+   if(!confirm((orig?"Voltar ao link original?\n":"Trocar o link para:\n")+nv))return;
+   b.disabled=true;
+   try{await dbPut("links/"+PAGE.art+"/"+g.id,orig?null:{u:nv,ts:TS});g.els.forEach(a=>a.setAttribute("href",nv));desenharLinks()}
+   catch(x){er.textContent=x.status===401||x.status===403?"Não foi possível salvar (sua sessão pode ter expirado). Feche o painel e entre de novo.":"Erro ao salvar. Verifique a internet.";b.disabled=false}});
+ const dm=desenharMidia;desenharMidia=function(){dm.apply(this,arguments);desenharLinks()};
+ /* aplica os links salvos no site público (todo visitante) */
+ setTimeout(async()=>{try{const L=await dbGet("links/"+PAGE.art);if(L)grupos.forEach(g=>{const x=L[g.id];if(x&&x.u&&/^(https?:|mailto:|tel:)/i.test(x.u))g.els.forEach(a=>a.setAttribute("href",x.u))})}catch(_){}},0);
+})();
+/*EXT_END*/
+
 
 /* ================= NÚCLEO v2: Firebase (REST) + painel + agenda ================= */
 const FB={worker:"https://pulsart-email.miztella.workers.dev",db:"https://pulsart-45f7c-default-rtdb.firebaseio.com",key:"AIzaSyBqKFrj9SxTOjdIztwcHt_Oc2QdbiSNHb8",dom:"painel.pulsart.com.br"};
