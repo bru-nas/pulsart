@@ -1162,7 +1162,7 @@ const PAGE={art:"balalaica",agendaAntes:".cta",
  const REDES=[[/instagram\./i,"Instagram"],[/youtu/i,"YouTube"],[/wa\.me|whatsapp/i,"WhatsApp"],[/spotify/i,"Spotify"],[/tiktok/i,"TikTok"],[/facebook|fb\.com/i,"Facebook"],[/maps|goo\.gl\/maps/i,"Mapa"],[/^mailto:/i,"E-mail"],[/^tel:/i,"Telefone"],[/deezer/i,"Deezer"],[/music\.apple/i,"Apple Music"],[/soundcloud/i,"SoundCloud"],[/kwai/i,"Kwai"],[/twitter|x\.com/i,"X"],[/linkedin/i,"LinkedIn"]];
  const nomeRede=h=>{const r=REDES.find(x=>x[0].test(h));return r?r[1]:hostDe(h)||"Link"};
  const escH=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
- if(grupos.length)aba("lk","Links",'<div class="box"><h3>Links</h3><p class="h">Troque aqui os links do site (redes sociais, vídeos do YouTube, WhatsApp, mapa…). A mudança aparece no site na hora e você pode voltar ao original quando quiser.</p><div id="lk-list"></div></div>');
+ aba("lk","Links",'<div class="box"><h3>Links</h3><p class="h">Troque aqui os links do site (redes sociais, vídeos do YouTube, WhatsApp, mapa…). A mudança aparece no site na hora e você pode voltar ao original quando quiser.</p><div id="lk-list"></div><div id="lk-extra"></div></div>');
  function normaliza(v,orig){v=(v||"").trim();if(!v)return "";
    if(/^@[\w.]+$/.test(v)&&/instagram/i.test(orig))return "https://instagram.com/"+v.slice(1);
    if(/^\+?[\d\s().-]{10,16}$/.test(v)&&/wa\.me/i.test(orig)){let d=v.replace(/\D/g,"");if(d.length<=11)d="55"+d;const q=(orig.match(/\?.*$/)||[""])[0];return "https://wa.me/"+d+q}
@@ -1183,9 +1183,70 @@ const PAGE={art:"balalaica",agendaAntes:".cta",
    b.disabled=true;
    try{await dbPut("links/"+PAGE.art+"/"+g.id,orig?null:{u:nv,ts:TS});g.els.forEach(a=>a.setAttribute("href",nv));desenharLinks()}
    catch(x){er.textContent=x.status===401||x.status===403?"Não foi possível salvar (sua sessão pode ter expirado). Feche o painel e entre de novo.":"Erro ao salvar. Verifique a internet.";b.disabled=false}});
- const dm=desenharMidia;desenharMidia=function(){dm.apply(this,arguments);desenharLinks()};
- /* aplica os links salvos no site público (todo visitante) */
- setTimeout(async()=>{try{const L=await dbGet("links/"+PAGE.art);if(L)grupos.forEach(g=>{const x=L[g.id];if(x&&x.u&&/^(https?:|mailto:|tel:)/i.test(x.u))g.els.forEach(a=>a.setAttribute("href",x.u))})}catch(_){}},0);
+ /* ---------- links extras (a pessoa adiciona novos) ---------- */
+ const ICONE='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3A5 5 0 0 0 11 21.07l1.5-1.5"/></svg>';
+ const extras={},nosE=[];
+ const REDE_RX=/instagram|youtu|spotify|tiktok|facebook|deezer|kwai/i;
+ function pintaExtras(){nosE.splice(0).forEach(n=>n.remove());
+   const cand=grupos.filter(g=>REDE_RX.test(g.orig)),base=cand.length?cand[cand.length-1].els[cand[cand.length-1].els.length-1]:null;
+   let ant=base,caixa=null;
+   Object.keys(extras).sort().forEach(id=>{const x=extras[id];let c;
+     if(base){c=base.cloneNode(true);c.removeAttribute("id");c.removeAttribute("data-m");
+       if((base.textContent||"").trim()){QA("svg,img",c).forEach(e=>e.remove());c.textContent=x.t}else{c.innerHTML=ICONE}
+       c.setAttribute("aria-label",x.t);c.title=x.t}
+     else{if(!caixa){caixa=document.createElement("div");caixa.id="xextras";caixa.style.cssText="text-align:center;padding:24px 16px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center";
+         const f=Q("footer");if(f&&!dentroPainel(f))f.parentNode.insertBefore(caixa,f);else document.body.insertBefore(caixa,Q("script"));nosE.push(caixa)}
+       c=document.createElement("a");c.textContent=x.t;c.style.cssText="color:inherit;border:1px solid currentColor;border-radius:999px;padding:10px 18px;text-decoration:none"}
+     c.setAttribute("href",x.u);c.target="_blank";c.rel="noopener";
+     if(base){ant.parentNode.insertBefore(c,ant.nextSibling);ant=c;nosE.push(c)}else caixa.appendChild(c)})}
+ function desenharExtras(){const bx=Q("#lk-extra");if(!bx)return;const ids=Object.keys(extras).sort();
+   bx.innerHTML=`<h3 style="margin-top:22px">Adicionar link novo</h3><p class="h">Ele aparece no site junto com os outros links.</p>
+   ${ids.map(id=>`<div class="it" data-id="${id}" style="display:block"><div><b>${escH(extras[id].t)}</b><small class="ok">${escH(extras[id].u.slice(0,70))}</small></div><button class="bt o" data-a="r" style="margin-top:8px">Remover</button></div>`).join("")}
+   ${ids.length<8?`<label>Nome do link (ex.: TikTok, Loja, Meu site)</label><input id="lk-nt" maxlength="30"><label>Endereço do link</label><input id="lk-nu" inputmode="url" autocapitalize="off" placeholder="https://..."><div class="er" id="lk-ne"></div><button class="bt" id="lk-na">Adicionar link</button>`:'<p class="h">Máximo de 8 links novos.</p>'}`}
+ const bxE=Q("#lk-extra");
+ if(bxE)bxE.addEventListener("click",async ev=>{const b=ev.target.closest("button");if(!b||b.disabled)return;const er=Q("#lk-ne");
+   try{if(b.dataset.a==="r"){const id=b.closest(".it").dataset.id;if(!confirm("Remover este link do site?"))return;b.disabled=true;await dbPut("links/"+PAGE.art+"/"+id,null);delete extras[id]}
+     else if(b.id==="lk-na"){const t=Q("#lk-nt").value.trim().slice(0,30),u=normaliza(Q("#lk-nu").value,"");
+       if(!t){er.textContent="Dê um nome para o link.";return}if(!u){er.textContent="Digite um link válido (começando com https://).";return}
+       const id=["n1","n2","n3","n4","n5","n6","n7","n8"].find(i=>!extras[i]);if(!id)return;
+       b.disabled=true;er.textContent="";await dbPut("links/"+PAGE.art+"/"+id,{u:u,t:t,ts:TS});extras[id]={u:u,t:t}}
+     else return;
+     pintaExtras();desenharExtras()}
+   catch(x){b.disabled=false;const e2=Q("#lk-ne");if(e2)e2.textContent=x.status===401||x.status===403?"Não foi possível salvar (sua sessão pode ter expirado). Feche o painel e entre de novo.":"Erro ao salvar. Verifique a internet."}});
+ /* ---------- preços novos (para sites que ainda não mostram preço) ---------- */
+ const semPreco=PAGE.precos.length===0,pxs={};
+ const brl=v=>"R$ "+Number(v).toLocaleString("pt-BR");
+ if(semPreco)aba("pr","Preços",'<div class="box"><h3>Preços dos shows</h3><div id="pr-list"></div></div>');
+ let pxNode=null;
+ function pintaPrecos(){if(pxNode){pxNode.remove();pxNode=null}const ids=Object.keys(pxs).sort();if(!ids.length)return;
+   const alvo=Q("#contato")||Q(".cta")||Q("footer");if(!alvo||dentroPainel(alvo))return;
+   const h2=QA("h2").find(x=>!dentroPainel(x)),sec=document.createElement("section");sec.id="xvalores";sec.style.cssText="max-width:720px;margin:0 auto;padding:48px 20px;color:inherit";
+   const t=h2?h2.cloneNode(false):document.createElement("h2");t.removeAttribute("id");t.textContent="Valores";t.style.textAlign="center";t.style.marginBottom="18px";sec.appendChild(t);
+   ids.forEach(id=>{const r=document.createElement("div");r.style.cssText="display:flex;justify-content:space-between;gap:16px;padding:14px 4px;border-bottom:1px solid rgba(128,128,128,.4);font-size:1.1rem";
+     const a=document.createElement("span");a.textContent=pxs[id].t;const b=document.createElement("b");b.textContent=brl(pxs[id].v);r.appendChild(a);r.appendChild(b);sec.appendChild(r)});
+   const at=alvo.closest("section")||alvo;at.parentNode.insertBefore(sec,at);pxNode=sec}
+ function desenharPx(){if(!semPreco)return;const box=Q('#v-app .pane[data-p="pr"] .box');if(!box)return;let bx=Q("#px-box");if(!bx){bx=document.createElement("div");bx.id="px-box";box.appendChild(bx)}
+   const ids=Object.keys(pxs).sort();
+   bx.innerHTML=`<p class="h">Seu site ainda não mostra preços. Se quiser, adicione aqui: eles aparecem no site numa seção "Valores" e você pode mudar ou tirar quando quiser.</p>
+   ${ids.map(id=>`<div class="it" data-id="${id}" style="display:block"><div><b>${escH(pxs[id].t)}</b></div><div class="row2" style="margin-top:10px"><span style="align-self:center">R$</span><input type="number" inputmode="numeric" min="1" max="99999" step="1" value="${pxs[id].v}"><button class="bt o" data-a="s">Salvar</button></div><button class="bt o" data-a="r" style="margin-top:8px">Remover</button><div class="ex er" style="min-height:0"></div></div>`).join("")}
+   ${ids.length<6?`<h3 style="margin-top:18px">Adicionar preço</h3><label>Nome (ex.: Show completo, Participação)</label><input id="px-nt" maxlength="40"><label>Valor (R$)</label><input id="px-nv" type="number" inputmode="numeric" min="1" max="99999"><div class="er" id="px-ne"></div><button class="bt" id="px-na">Adicionar preço</button>`:'<p class="h">Máximo de 6 preços.</p>'}`}
+ if(semPreco)document.addEventListener("click",async ev=>{const b=ev.target.closest("#px-box button");if(!b||b.disabled)return;const it=b.closest(".it"),er=(it&&Q(".ex",it))||Q("#px-ne");if(er)er.textContent="";
+   try{
+     if(b.id==="px-na"){const t=Q("#px-nt").value.trim().slice(0,40),v=Math.round(+Q("#px-nv").value);
+       if(!t){er.textContent="Dê um nome para o preço.";return}if(!(v>=1&&v<=99999)){er.textContent="Digite um valor válido.";return}
+       const id=["x1","x2","x3","x4","x5","x6"].find(i=>!pxs[i]);if(!id)return;b.disabled=true;await dbPut("precos/"+PAGE.art+"/"+id,{v:v,t:t,ts:TS});pxs[id]={v:v,t:t}}
+     else if(b.dataset.a==="s"){const id=it.dataset.id,v=Math.round(+Q("input",it).value);if(!(v>=1&&v<=99999)){er.textContent="Digite um valor válido.";return}
+       b.disabled=true;await dbPut("precos/"+PAGE.art+"/"+id,{v:v,t:pxs[id].t,ts:TS});pxs[id].v=v}
+     else if(b.dataset.a==="r"){const id=it.dataset.id;if(!confirm("Remover este preço do site?"))return;b.disabled=true;await dbPut("precos/"+PAGE.art+"/"+id,null);delete pxs[id]}
+     else return;pintaPrecos();desenharPx()}
+   catch(x){b.disabled=false;if(er)er.textContent=x.status===401||x.status===403?"Não foi possível salvar (sua sessão pode ter expirado). Feche o painel e entre de novo.":"Erro ao salvar. Verifique a internet."}});
+ const dm=desenharMidia;desenharMidia=function(){dm.apply(this,arguments);desenharLinks();desenharExtras();desenharPx()};
+ /* aplica o que foi salvo no site público (todo visitante) */
+ setTimeout(async()=>{
+   try{const L=await dbGet("links/"+PAGE.art);if(L){grupos.forEach(g=>{const x=L[g.id];if(x&&x.u&&/^(https?:|mailto:|tel:)/i.test(x.u))g.els.forEach(a=>a.setAttribute("href",x.u))});
+     Object.keys(L).filter(k=>/^n[1-8]$/.test(k)).forEach(k=>{const x=L[k];if(x&&x.u&&x.t&&/^(https?:|mailto:|tel:)/i.test(x.u))extras[k]={u:x.u,t:String(x.t).slice(0,30)}});pintaExtras()}}catch(_){}
+   if(semPreco)try{const P=await dbGet("precos/"+PAGE.art);if(P){Object.keys(P).filter(k=>/^x[1-6]$/.test(k)).forEach(k=>{const x=P[k];if(x&&x.v>0&&x.t)pxs[k]={v:+x.v,t:String(x.t).slice(0,40)}});pintaPrecos()}}catch(_){}
+ },0);
 })();
 /*EXT_END*/
 
