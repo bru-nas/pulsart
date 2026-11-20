@@ -478,13 +478,13 @@ setTimeout(function(){sp.style.display="none"},3500);
    <p class="h">Preencha seus dados uma vez. Depois é só criar o contrato de cada evento.</p>
   <div class="box"><h3>Meus dados (uma vez só)</h3>
    <label>Nome completo</label><input id="d-nome">
-   <div class="g2"><div><label>CPF</label><input id="d-cpf" inputmode="numeric" placeholder="000.000.000-00"></div><div><label>Banco</label><input id="d-banco"></div></div>
+   <div class="g2"><div><label>CPF ou CNPJ</label><input id="d-cpf" inputmode="numeric" placeholder="CPF ou CNPJ"></div><div><label>Banco</label><input id="d-banco"></div></div>
    <label>Chave Pix</label><input id="d-pix">
    <div class="g2"><div><label>Sinal (% no ato da contratação)</label><input id="d-sinal" type="number" min="0" max="100" value="50"></div><div><label>Cidade/UF do foro</label><input id="d-foro" value="Goiânia, Estado de Goiás"></div></div>
    <button class="bt o" id="d-salvar">Salvar meus dados</button><span id="d-ok" style="color:#9fd69f"></span>
   </div>
   <div class="box"><h3>Novo contrato</h3>
-   <div class="g2"><div><label>Nome do contratante</label><input id="c-nome"></div><div><label>CPF do contratante</label><input id="c-cpf" inputmode="numeric"></div></div>
+   <div class="g2"><div><label>Nome do contratante</label><input id="c-nome"></div><div><label>CPF ou CNPJ do contratante</label><input id="c-cpf" inputmode="numeric"></div></div>
    <label>Local do evento (endereço)</label><input id="c-local">
    <div class="g2"><div><label>Data do evento</label><input id="c-data" type="date"></div><div><label>Horário de início</label><input id="c-hora" type="time"></div></div>
    <div class="g2"><div><label>Duração do show (horas)</label><input id="c-dur" type="number" min="1" step="0.5" value="3"></div><div><label>Formato</label><select id="c-fmt"><option value="Show acústico · 1 hora|voz e violão|600">Show acústico · 1 hora — voz e violão</option><option value="Show acústico · 2 horas|voz e violão|1200">Show acústico · 2 horas — voz e violão</option><option value="Show acústico · 3 horas|voz e violão|1400">Show acústico · 3 horas — voz e violão</option><option value="Show com bateria · 2 horas|voz, violão e bateria|1600">Show com bateria · 2 horas — voz, violão e bateria</option><option value="Show com bateria · 3 horas|voz, violão e bateria|1800">Show com bateria · 3 horas — voz, violão e bateria</option><option value="Show com sanfona · 2 horas|voz, violão e sanfona|1700">Show com sanfona · 2 horas — voz, violão e sanfona</option><option value="Show com sanfona · 3 horas|voz, violão e sanfona|2000">Show com sanfona · 3 horas — voz, violão e sanfona</option><option value="Banda completa · 2 horas|voz, 2 violões, bateria e sanfona|2800">Banda completa · 2 horas — voz, 2 violões, bateria e sanfona</option><option value="Banda completa · 3 horas|voz, 2 violões, bateria e sanfona|3200">Banda completa · 3 horas — voz, 2 violões, bateria e sanfona</option></select></div></div>
@@ -904,7 +904,7 @@ $("#c-gerar").onclick=()=>{
   const s=load(), d=s.d||{}, e=$("#c-e"); e.textContent="";
   const f=$("#c-fmt").value.split("|"), v=+$("#c-val").value, ext=+$("#c-ext").value||0, mot=$("#c-mot").value, comp=$("#c-comp").value.trim(), obs=($("#c-obs")?$("#c-obs").value.trim():""), hx=(mot==="Hora extra"&&ext>0), tot=hx?v:v+ext;
   const cn=$("#c-nome").value.trim(), cc=$("#c-cpf").value.trim(), loc=$("#c-local").value.trim(), dt=$("#c-data").value, hr=$("#c-hora").value, du=$("#c-dur").value;
-  if(!d.nome||!d.cpf||!d.pix){e.textContent="Preencha e salve primeiro 'Meus dados' (nome, CPF e Pix).";return}
+  if(!d.nome||!d.cpf||!d.pix){e.textContent="Preencha e salve primeiro 'Meus dados' (nome, CPF/CNPJ e Pix).";return}
   if(!cn||!cc||!loc||!dt||!hr||!du||!v){e.textContent="Preencha todos os campos do contrato.";return}
   const sp=d.sinal||0, sinal=Math.round(tot*sp)/100, hoje=new Date(), hj=`${hoje.getFullYear()}-${String(hoje.getMonth()+1).padStart(2,"0")}-${String(hoje.getDate()).padStart(2,"0")}`;
   const pg=sp>0&&sp<100?`${sp}% (sinal) no ato da contratação, no valor de ${brl(sinal)} (${reaisExt(sinal)}), e o saldo restante de ${brl(tot-sinal)} (${reaisExt(tot-sinal)}) no dia da apresentação.`:(sp>=100?"integralmente no ato da contratação.":"integralmente no dia da apresentação.");
@@ -913,8 +913,8 @@ $("#c-gerar").onclick=()=>{
   const S=[
    ["CONTRATO DE PRESTAÇÃO DE SERVIÇOS ARTÍSTICOS MUSICAIS",null],
    ["I – DA IDENTIFICAÇÃO DAS PARTES CONTRATANTES",[
-     `Contratante: ${cn.toUpperCase()}, inscrito(a) no CPF: ${cc}, doravante denominado(a) simplesmente CONTRATANTE.`,
-     `Contratado: ${d.nome.toUpperCase()}, inscrito no CPF: ${d.cpf}, que se apresenta artisticamente como ${NOME_ART.toUpperCase()}, doravante denominado simplesmente CONTRATADO.`]],
+     `Contratante: ${cn.toUpperCase()}, inscrito(a) no CPF/CNPJ: ${cc}, doravante denominado(a) simplesmente CONTRATANTE.`,
+     `Contratado: ${d.nome.toUpperCase()}, inscrito no CPF/CNPJ: ${d.cpf}, que se apresenta artisticamente como ${NOME_ART.toUpperCase()}, doravante denominado simplesmente CONTRATADO.`]],
    ["II – DO OBJETO",["O presente contrato tem como objeto a prestação de serviços artísticos musicais pelo CONTRATADO em favor do CONTRATANTE, conforme descrito nas cláusulas seguintes."]],
    ["III – DO VALOR E FORMA DE PAGAMENTO",[
      ...(hx?[`Valor total dos serviços: ${brl(v)} (${reaisExt(v)}).`,`Hora extra (facultativa): ${brl(ext)} (${reaisExt(ext)})${comp?" — "+comp:""}. Esse valor não está incluído no valor total dos serviços e só será devido se houver prorrogação da apresentação por solicitação do CONTRATANTE.`]:ext>0?[`Valor do show: ${brl(v)} (${reaisExt(v)}).`,`Custo extra: ${brl(ext)} (${reaisExt(ext)}), referente a ${mot==="Outro"?(comp||"despesas adicionais"):mot.toLowerCase()+(comp?" — "+comp:"")}.`,`Valor total dos serviços: ${brl(tot)} (${reaisExt(tot)}).`]:[`Valor total dos serviços: ${brl(v)} (${reaisExt(v)}).`]),
