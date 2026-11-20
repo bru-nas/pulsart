@@ -134,7 +134,8 @@ html.lock,html.lock body{overflow:hidden}
 <div class="ov hide" id="fim"><div class="b"><div class="ck">✓</div><h2 style="margin:0 0 6px">Briefing recebido!</h2>
 <p style="margin:0 0 12px">A PULSART tem <b>72 horas</b> para montar o seu site.</p>
 <p style="margin:0;color:var(--m);font-size:.92rem">Para começar, faça o Pix de <b style="color:var(--t)">50% do valor combinado</b> para a chave (celular) da PULSART:</p>
-<div class="pix" id="pix">62981392084</div>
+<div class="pix" id="pix">62996690398</div>
+<p style="color:var(--m);font-size:.85rem;margin:8px 0 12px;text-align:center">InfinitePay · Bruna Miztella Honorato Carvalho</p>
 <button class="btn s" id="cp" type="button">Copiar chave Pix</button>
 <a class="btn" id="wa" href="https://wa.me/5562996690398" target="_blank" rel="noopener" style="display:block;text-align:center;text-decoration:none;box-sizing:border-box">Enviar comprovante no WhatsApp</a>
 <p style="color:var(--m);font-size:.82rem;margin:14px 0 0">Depois de fazer o Pix, toque no botão acima e envie o comprovante para a PULSART.</p></div></div>
@@ -251,7 +252,7 @@ $('f').addEventListener('submit',function(e){e.preventDefault();if(busy||!val())
   ov.classList.add('hide');$('fim').classList.remove('hide');window.scrollTo(0,0)})
  .catch(function(er){ov.classList.add('hide');busy=false;$('go').disabled=false;var t=er.message;
   $('msg').textContent=t=='rede'?'Falha de conexão. Verifique a internet e toque em Enviar de novo.':t=='grande'||t=='total'?'Um arquivo passou do tamanho máximo ou o total passou de 1 GB.':t=='formato'?'Um dos arquivos tem formato não aceito.':'Não foi possível enviar agora. Tente novamente em instantes.'})});
-$('cp').onclick=function(){var t='62981392084',b=this;function ok(){b.textContent='Chave copiada ✓'}
+$('cp').onclick=function(){var t='62996690398',b=this;function ok(){b.textContent='Chave copiada ✓'}
  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,function(){sel()});else sel();
  function sel(){var r=document.createRange();r.selectNodeContents($('pix'));var s=getSelection();s.removeAllRanges();s.addRange(r);try{document.execCommand('copy');ok()}catch(e){}}};
 /* painel escondido: 5 toques na logo */
