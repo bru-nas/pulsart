@@ -35,9 +35,9 @@ img{display:block;max-width:100%}
 #sp.gone .spw{transform:scale(1.15)}
 .symbox{position:relative;width:100%;aspect-ratio:264/253;border-radius:50%;overflow:hidden;box-shadow:0 0 0 4px #FFBF24,0 18px 50px rgba(0,0,0,.45);opacity:0;transform:scale(.85);animation:mIn .7s .1s ease-out forwards}
 .symbox img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.symbox .wk{opacity:0;animation:wink 1.6s .8s ease-in-out 1}
+.symbox .wk{opacity:0;animation:wink 1.2s .9s ease-in-out 1}
 @keyframes mIn{to{opacity:1;transform:scale(1)}}
-@keyframes wink{0%{opacity:0}12%{opacity:1}80%{opacity:1}100%{opacity:0}}
+@keyframes wink{0%{opacity:0}18%{opacity:1}72%{opacity:1}100%{opacity:0}}
 #sp .word{font:700 clamp(2.2rem,10vw,3.2rem)/1 Poppins,Inter,sans-serif;letter-spacing:.02em;color:#fff;margin-top:22px;opacity:0;animation:in .8s 1.5s forwards}
 #sp .word em{font-style:normal;color:#FFBF24}
 #sp .tg{margin-top:10px;font:500 clamp(.72rem,3.2vw,.95rem) Poppins,Inter,sans-serif;letter-spacing:.08em;color:#cbd8f7;opacity:0;animation:in .8s 1.9s forwards;white-space:nowrap}
@@ -294,7 +294,7 @@ document.getElementById('dC').onclick=function(){
 
 var sp=document.getElementById('sp');
 function sair(){sp.classList.add('gone')}
-sp.onclick=sair;setTimeout(sair,4200);
+sp.onclick=sair;setTimeout(sair,3400);
 if(matchMedia('(prefers-reduced-motion:reduce)').matches)sair();
 })();
 </script>
