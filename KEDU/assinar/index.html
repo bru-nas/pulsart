@@ -2,93 +2,167 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Assinar K.Edu</title>
-<link rel="icon" type="image/svg+xml" href="../favicon.svg"><link rel="icon" type="image/png" href="../k-48.png">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Assinar o K.Edu</title>
+<meta name="description" content="Assine o K.Edu: Pix, boleto ou cartão. A licença é liberada sozinha assim que o pagamento é confirmado.">
+<link rel="canonical" href="https://pulsart.com.br/KEDU/assinar/">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg"><link rel="icon" type="image/png" href="../k-48.png"><link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Figtree:wght@400;500;600&display=swap">
 <style>
-  :root { --azul:#173A8A; --amar:#FFBF24; --bg:#F5F8FF; --fg:#0B1740; --card:#fff; --bd:#DCE4F5; --mut:#52608A; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#0b1226; --fg:#e8eefc; --card:#131d3b; --bd:#27345e; --mut:#9fb0dc; } }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg); font-family: Poppins,"Segoe UI",Arial,sans-serif; padding:0 max(16px, env(safe-area-inset-left)); }
-  header { background:var(--azul); color:#fff; margin:0 calc(-1 * max(16px, env(safe-area-inset-left))); padding:14px 16px; display:flex; align-items:center; gap:10px; }
-  header img { width:34px; height:34px; border-radius:8px; }
-  header a { color:#cbd8f7; margin-left:auto; font-size:14px; }
-  main { max-width:460px; margin:0 auto; padding:18px 0 48px; }
-  h1 { font-size:22px; margin:6px 0 2px; }
-  .sub { color:var(--mut); font-size:14px; margin:0 0 6px; }
-  .card { background:var(--card); border:1px solid var(--bd); border-radius:14px; padding:16px; margin-top:14px; }
-  .opts { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
-  .opts.tres { grid-template-columns:1fr 1fr 1fr; }
-  .opt { border:2px solid var(--bd); border-radius:10px; padding:10px 8px; text-align:center; cursor:pointer; background:var(--card); font:600 14px inherit; color:var(--fg); }
-  .opt[aria-pressed="true"] { border-color:var(--azul); background:#e8eefc; color:#173A8A; }
-  @media (prefers-color-scheme: dark) { .opt[aria-pressed="true"] { background:#1b2b5c; color:#fff; border-color:var(--amar); } }
-  .opt small { display:block; font-weight:400; color:var(--mut); margin-top:2px; }
-  label { display:block; font-weight:600; font-size:14px; margin-top:12px; }
-  input { width:100%; padding:12px; border:1px solid var(--bd); border-radius:8px; font-size:16px; background:var(--bg); color:var(--fg); margin-top:4px; }
-  .total { display:flex; justify-content:space-between; align-items:baseline; margin-top:14px; font-size:15px; }
-  .total b { font-size:26px; }
-  .nota { font-size:13px; color:var(--mut); line-height:1.45; margin-top:8px; }
-  button.go { width:100%; margin-top:16px; padding:15px; border:0; border-radius:10px; background:var(--amar); color:#0B1740; font:700 17px inherit; cursor:pointer; }
-  button.go:disabled { opacity:.6; }
-  #erro { color:#b91c1c; margin-top:10px; font-size:14px; line-height:1.4; }
-  [hidden] { display:none !important; }
+:root{--ink:#0B1740;--blue:#173A8A;--sky:#3B82F6;--amber:#FFBF24;--paper:#F5F8FF;--card:#fff;--line:#DCE4F5;--mute:#52608A;--ok:#16A34A}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.5 Figtree,system-ui,sans-serif;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+h1,h2,h3,.btn,.tot b,.pv{font-family:Outfit,system-ui,sans-serif}
+.w{max-width:1080px;margin:0 auto;padding:0 20px}
+.nav{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .w{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.nav img{height:34px;width:auto;display:block}
+.nav .seg{display:flex;align-items:center;gap:6px;color:var(--mute);font-size:14px;font-weight:500}
+.nav .seg svg{width:16px;height:16px;color:var(--ok)}
+.nav a.v{color:var(--blue);font-weight:600;text-decoration:none;font-size:14px}
+.hero{background:linear-gradient(160deg,#0B1F57 0%,#173A8A 100%);color:#fff;padding:34px 0 64px}
+.hero .w{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.eyebrow{color:var(--amber);font:700 12px/1 Outfit,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.hero h1{font-size:clamp(28px,5vw,42px);line-height:1.1;margin:10px 0 8px;font-weight:700}
+.hero p{margin:0;color:#cbd8f7;max-width:520px}
+.hero img{width:150px;height:150px;border-radius:28px;object-fit:cover;box-shadow:0 10px 30px rgba(0,0,0,.35);flex:none}
+.grid{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start;margin-top:-40px;padding-bottom:56px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 28px rgba(11,23,64,.07)}
+.card+.card{margin-top:16px}
+.st{display:flex;align-items:center;gap:10px;margin:0 0 14px}
+.st i{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;font:700 14px/26px Outfit,sans-serif;text-align:center;font-style:normal;flex:none}
+.st h2{margin:0;font-size:19px;font-weight:700}
+.opts{display:grid;gap:10px}
+.opts.dois{grid-template-columns:1fr 1fr}
+.opts.quatro{grid-template-columns:1fr 1fr 1fr}
+.opt{position:relative;text-align:left;border:2px solid var(--line);border-radius:14px;padding:14px;background:#fff;color:var(--ink);cursor:pointer;font:inherit}
+.opt b{display:block;font:700 17px Outfit,sans-serif}
+.opt small{display:block;color:var(--mute);margin-top:2px;font-size:13px;line-height:1.3}
+.opt .pv{display:block;margin-top:8px;font-size:22px;font-weight:700}
+.opt[aria-pressed="true"]{border-color:var(--blue);background:#eef3ff;box-shadow:0 0 0 3px rgba(23,58,138,.12)}
+.opt .tag{position:absolute;top:-10px;right:12px;background:var(--amber);color:var(--ink);font:700 11px Outfit,sans-serif;padding:3px 9px;border-radius:99px}
+.fm{text-align:center;padding:12px 6px}
+.fm b{font-size:16px}
+label{display:block;font-weight:600;font-size:14px;margin:14px 0 4px}
+input{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:11px;font:inherit;background:#fff;color:var(--ink)}
+input:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(59,130,246,.18)}
+.dica{font-size:13px;color:var(--mute);margin-top:6px}
+.res{position:sticky;top:84px}
+.res h3{margin:0 0 12px;font-size:18px}
+.lin{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.lin span:first-child{color:var(--mute)}
+.tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px}
+.tot b{font-size:30px;font-weight:800}
+.nota{font-size:13px;color:var(--mute);margin:8px 0 0;line-height:1.45}
+ul.ok{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:7px;font-size:14px}
+ul.ok li{display:flex;gap:8px;align-items:flex-start}
+ul.ok svg{width:17px;height:17px;color:var(--ok);flex:none;margin-top:2px}
+.go{width:100%;margin-top:18px;padding:16px;border:0;border-radius:99px;background:var(--amber);color:var(--ink);font:700 18px Outfit,sans-serif;cursor:pointer;box-shadow:0 8px 20px rgba(255,191,36,.35)}
+.go:hover{filter:brightness(1.04)}
+.go:disabled{opacity:.6;cursor:wait}
+#erro{color:#b91c1c;margin-top:12px;font-size:14px;line-height:1.4}
+.seguro{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:13px;color:var(--mute);line-height:1.45}
+.seguro svg{width:22px;height:22px;color:var(--blue);flex:none}
+.ajuda{margin-top:12px;font-size:14px;color:var(--mute)}
+.ajuda a{color:var(--blue);font-weight:600}
+footer{border-top:1px solid var(--line);background:#fff;padding:20px 0;font-size:13px;color:var(--mute)}
+footer .w{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+footer a{color:var(--mute)}
+[hidden]{display:none!important}
+@media(max-width:860px){.grid{grid-template-columns:1fr}.res{position:static}.hero img{width:84px;height:84px;border-radius:20px}.hero .w{gap:12px}.nav .seg span{display:none}}
+@media(max-width:420px){.opts.quatro{grid-template-columns:1fr}.opts.dois{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header><img src="../icon.png" alt=""><b>K.Edu</b><a href="../">Voltar ao site</a></header>
-<main>
-  <h1>Assinar o K.Edu</h1>
-  <p class="sub">Pagamento seguro pelo Asaas. A licença é liberada sozinha assim que o pagamento é confirmado.</p>
+<header class="nav"><div class="w">
+  <a href="../" aria-label="K.Edu"><img src="../logo.jpg" alt="K.Edu"></a>
+  <div class="seg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Pagamento seguro</span> <a class="v" href="../">Voltar ao site</a></div>
+</div></header>
 
-  <div class="card">
-    <b>Plano</b>
-    <div class="opts" id="gPlano">
-      <button type="button" class="opt" data-v="mensal" aria-pressed="true">Mensal<small>todo mês</small></button>
-      <button type="button" class="opt" data-v="anual" aria-pressed="false">Anual<small>10 meses de aula</small></button>
-    </div>
-    <b style="display:block;margin-top:16px">Forma de pagamento</b>
-    <div class="opts tres" id="gForma">
-      <button type="button" class="opt" data-v="pix" aria-pressed="true">Pix</button>
-      <button type="button" class="opt" data-v="boleto" aria-pressed="false">Boleto</button>
-      <button type="button" class="opt" data-v="cartao" aria-pressed="false">Cartão</button>
-    </div>
-    <div class="total"><span id="tRot">Total</span><b id="tVal"></b></div>
-    <div class="nota" id="tNota"></div>
+<section class="hero"><div class="w">
+  <div><div class="eyebrow">Assinatura</div><h1>Assine o K.Edu</h1><p>Escolha o plano, pague e pronto: a licença é liberada sozinha assim que o pagamento é confirmado.</p></div>
+  <img src="../mascote.jpg" alt="">
+</div></section>
+
+<main class="w"><div class="grid">
+  <div>
+    <section class="card">
+      <div class="st"><i>1</i><h2>Escolha o plano</h2></div>
+      <div class="opts dois" id="gPlano">
+        <button type="button" class="opt" data-v="mensal" aria-pressed="true"><b>Mensal</b><small>Cobrança todo mês</small><span class="pv" id="pvM"></span></button>
+        <button type="button" class="opt" data-v="anual" aria-pressed="false"><span class="tag">Melhor valor</span><b>Anual</b><small>10 meses de aula, pagamento único</small><span class="pv" id="pvA"></span></button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="st"><i>2</i><h2>Como prefere pagar?</h2></div>
+      <div class="opts quatro" id="gForma">
+        <button type="button" class="opt fm" data-v="pix" aria-pressed="true"><b id="bPix">Pix</b></button>
+        <button type="button" class="opt fm" data-v="boleto" aria-pressed="false"><b>Boleto</b></button>
+        <button type="button" class="opt fm" data-v="cartao" aria-pressed="false"><b>Cartão</b></button>
+      </div>
+      <p class="nota" id="tNota"></p>
+    </section>
+
+    <form class="card" id="f" autocomplete="on">
+      <div class="st"><i>3</i><h2>Seus dados</h2></div>
+      <label for="em" style="margin-top:0">E-mail da sua conta no K.Edu</label>
+      <input id="em" type="email" required autocomplete="email" placeholder="o mesmo e-mail que você usou na extensão">
+      <label for="nm">Nome completo</label>
+      <input id="nm" required autocomplete="name">
+      <label for="cp">CPF</label>
+      <input id="cp" inputmode="numeric" required autocomplete="off" placeholder="000.000.000-00" maxlength="18">
+      <p class="dica">Ainda não criou a conta? Instale a extensão, clique em "Criar conta" e volte aqui com o mesmo e-mail. O CPF vai só para o Asaas, para emitir a cobrança.</p>
+      <button class="go" id="irMovel" type="submit" hidden>Ir para o pagamento</button>
+    </form>
   </div>
 
-  <form class="card" id="f" autocomplete="on">
-    <b>Seus dados</b>
-    <label for="em">E-mail da sua conta no K.Edu</label>
-    <input id="em" type="email" required autocomplete="email" placeholder="o mesmo que você usou na extensão">
-    <label for="nm">Nome completo</label>
-    <input id="nm" required autocomplete="name">
-    <label for="cp">CPF</label>
-    <input id="cp" inputmode="numeric" required autocomplete="off" placeholder="000.000.000-00" maxlength="18">
-    <div class="nota">Use o mesmo e-mail com que você criou a conta na extensão. Seu CPF vai só para o Asaas, para emitir a cobrança.</div>
-    <button class="go" id="ir" type="submit">Ir para o pagamento</button>
+  <aside class="card res">
+    <h3>Resumo do pedido</h3>
+    <div class="lin"><span>Plano</span><b id="rPlano"></b></div>
+    <div class="lin"><span>Pagamento</span><b id="rForma"></b></div>
+    <div class="lin"><span>Valor</span><b id="rTipo"></b></div>
+    <div class="tot"><span>Total</span><b id="tVal"></b></div>
+    <ul class="ok">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Todos os recursos do K.Edu</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Licença liberada sozinha após o pagamento</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>1 computador por licença</li>
+    </ul>
+    <button class="go" id="ir" type="button">Ir para o pagamento</button>
     <div id="erro" role="alert"></div>
-  </form>
-</main>
+    <div class="seguro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>Você paga na página segura do Asaas. O K.Edu não guarda dados do seu cartão.</span></div>
+    <p class="ajuda">Dúvida? Fale com a PULSART no <a href="https://wa.me/5562996690398" target="_blank" rel="noopener">WhatsApp</a>.</p>
+  </aside>
+</div></main>
+
+<footer><div class="w"><span>K.Edu · um produto PULSART</span><span><a href="../">Voltar ao site</a></span></div></footer>
+
 <script>
 const WORKER = 'https://kedu-leitor.miztella.workers.dev';
 const PRECOS = { mensal:{ pix:49.90, boleto:49.90, cartao:51.40 }, anual:{ pix:449.10, boleto:499.00, cartao:499.00 } };
+const NOMES = { pix:'Pix', boleto:'Boleto', cartao:'Cartão de crédito' };
 const $ = id => document.getElementById(id);
 const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
 const q = new URLSearchParams(location.search);
 let plano = PRECOS[q.get('plano')] ? q.get('plano') : 'mensal';
 let forma = PRECOS.mensal[q.get('forma')] ? q.get('forma') : 'pix';
-
+const NOTAS = {
+  mensal: { pix:'Pix Automático: você autoriza uma vez no app do seu banco, ao pagar o primeiro Pix, e as próximas mensalidades são debitadas sozinhas. Se preferir, pode pagar cada mês manualmente.', boleto:'Todo mês você recebe o boleto por e-mail. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao:'O cartão é cobrado sozinho todo mês. Inclui a taxa da maquininha (3%).' },
+  anual: { pix:'Pagamento único com 10% de desconto. Vale por 300 dias.', boleto:'Pagamento único, vale por 300 dias. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao:'Pagamento único à vista, vale por 300 dias, sem acréscimo.' }
+};
 function pintar() {
   document.querySelectorAll('#gPlano .opt').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === plano));
   document.querySelectorAll('#gForma .opt').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === forma));
-  const v = PRECOS[plano][forma];
-  $('tRot').textContent = plano === 'mensal' ? 'Por mês' : 'Pagamento único';
-  $('tVal').textContent = brl(v);
-  const notas = {
-    mensal: { pix: 'Todo mês você recebe a cobrança do Pix por e-mail.', boleto: 'Todo mês você recebe o boleto por e-mail. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao: 'O cartão é cobrado sozinho todo mês. Inclui a taxa da maquininha (3%).' },
-    anual: { pix: 'Pagamento único com 10% de desconto. Vale por 300 dias.', boleto: 'Pagamento único, vale por 300 dias. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao: 'Pagamento único à vista no cartão, vale por 300 dias, sem acréscimo.' }
-  };
-  $('tNota').textContent = notas[plano][forma];
+  $('pvM').innerHTML = brl(PRECOS.mensal[forma]) + '<small style="font-size:13px;font-weight:500;color:var(--mute)"> /mês</small>';
+  $('pvA').innerHTML = brl(PRECOS.anual[forma]) + '<small style="font-size:13px;font-weight:500;color:var(--mute)"> /ano</small>';
+  $('rPlano').textContent = plano === 'mensal' ? 'Mensal' : 'Anual (10 meses de aula)';
+  $('rForma').textContent = (forma==='pix' && plano==='mensal') ? 'Pix Automático' : NOMES[forma];
+  $('bPix').textContent = plano==='mensal' ? 'Pix Automático' : 'Pix';
+  $('rTipo').textContent = plano === 'mensal' ? 'por mês' : 'pagamento único';
+  $('tVal').textContent = brl(PRECOS[plano][forma]);
+  $('tNota') && ($('tNota').textContent = NOTAS[plano][forma]);
 }
 $('gPlano').onclick = e => { const b = e.target.closest('.opt'); if (b) { plano = b.dataset.v; pintar(); } };
 $('gForma').onclick = e => { const b = e.target.closest('.opt'); if (b) { forma = b.dataset.v; pintar(); } };
@@ -97,8 +171,9 @@ $('cp').addEventListener('input', () => {
   $('cp').value = d.length <= 11 ? d.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2')
     : d.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2');
 });
-$('f').addEventListener('submit', async e => {
+async function enviar(e) {
   e.preventDefault();
+  if (!$('f').reportValidity()) return;
   $('erro').textContent = ''; $('ir').disabled = true; $('ir').textContent = 'Abrindo o pagamento...';
   try {
     const r = await fetch(WORKER + '/pagar/criar', { method:'POST', headers:{ 'Content-Type':'application/json' },
@@ -108,7 +183,9 @@ $('f').addEventListener('submit', async e => {
     $('erro').textContent = j.mensagem || 'Não consegui abrir o pagamento. Tente de novo.';
   } catch (x) { $('erro').textContent = 'Sem conexão. Tente de novo.'; }
   $('ir').disabled = false; $('ir').textContent = 'Ir para o pagamento';
-});
+}
+$('ir').onclick = enviar;
+$('f').addEventListener('submit', enviar);
 pintar();
 </script>
 </body>
