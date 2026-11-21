@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Assinar K.Edu</title>
+<link rel="icon" href="../icon.png">
+<style>
+  :root { --azul:#173A8A; --amar:#FFBF24; --bg:#F5F8FF; --fg:#0B1740; --card:#fff; --bd:#DCE4F5; --mut:#52608A; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0b1226; --fg:#e8eefc; --card:#131d3b; --bd:#27345e; --mut:#9fb0dc; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family: Poppins,"Segoe UI",Arial,sans-serif; padding:0 max(16px, env(safe-area-inset-left)); }
+  header { background:var(--azul); color:#fff; margin:0 calc(-1 * max(16px, env(safe-area-inset-left))); padding:14px 16px; display:flex; align-items:center; gap:10px; }
+  header img { width:34px; height:34px; border-radius:8px; }
+  header a { color:#cbd8f7; margin-left:auto; font-size:14px; }
+  main { max-width:460px; margin:0 auto; padding:18px 0 48px; }
+  h1 { font-size:22px; margin:6px 0 2px; }
+  .sub { color:var(--mut); font-size:14px; margin:0 0 6px; }
+  .card { background:var(--card); border:1px solid var(--bd); border-radius:14px; padding:16px; margin-top:14px; }
+  .opts { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+  .opts.tres { grid-template-columns:1fr 1fr 1fr; }
+  .opt { border:2px solid var(--bd); border-radius:10px; padding:10px 8px; text-align:center; cursor:pointer; background:var(--card); font:600 14px inherit; color:var(--fg); }
+  .opt[aria-pressed="true"] { border-color:var(--azul); background:#e8eefc; color:#173A8A; }
+  @media (prefers-color-scheme: dark) { .opt[aria-pressed="true"] { background:#1b2b5c; color:#fff; border-color:var(--amar); } }
+  .opt small { display:block; font-weight:400; color:var(--mut); margin-top:2px; }
+  label { display:block; font-weight:600; font-size:14px; margin-top:12px; }
+  input { width:100%; padding:12px; border:1px solid var(--bd); border-radius:8px; font-size:16px; background:var(--bg); color:var(--fg); margin-top:4px; }
+  .total { display:flex; justify-content:space-between; align-items:baseline; margin-top:14px; font-size:15px; }
+  .total b { font-size:26px; }
+  .nota { font-size:13px; color:var(--mut); line-height:1.45; margin-top:8px; }
+  button.go { width:100%; margin-top:16px; padding:15px; border:0; border-radius:10px; background:var(--amar); color:#0B1740; font:700 17px inherit; cursor:pointer; }
+  button.go:disabled { opacity:.6; }
+  #erro { color:#b91c1c; margin-top:10px; font-size:14px; line-height:1.4; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<header><img src="../icon.png" alt=""><b>K.Edu</b><a href="../">Voltar ao site</a></header>
+<main>
+  <h1>Assinar o K.Edu</h1>
+  <p class="sub">Pagamento seguro pelo Asaas. A licença é liberada sozinha assim que o pagamento é confirmado.</p>
+
+  <div class="card">
+    <b>Plano</b>
+    <div class="opts" id="gPlano">
+      <button type="button" class="opt" data-v="mensal" aria-pressed="true">Mensal<small>todo mês</small></button>
+      <button type="button" class="opt" data-v="anual" aria-pressed="false">Anual<small>10 meses de aula</small></button>
+    </div>
+    <b style="display:block;margin-top:16px">Forma de pagamento</b>
+    <div class="opts tres" id="gForma">
+      <button type="button" class="opt" data-v="pix" aria-pressed="true">Pix</button>
+      <button type="button" class="opt" data-v="boleto" aria-pressed="false">Boleto</button>
+      <button type="button" class="opt" data-v="cartao" aria-pressed="false">Cartão</button>
+    </div>
+    <div class="total"><span id="tRot">Total</span><b id="tVal"></b></div>
+    <div class="nota" id="tNota"></div>
+  </div>
+
+  <form class="card" id="f" autocomplete="on">
+    <b>Seus dados</b>
+    <label for="em">E-mail da sua conta no K.Edu</label>
+    <input id="em" type="email" required autocomplete="email" placeholder="o mesmo que você usou na extensão">
+    <label for="nm">Nome completo</label>
+    <input id="nm" required autocomplete="name">
+    <label for="cp">CPF</label>
+    <input id="cp" inputmode="numeric" required autocomplete="off" placeholder="000.000.000-00" maxlength="18">
+    <div class="nota">Use o mesmo e-mail com que você criou a conta na extensão. Seu CPF vai só para o Asaas, para emitir a cobrança.</div>
+    <button class="go" id="ir" type="submit">Ir para o pagamento</button>
+    <div id="erro" role="alert"></div>
+  </form>
+</main>
+<script>
+const WORKER = 'https://kedu-leitor.miztella.workers.dev';
+const PRECOS = { mensal:{ pix:49.90, boleto:49.90, cartao:51.40 }, anual:{ pix:449.10, boleto:499.00, cartao:499.00 } };
+const $ = id => document.getElementById(id);
+const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
+const q = new URLSearchParams(location.search);
+let plano = PRECOS[q.get('plano')] ? q.get('plano') : 'mensal';
+let forma = PRECOS.mensal[q.get('forma')] ? q.get('forma') : 'pix';
+
+function pintar() {
+  document.querySelectorAll('#gPlano .opt').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === plano));
+  document.querySelectorAll('#gForma .opt').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === forma));
+  const v = PRECOS[plano][forma];
+  $('tRot').textContent = plano === 'mensal' ? 'Por mês' : 'Pagamento único';
+  $('tVal').textContent = brl(v);
+  const notas = {
+    mensal: { pix: 'Todo mês você recebe a cobrança do Pix por e-mail.', boleto: 'Todo mês você recebe o boleto por e-mail. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao: 'O cartão é cobrado sozinho todo mês. Inclui a taxa da maquininha (3%).' },
+    anual: { pix: 'Pagamento único com 10% de desconto. Vale por 300 dias.', boleto: 'Pagamento único, vale por 300 dias. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao: 'Pagamento único à vista no cartão, vale por 300 dias, sem acréscimo.' }
+  };
+  $('tNota').textContent = notas[plano][forma];
+}
+$('gPlano').onclick = e => { const b = e.target.closest('.opt'); if (b) { plano = b.dataset.v; pintar(); } };
+$('gForma').onclick = e => { const b = e.target.closest('.opt'); if (b) { forma = b.dataset.v; pintar(); } };
+$('cp').addEventListener('input', () => {
+  let d = $('cp').value.replace(/\D/g, '').slice(0, 14);
+  $('cp').value = d.length <= 11 ? d.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+    : d.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2');
+});
+$('f').addEventListener('submit', async e => {
+  e.preventDefault();
+  $('erro').textContent = ''; $('ir').disabled = true; $('ir').textContent = 'Abrindo o pagamento...';
+  try {
+    const r = await fetch(WORKER + '/pagar/criar', { method:'POST', headers:{ 'Content-Type':'application/json' },
+      body: JSON.stringify({ email: $('em').value.trim(), nome: $('nm').value.trim(), cpf: $('cp').value, plano, forma }) });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok && j.url) { location.href = j.url; return; }
+    $('erro').textContent = j.mensagem || 'Não consegui abrir o pagamento. Tente de novo.';
+  } catch (x) { $('erro').textContent = 'Sem conexão. Tente de novo.'; }
+  $('ir').disabled = false; $('ir').textContent = 'Ir para o pagamento';
+});
+pintar();
+</script>
+</body>
+</html>

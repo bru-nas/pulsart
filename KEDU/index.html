@@ -213,7 +213,7 @@ footer b{color:#fff;font-weight:600}
 <div class="head"><h2>Como começar</h2></div>
 <ol class="ol">
 <li><div><b>Crie sua conta</b><span>Com e-mail e senha.</span></div></li>
-<li><div><b>Pague pelo Pix ou peça o link do cartão</b><span>Você faz isso pela janela de assinatura, e a Pulsart recebe o aviso no WhatsApp.</span></div></li>
+<li><div><b>Escolha o plano e pague</b><span>Pix, boleto ou cartão, pelo checkout seguro do Asaas.</span></div></li>
 <li><div><b>Receba a liberação</b><span>Assim que o pagamento é confirmado, sua conta é liberada e você recebe o link de instalação.</span></div></li>
 <li><div><b>Instale e entre</b><span>A instalação é de um clique, sem modo desenvolvedor. Abra o SIAP, clique no ícone do K.Edu e entre com sua conta.</span></div></li>
 </ol></div></section>
@@ -269,6 +269,7 @@ function texto(){
   return 'Olá, Pulsart! Quero assinar o K.Edu. Plano '+p+', pagamento no '+f+', valor '+r(preco(plano,forma))+'. E-mail da minha conta: '+(dE.value.trim()||'(informe aqui)')+'.'+(forma==='pix'?' Segue o comprovante do Pix.':' Podem enviar o link de pagamento do cartão?');
 }
 function abrir(p){
+  location.href='assinar/?plano='+p+'&forma='+forma; return;
   plano=p;
   document.getElementById('dR').innerHTML='<b>Plano '+(p==='mensal'?'mensal':'anual')+'</b> · pagamento no <b>'+(forma==='pix'?'Pix':'cartão')+'</b><br>Valor: <b>'+r(preco(p,forma))+'</b>'+(p==='anual'?' (10 meses de aula)':' por mês');
   document.getElementById('dPix').hidden=forma!=='pix';

@@ -41,6 +41,11 @@
     <button id="bAtivar">Ativar avisos neste aparelho</button>
     <button class="sec" id="bTeste" hidden>Enviar aviso de teste</button>
     <div class="info" id="msgAv"></div>
+    <hr style="border:0;border-top:1px solid var(--bd);margin:18px 0 6px">
+    <b>Pagamentos (Asaas)</b>
+    <p class="info">Liga o aviso automático de pagamento. Quando o professor pagar, a licença é liberada sozinha e chega uma notificação aqui.</p>
+    <button class="sec" id="bPag">Conferir e ligar pagamentos</button>
+    <div class="info" id="msgPag"></div>
     <div class="info" id="dicaIos" hidden><b>iPhone:</b> toque em Compartilhar e depois em "Adicionar à Tela de Início". Abra por esse ícone e toque em "Ativar avisos".</div>
     <button class="sec" id="bSair" style="background:none;color:var(--azul);text-decoration:underline;margin-top:6px;padding:6px">Sair</button>
   </div>
@@ -93,6 +98,14 @@ $('bAtivar').onclick = async () => {
     const m = String(e.message);
     msg('msgAv', m === 'ios' ? 'No iPhone, primeiro adicione o site à Tela de Início (veja abaixo) e abra por lá.' : m === 'negado' ? 'Essa conta não é a da administradora.' : 'Não deu certo. Tente de novo em instantes.', 'erro');
   }
+};
+$('bPag').onclick = async () => {
+  msg('msgPag', 'Conferindo...');
+  try {
+    const r = await chamar('/pagar/instalar', {});
+    if (r.ok && r.j.ok) msg('msgPag', 'Pagamentos ligados no ambiente: ' + r.j.ambiente + '.', 'ok');
+    else msg('msgPag', (r.j.mensagem || 'Não deu certo.') + (r.j.ambiente ? ' (' + r.j.ambiente + ')' : ''), 'erro');
+  } catch (e) { msg('msgPag', 'Não deu certo. Tente de novo.', 'erro'); }
 };
 $('bTeste').onclick = async () => {
   msg('msgAv', 'Enviando...');
