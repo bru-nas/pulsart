@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /KEDU/
+Disallow: /KEDU/avisos/
+Disallow: /KEDU/senha/
+Sitemap: https://pulsart.com.br/KEDU/sitemap.xml
