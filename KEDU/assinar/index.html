@@ -107,16 +107,18 @@ footer a{color:var(--mute)}
     </section>
 
     <form class="card" id="f" autocomplete="on">
-      <div class="st"><i>3</i><h2>Seus dados</h2></div>
-      <label for="em" style="margin-top:0">E-mail da sua conta no K.Edu</label>
-      <input id="em" type="email" required autocomplete="email" placeholder="o mesmo e-mail que você usou na extensão">
+      <div class="st"><i>3</i><h2>Crie sua conta</h2></div>
+      <p class="nota" style="margin:0 0 4px">Com esta conta você entra na extensão. Depois do cadastro, você vai direto para o pagamento.</p>
       <label for="nm">Nome completo</label>
       <input id="nm" required autocomplete="name">
+      <label for="em">E-mail</label>
+      <input id="em" type="email" required autocomplete="email" placeholder="seu@email.com">
+      <label for="sn">Crie uma senha</label>
+      <input id="sn" type="password" required minlength="6" autocomplete="new-password" placeholder="mínimo 6 caracteres">
       <label for="cp">CPF</label>
       <input id="cp" inputmode="numeric" required autocomplete="off" placeholder="000.000.000-00" maxlength="18">
-      <p class="dica">Ainda não criou a conta? Instale a extensão, clique em "Criar conta" e volte aqui com o mesmo e-mail. O CPF vai só para o Asaas, para emitir a cobrança.</p>
-      <button class="go" id="irMovel" type="submit" hidden>Ir para o pagamento</button>
-    </form>
+      <p class="dica">O CPF vai só para o Asaas, para emitir a cobrança. Já tem conta no K.Edu? Digite o mesmo e-mail e a sua senha.</p>
+      </form>
   </div>
 
   <aside class="card res">
@@ -130,7 +132,7 @@ footer a{color:var(--mute)}
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Licença liberada sozinha após o pagamento</li>
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>1 computador por licença</li>
     </ul>
-    <button class="go" id="ir" type="button">Ir para o pagamento</button>
+    <button class="go" id="ir" type="button">Criar conta e pagar</button>
     <div id="erro" role="alert"></div>
     <div class="seguro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>Você paga na página segura do Asaas. O K.Edu não guarda dados do seu cartão.</span></div>
     <p class="ajuda">Dúvida? Fale com a PULSART no <a href="https://wa.me/5562996690398" target="_blank" rel="noopener">WhatsApp</a>.</p>
@@ -174,15 +176,29 @@ $('cp').addEventListener('input', () => {
 async function enviar(e) {
   e.preventDefault();
   if (!$('f').reportValidity()) return;
-  $('erro').textContent = ''; $('ir').disabled = true; $('ir').textContent = 'Abrindo o pagamento...';
+  $('erro').textContent = ''; $('ir').disabled = true; $('ir').textContent = 'Criando sua conta...';
   try {
+    const FB = 'AIzaSyCY-kjvz0zSg6sEwFI_6CqIxft3q0bsn4g', IDT = 'https://identitytoolkit.googleapis.com/v1/accounts:';
+    const cred = { email: $('em').value.trim(), password: $('sn').value, returnSecureToken: true };
+    let ra = await fetch(IDT + 'signUp?key=' + FB, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(cred) });
+    let ja = await ra.json().catch(() => ({}));
+    if (!ra.ok && ja.error && ja.error.message === 'EMAIL_EXISTS') {
+      ra = await fetch(IDT + 'signInWithPassword?key=' + FB, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(cred) });
+      ja = await ra.json().catch(() => ({}));
+      if (!ra.ok) { $('erro').textContent = 'Esse e-mail já tem conta no K.Edu e a senha não confere. Digite a senha da sua conta.'; $('ir').disabled = false; $('ir').textContent = 'Criar conta e pagar'; return; }
+    } else if (!ra.ok) {
+      const m = (ja.error && ja.error.message) || '';
+      $('erro').textContent = /WEAK_PASSWORD/.test(m) ? 'A senha precisa ter pelo menos 6 caracteres.' : /INVALID_EMAIL/.test(m) ? 'Confira o e-mail digitado.' : 'Não consegui criar a conta. Tente de novo.';
+      $('ir').disabled = false; $('ir').textContent = 'Criar conta e pagar'; return;
+    }
+    $('ir').textContent = 'Abrindo o pagamento...';
     const r = await fetch(WORKER + '/pagar/criar', { method:'POST', headers:{ 'Content-Type':'application/json' },
       body: JSON.stringify({ email: $('em').value.trim(), nome: $('nm').value.trim(), cpf: $('cp').value, plano, forma }) });
     const j = await r.json().catch(() => ({}));
     if (r.ok && j.url) { location.href = j.url; return; }
     $('erro').textContent = j.mensagem || 'Não consegui abrir o pagamento. Tente de novo.';
   } catch (x) { $('erro').textContent = 'Sem conexão. Tente de novo.'; }
-  $('ir').disabled = false; $('ir').textContent = 'Ir para o pagamento';
+  $('ir').disabled = false; $('ir').textContent = 'Criar conta e pagar';
 }
 $('ir').onclick = enviar;
 $('f').addEventListener('submit', enviar);
