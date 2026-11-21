@@ -132,7 +132,7 @@ footer a{color:var(--mute)}
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Licença liberada sozinha após o pagamento</li>
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>1 computador por licença</li>
     </ul>
-    <button class="go" id="ir" type="button">Criar conta e pagar</button>
+    <button class="go" id="ir" type="button">Criar conta e ir para o checkout</button>
     <div id="erro" role="alert"></div>
     <div class="seguro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>Você paga na página segura do Asaas. O K.Edu não guarda dados do seu cartão.</span></div>
     <p class="ajuda">Dúvida? Fale com a PULSART no <a href="https://wa.me/5562996690398" target="_blank" rel="noopener">WhatsApp</a>.</p>
@@ -185,11 +185,11 @@ async function enviar(e) {
     if (!ra.ok && ja.error && ja.error.message === 'EMAIL_EXISTS') {
       ra = await fetch(IDT + 'signInWithPassword?key=' + FB, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(cred) });
       ja = await ra.json().catch(() => ({}));
-      if (!ra.ok) { $('erro').textContent = 'Esse e-mail já tem conta no K.Edu e a senha não confere. Digite a senha da sua conta.'; $('ir').disabled = false; $('ir').textContent = 'Criar conta e pagar'; return; }
+      if (!ra.ok) { $('erro').textContent = 'Esse e-mail já tem conta no K.Edu e a senha não confere. Digite a senha da sua conta.'; $('ir').disabled = false; $('ir').textContent = 'Criar conta e ir para o checkout'; return; }
     } else if (!ra.ok) {
       const m = (ja.error && ja.error.message) || '';
       $('erro').textContent = /WEAK_PASSWORD/.test(m) ? 'A senha precisa ter pelo menos 6 caracteres.' : /INVALID_EMAIL/.test(m) ? 'Confira o e-mail digitado.' : 'Não consegui criar a conta. Tente de novo.';
-      $('ir').disabled = false; $('ir').textContent = 'Criar conta e pagar'; return;
+      $('ir').disabled = false; $('ir').textContent = 'Criar conta e ir para o checkout'; return;
     }
     $('ir').textContent = 'Abrindo o pagamento...';
     const r = await fetch(WORKER + '/pagar/criar', { method:'POST', headers:{ 'Content-Type':'application/json' },
@@ -198,7 +198,7 @@ async function enviar(e) {
     if (r.ok && j.url) { location.href = j.url; return; }
     $('erro').textContent = j.mensagem || 'Não consegui abrir o pagamento. Tente de novo.';
   } catch (x) { $('erro').textContent = 'Sem conexão. Tente de novo.'; }
-  $('ir').disabled = false; $('ir').textContent = 'Criar conta e pagar';
+  $('ir').disabled = false; $('ir').textContent = 'Criar conta e ir para o checkout';
 }
 $('ir').onclick = enviar;
 $('f').addEventListener('submit', enviar);
