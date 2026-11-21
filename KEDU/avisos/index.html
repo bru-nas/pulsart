@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K.Edu Avisos</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon192.png">
+<meta name="theme-color" content="#173A8A">
+<style>
+  :root { --azul:#173A8A; --bg:#F8FAFC; --fg:#0f1b3d; --card:#fff; --bd:#d5dcec; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0b1226; --fg:#e8eefc; --card:#131d3b; --bd:#27345e; } }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family: Poppins,"Segoe UI",Arial,sans-serif; background:var(--bg); color:var(--fg); padding:0 max(16px, env(safe-area-inset-left)); }
+  header { background:var(--azul); color:#fff; margin:0 calc(-1 * max(16px, env(safe-area-inset-left))); padding:14px 16px; display:flex; gap:10px; align-items:center; }
+  header img { width:34px; height:34px; border-radius:8px; }
+  main { max-width:420px; margin:0 auto; padding:16px 0 40px; }
+  .card { background:var(--card); border:1px solid var(--bd); border-radius:12px; padding:16px; margin-top:14px; }
+  label { display:block; font-weight:600; margin-top:10px; font-size:14px; }
+  input { width:100%; padding:11px; border:1px solid var(--bd); border-radius:8px; font-size:16px; background:var(--bg); color:var(--fg); }
+  button { width:100%; margin-top:14px; padding:13px; border:0; border-radius:8px; background:var(--azul); color:#fff; font-size:16px; font-weight:600; cursor:pointer; }
+  button.sec { background:#3B82F6; }
+  .ok { color:#15803d; } .erro { color:#b91c1c; } .info { font-size:14px; line-height:1.5; margin-top:10px; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<header><img src="icon192.png" alt=""><b>K.Edu · Avisos da administradora</b></header>
+<main>
+  <div class="card" id="telaLogin">
+    <b>Entrar</b>
+    <label for="em">E-mail do admin</label><input id="em" type="email" autocomplete="username">
+    <label for="sn">Senha</label><input id="sn" type="password" autocomplete="current-password">
+    <button id="bEntrar">Entrar</button>
+    <div class="info" id="msgLogin"></div>
+  </div>
+
+  <div class="card" id="telaAvisos" hidden>
+    <b>Receber aviso neste aparelho</b>
+    <p class="info">Quando um professor criar conta no K.Edu, chega uma notificação aqui, mesmo com o navegador fechado.</p>
+    <button id="bAtivar">Ativar avisos neste aparelho</button>
+    <button class="sec" id="bTeste" hidden>Enviar aviso de teste</button>
+    <div class="info" id="msgAv"></div>
+    <div class="info" id="dicaIos" hidden><b>iPhone:</b> toque em Compartilhar e depois em "Adicionar à Tela de Início". Abra por esse ícone e toque em "Ativar avisos".</div>
+    <button class="sec" id="bSair" style="background:none;color:var(--azul);text-decoration:underline;margin-top:6px;padding:6px">Sair</button>
+  </div>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js"></script>
+<script>
+const CFG = { apiKey:'AIzaSyCY-kjvz0zSg6sEwFI_6CqIxft3q0bsn4g', authDomain:'kedu-ff626.firebaseapp.com', projectId:'kedu-ff626', messagingSenderId:'552521402280', appId:'1:552521402280:web:0b20f1b8893fa66cbd3f9d' };
+const VAPID = 'BCBKL5IoAa6Pz7_ayNzBGEVMouw7V2qeBtIlksr5fKclrxB8OhuGNC5w6keGOvAJy8LEeR3hjW-WWNHHe-QJiOQ';
+const WORKER = 'https://kedu-leitor.miztella.workers.dev';
+const $ = id => document.getElementById(id);
+firebase.initializeApp(CFG);
+const auth = firebase.auth();
+const msg = (id, t, cls) => { $(id).textContent = t; $(id).className = 'info ' + (cls || ''); };
+const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+if (ios) $('dicaIos').hidden = false;
+
+auth.onAuthStateChanged(u => { $('telaLogin').hidden = !!u; $('telaAvisos').hidden = !u; });
+
+$('bEntrar').onclick = async () => {
+  msg('msgLogin', 'Entrando...');
+  try { await auth.signInWithEmailAndPassword($('em').value.trim(), $('sn').value); msg('msgLogin', ''); }
+  catch (e) { msg('msgLogin', 'E-mail ou senha incorretos.', 'erro'); }
+};
+$('bSair').onclick = () => auth.signOut();
+
+async function chamar(caminho, corpo) {
+  const idToken = await auth.currentUser.getIdToken();
+  const r = await fetch(WORKER + caminho, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ idToken, ...corpo }) });
+  return { ok: r.ok, j: await r.json().catch(() => ({})) };
+}
+
+$('bAtivar').onclick = async () => {
+  msg('msgAv', 'Ativando...');
+  try {
+    if (!('Notification' in window) || !('serviceWorker' in navigator)) throw new Error(ios ? 'ios' : 'sem');
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') { msg('msgAv', 'Você bloqueou as notificações. Libere nas configurações do navegador para este site e tente de novo.', 'erro'); return; }
+    const reg = await navigator.serviceWorker.register('../firebase-messaging-sw.js', { scope: '../' });
+    await navigator.serviceWorker.ready;
+    const token = await firebase.messaging().getToken({ vapidKey: VAPID, serviceWorkerRegistration: reg });
+    if (!token) throw new Error('token');
+    const r = await chamar('/aviso/registrar', { fcm: token });
+    if (!r.ok) throw new Error(r.j.erro === 'negado' ? 'negado' : 'falha');
+    msg('msgAv', 'Pronto! Este aparelho vai receber os avisos.', 'ok');
+    $('bTeste').hidden = false;
+  } catch (e) {
+    const m = String(e.message);
+    msg('msgAv', m === 'ios' ? 'No iPhone, primeiro adicione o site à Tela de Início (veja abaixo) e abra por lá.' : m === 'negado' ? 'Essa conta não é a da administradora.' : 'Não deu certo. Tente de novo em instantes.', 'erro');
+  }
+};
+$('bTeste').onclick = async () => {
+  msg('msgAv', 'Enviando...');
+  const r = await chamar('/aviso/teste', {});
+  msg('msgAv', r.ok && r.j.enviados ? 'Aviso enviado! Olhe a notificação.' : 'Não consegui enviar. Ative de novo.', r.ok && r.j.enviados ? 'ok' : 'erro');
+};
+</script>
+</body>
+</html>
