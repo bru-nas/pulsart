@@ -138,7 +138,7 @@ footer a{color:var(--mute)}
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>1 computador por licença</li>
     </ul>
     <button class="go" id="ir" type="button">Criar conta e ir para o checkout</button>
-    <button class="go2" id="teste" type="button">Testar 3 dias grátis</button>
+    <button class="go2" id="teste" type="button">Testar 24 horas grátis</button>
     <div class="nota">Sem pagar nada. Um teste por CPF.</div>
     <div id="erro" role="alert"></div>
     <div id="okteste"></div>
@@ -212,7 +212,7 @@ async function enviar(e) {
 async function testar() {
   if (!$('f').reportValidity()) return;
   $('erro').textContent = ''; $('ir').disabled = true; $('teste').disabled = true; $('teste').textContent = 'Criando seu teste...';
-  const volta = () => { $('ir').disabled = false; $('teste').disabled = false; $('teste').textContent = 'Testar 3 dias grátis'; };
+  const volta = () => { $('ir').disabled = false; $('teste').disabled = false; $('teste').textContent = 'Testar 24 horas grátis'; };
   try {
     const FB = 'AIzaSyCY-kjvz0zSg6sEwFI_6CqIxft3q0bsn4g', IDT = 'https://identitytoolkit.googleapis.com/v1/accounts:';
     const cred = { email: $('em').value.trim(), password: $('sn').value, returnSecureToken: true };
@@ -231,7 +231,7 @@ async function testar() {
     const j = await r.json().catch(() => ({}));
     if (r.ok && j.ok) {
       $('teste').style.display = 'none'; $('ir').style.display = 'none';
-      const d = new Date(j.ate).toLocaleDateString('pt-BR');
+      const d = new Date(j.ate).toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' }).replace(', ', ' às ');
       $('okteste').innerHTML = '<b>Teste liberado até ' + d + '.</b><br>1) Instale o K.Edu na <a href="https://chromewebstore.google.com/detail/mcbpphlllbiceebaoceplaiejjbcopoe" target="_blank" rel="noopener">Chrome Web Store</a>.<br>2) Abra o SIAP, clique no ícone do K.Edu e entre com o e-mail e a senha que você acabou de criar.';
       $('okteste').style.display = 'block'; return;
     }
