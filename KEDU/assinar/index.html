@@ -62,6 +62,11 @@ ul.ok svg{width:17px;height:17px;color:var(--ok);flex:none;margin-top:2px}
 .go{width:100%;margin-top:18px;padding:16px;border:0;border-radius:99px;background:var(--amber);color:var(--ink);font:700 18px Outfit,sans-serif;cursor:pointer;box-shadow:0 8px 20px rgba(255,191,36,.35)}
 .go:hover{filter:brightness(1.04)}
 .go:disabled{opacity:.6;cursor:wait}
+.go2{width:100%;margin-top:12px;padding:14px;border:2px solid var(--amber);border-radius:99px;background:transparent;color:var(--ink);font:700 17px Outfit,sans-serif;cursor:pointer}
+.go2:disabled{opacity:.6;cursor:wait}
+.nota{text-align:center;font-size:13px;opacity:.75;margin-top:8px}
+#okteste{display:none;margin-top:14px;padding:16px;border-radius:14px;background:#ECFDF3;border:1px solid #16A34A;color:#0B1740;font-size:15px;line-height:1.5}
+#okteste a{color:#0B1740;font-weight:700}
 #erro{color:#b91c1c;margin-top:12px;font-size:14px;line-height:1.4}
 .seguro{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:13px;color:var(--mute);line-height:1.45}
 .seguro svg{width:22px;height:22px;color:var(--blue);flex:none}
@@ -133,7 +138,10 @@ footer a{color:var(--mute)}
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>1 computador por licença</li>
     </ul>
     <button class="go" id="ir" type="button">Criar conta e ir para o checkout</button>
+    <button class="go2" id="teste" type="button">Testar 3 dias grátis</button>
+    <div class="nota">Sem pagar nada. Um teste por CPF.</div>
     <div id="erro" role="alert"></div>
+    <div id="okteste"></div>
     <div class="seguro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>Você paga na página segura do Asaas. O K.Edu não guarda dados do seu cartão.</span></div>
     <p class="ajuda">Dúvida? Fale com a PULSART no <a href="https://wa.me/5562996690398" target="_blank" rel="noopener">WhatsApp</a>.</p>
   </aside>
@@ -200,7 +208,39 @@ async function enviar(e) {
   } catch (x) { $('erro').textContent = 'Sem conexão. Tente de novo.'; }
   $('ir').disabled = false; $('ir').textContent = 'Criar conta e ir para o checkout';
 }
+
+async function testar() {
+  if (!$('f').reportValidity()) return;
+  $('erro').textContent = ''; $('ir').disabled = true; $('teste').disabled = true; $('teste').textContent = 'Criando seu teste...';
+  const volta = () => { $('ir').disabled = false; $('teste').disabled = false; $('teste').textContent = 'Testar 3 dias grátis'; };
+  try {
+    const FB = 'AIzaSyCY-kjvz0zSg6sEwFI_6CqIxft3q0bsn4g', IDT = 'https://identitytoolkit.googleapis.com/v1/accounts:';
+    const cred = { email: $('em').value.trim(), password: $('sn').value, returnSecureToken: true };
+    let ra = await fetch(IDT + 'signUp?key=' + FB, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(cred) });
+    let ja = await ra.json().catch(() => ({}));
+    if (!ra.ok && ja.error && ja.error.message === 'EMAIL_EXISTS') {
+      ra = await fetch(IDT + 'signInWithPassword?key=' + FB, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(cred) });
+      ja = await ra.json().catch(() => ({}));
+      if (!ra.ok) { $('erro').textContent = 'Esse e-mail já tem conta no K.Edu e a senha não confere. Digite a senha da sua conta.'; return volta(); }
+    } else if (!ra.ok) {
+      const m = (ja.error && ja.error.message) || '';
+      $('erro').textContent = /WEAK_PASSWORD/.test(m) ? 'A senha precisa ter pelo menos 6 caracteres.' : /INVALID_EMAIL/.test(m) ? 'Confira o e-mail digitado.' : 'Não consegui criar a conta. Tente de novo.';
+      return volta();
+    }
+    const r = await fetch(WORKER + '/teste/iniciar', { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ idToken: ja.idToken, cpf: $('cp').value }) });
+    const j = await r.json().catch(() => ({}));
+    if (r.ok && j.ok) {
+      $('teste').style.display = 'none'; $('ir').style.display = 'none';
+      const d = new Date(j.ate).toLocaleDateString('pt-BR');
+      $('okteste').innerHTML = '<b>Teste liberado até ' + d + '.</b><br>1) Instale o K.Edu na <a href="https://chromewebstore.google.com/detail/mcbpphlllbiceebaoceplaiejjbcopoe" target="_blank" rel="noopener">Chrome Web Store</a>.<br>2) Abra o SIAP, clique no ícone do K.Edu e entre com o e-mail e a senha que você acabou de criar.';
+      $('okteste').style.display = 'block'; return;
+    }
+    $('erro').textContent = j.mensagem || 'Não consegui liberar o teste. Tente de novo.';
+  } catch (x) { $('erro').textContent = 'Sem conexão. Tente de novo.'; }
+  volta();
+}
 $('ir').onclick = enviar;
+$('teste').onclick = testar;
 $('f').addEventListener('submit', enviar);
 pintar();
 </script>
