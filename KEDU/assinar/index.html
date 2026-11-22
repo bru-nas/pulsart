@@ -232,7 +232,8 @@ async function testar() {
     if (r.ok && j.ok) {
       $('teste').style.display = 'none'; $('ir').style.display = 'none';
       const d = new Date(j.ate).toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' }).replace(', ', ' às ');
-      $('okteste').innerHTML = '<b>Teste liberado até ' + d + '.</b><br>1) Instale o K.Edu na <a href="https://chromewebstore.google.com/detail/mcbpphlllbiceebaoceplaiejjbcopoe" target="_blank" rel="noopener">Chrome Web Store</a>.<br>2) Abra o SIAP, clique no ícone do K.Edu e entre com o e-mail e a senha que você acabou de criar.';
+      $('okteste').innerHTML = '<b>Teste liberado até ' + d + '.</b><br>1) Clique no botão abaixo para baixar o K.Edu.<br>2) Abra o SIAP, clique no ícone do K.Edu e entre com o e-mail e a senha que você acabou de criar.<button type="button" class="go" id="baixar">Baixar o K.Edu</button>';
+      $('baixar').onclick = () => window.open('https://chromewebstore.google.com/detail/mcbpphlllbiceebaoceplaiejjbcopoe', '_blank', 'noopener');
       $('okteste').style.display = 'block'; return;
     }
     $('erro').textContent = j.mensagem || 'Não consegui liberar o teste. Tente de novo.';
