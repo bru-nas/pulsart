@@ -1,5 +1,14 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8">
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1668704894981150');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1668704894981150&ev=PageView&noscript=1"></noscript>
+<!-- End Meta Pixel -->
+
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>K.Edu · Extensão para o SIAP que corrige provas e preenche as notas</title>
 <meta name="description" content="Extensão para o SIAP que corrige provas objetivas pelo gabarito e preenche o Total de Acertos de cada aluno. Conteúdo ministrado e frequência automáticos. R$ 49,90 por mês.">
@@ -301,6 +310,7 @@ mk.addEventListener('click',function(e){if(e.target===mk)mk.hidden=true});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')mk.hidden=true});
 dW.addEventListener('click',function(e){
   if(!/.+@.+\..+/.test(dE.value.trim())){e.preventDefault();dM.textContent='Informe o e-mail da sua conta para a Pulsart liberar o acesso.';dE.focus();return}
+  try{fbq('track','Lead')}catch(x){}
   dW.href='https://wa.me/'+WA+'?text='+encodeURIComponent(texto());
 });
 document.getElementById('dC').onclick=function(){
