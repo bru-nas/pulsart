@@ -5,6 +5,7 @@
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','1668704894981150');
 fbq('track','PageView');
+(function(){var el=document.getElementById('planos');if(!el||!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(en){if(en[0].isIntersecting){fbq('track','ViewContent',{content_name:'K.Edu planos',content_category:'Extensao SIAP',currency:'BRL',value:49.90});io.disconnect()}},{threshold:.3});io.observe(el)})();
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1668704894981150&ev=PageView&noscript=1"></noscript>
 <!-- End Meta Pixel -->
