@@ -416,7 +416,18 @@ footer{font-size:11.5px;color:var(--mut);margin-top:26px}
 .hero .btns .btn{padding-top:18px;padding-bottom:18px;font-size:15px}
 .car{--cw:300px}
 .faq{max-width:980px}
-}</style></head>
+}</style><style id="aproxima">
+/* seções mais próximas e sem faixas de divisão */
+.sob,.pal,.vids,.yt,.final{background:var(--bg)!important}
+@media (min-width:900px){
+  section{padding:56px 0!important}
+  .hero{min-height:0!important;padding:112px 48px 24px!important}
+  .final{padding-bottom:72px!important}
+}
+@media (min-width:1500px){.hero{padding:112px 72px 24px!important}}
+@media (max-width:899px){section{padding:48px 0}.final{padding-bottom:80px}}
+</style>
+</head>
 <body>
 
 <script>{document.documentElement.classList.add("lock");setTimeout(function(){document.documentElement.classList.remove("lock");document.documentElement.classList.add("go")},25000)}</script>
