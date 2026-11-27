@@ -1137,6 +1137,13 @@ html body #prop .pfx span{display:block;font-size:10.5px;letter-spacing:.08em;co
 .coqp .frs{grid-template-columns:1fr}
 .mini.coq{background:transparent!important;color:#40010D!important;border:1px solid #9a7433!important;box-shadow:none!important;border-radius:0!important;cursor:pointer}
 .mini.coq:hover,.mini.coq.on{background:#40010D!important;color:#ead7a4!important;border-color:#40010D!important}
+
+/* logo branca com luz dourada passando */
+.shn2,.shn3{background-image:linear-gradient(105deg,transparent 38%,rgba(212,175,100,0) 42%,rgba(214,176,98,.95) 50%,rgba(212,175,100,0) 58%,transparent 62%)!important}
+.lgow{position:relative;display:inline-block;line-height:0}
+.lgow img{display:block}
+.shn3{position:absolute;inset:0;pointer-events:none;background-size:320% 100%;background-position:130% 0;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;animation:shn2 5.5s ease-in-out 2.2s infinite}
+.top .brand{display:flex;align-items:center}
 </style></head><body>
 <script>try{var L=document.getElementById("fvc");if(L){var n=L.cloneNode();L.remove();document.head.appendChild(n)}}catch(e){}</script>
 <div id="intro" aria-hidden="true"><i class="band"></i><i class="blob bA"></i><i class="blob bB"></i>
@@ -2022,6 +2029,8 @@ setTimeout(passo,300);
 ["pointerdown","touchstart","click","keydown"].forEach(function(t){D.addEventListener(t,function(){if(D.documentElement.classList.contains("go"))tudo()},true)})})();</script><script>(function(){const D=document,$$=(s,r)=>[].slice.call((r||D).querySelectorAll(s));
 /* brilho passando pela logo do topo */
 (function(){const i=D.querySelector('.hlg'),s=D.querySelector('.shn2');if(!i||!s)return;function m(){s.style.webkitMaskImage=s.style.maskImage='url('+i.src+')'}if(i.complete)m();else i.addEventListener('load',m)})();
+/* brilho dourado nas logos do cabeçalho e do rodapé */
+$$(".top .brand img,footer>img").forEach(function(i){const w=D.createElement("span");w.className="lgow";i.parentNode.insertBefore(w,i);w.appendChild(i);const s=D.createElement("i");s.className="shn3";w.appendChild(s);function m(){s.style.webkitMaskImage=s.style.maskImage="url("+i.src+")"}if(i.complete)m();else i.addEventListener("load",m)});
 /* vídeo grande */
 const box=D.createElement("div");box.id="vbox";box.innerHTML='<button class="vx" type="button" aria-label="Fechar">✕</button><div class="vin"><video playsinline controls controlsList="nodownload"></video></div>';D.body.appendChild(box);
 const mv=box.querySelector("video");
