@@ -1073,6 +1073,48 @@ html body #prop .pfx span{display:block;font-size:10.5px;letter-spacing:.08em;co
 @media(min-width:900px){.m-gl{grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(300px,27vw,390px)}.m-gl .tile,.m-gl .tile:first-child{aspect-ratio:auto!important;min-height:0!important;height:100%}.m-gl .tile:first-child{grid-column:span 2}}
 @media(min-width:900px){.m-gl .tile:first-child{grid-column:span 2!important;grid-row:auto!important}}
 @media(max-width:700px){.eph img{object-position:86% 40%}}
+
+/* ===== tema claro: off white predominante, vinho e dourado nos detalhes ===== */
+#visao,#filosofia,#calendario,#formacoes,#compromisso,#depoimentos,#fotos{
+ --tx:#3a0a14;--g1:#40010D;--g2:#9a7433;--g3:#c2a46a;--line:rgba(154,116,51,.38);--mu:#6b5a52;
+ background:#f7f2ec!important;color:#3a0a14}
+#filosofia,#compromisso{background:#efe7dd!important}
+#visao,#calendario{background-image:none!important}
+#visao .m-txt p,#filosofia .fp,#calendario p,.fsi,.pkl,.all p,.cl li,.m-txt p{color:#4a2a30}
+#visao .st,#filosofia .st,#calendario .st,#formacoes .st,#compromisso .st,#depoimentos .st,#fotos .st,
+#filosofia .qt,#visao .qt{color:#40010D!important;background:none!important;-webkit-text-fill-color:#40010D!important;text-shadow:none!important}
+#visao .st em,#calendario .st em,#formacoes .st em,#compromisso .st em,#depoimentos .st em,#fotos .st em,#filosofia .qt em{color:#9a7433!important;-webkit-text-fill-color:#9a7433!important;background:none!important}
+.pk{background:#fff!important;border:1px solid rgba(154,116,51,.45)!important;box-shadow:0 14px 40px rgba(64,1,13,.08)!important}
+.pk .pkh h3,.frt h4,.pkh .preco,.cl2,.all summary,.ac b,.pr figcaption{color:#40010D}
+.pk .mini.pick{color:#40010D!important;border-color:#9a7433!important;background:transparent!important}
+.pk .mini.pick:hover{background:#40010D!important;color:#ead7a4!important;border-color:#40010D!important}
+.pks2,.pkh .pks,.frt .fo,.ac small,.pr figcaption small,.mt .rm,.pkh .rm,.frt .rm{color:#9a7433}
+.exl li{background:#faf6f1;color:#3a0a14;border-color:rgba(154,116,51,.4)}
+.exl li.on{background:rgba(154,116,51,.14);border-color:#9a7433}
+.stp b,.stp button,.exs{color:#40010D!important}
+.stp button{border-color:#c2a46a}.stp button:hover{background:#40010D;color:#ead7a4!important}
+.exh{color:#6b5a52!important}
+.ac{background:#fff;border-color:rgba(154,116,51,.4)}
+.ap i{border-color:transparent transparent transparent #40010D}
+.ap.on i{border-left-color:#40010D;border-right-color:#40010D}
+.ab{background:rgba(64,1,13,.12)}.ab em{background:#9a7433}
+.pr{background:#fff;box-shadow:0 14px 34px rgba(64,1,13,.14)}.pr figcaption{background:#fff}
+.m-ph img{box-shadow:0 18px 44px rgba(64,1,13,.18)}
+.m-ph:after{border-color:rgba(255,255,255,.55)}
+.m-wide img{filter:none}
+/* calendário */
+.calbox{background:#fff!important;border-color:rgba(154,116,51,.5)!important;box-shadow:0 14px 40px rgba(64,1,13,.08)}
+.calh button{background:#fff!important;color:#40010D!important;border-color:#c2a46a!important}
+.calh button:hover:not(:disabled){background:#40010D!important;color:#ead7a4!important}
+.calg .d{background:#faf6f1!important;color:#3a0a14!important;border-color:rgba(154,116,51,.45)!important}
+.calg .d.o:hover{background:rgba(154,116,51,.16)!important;border-color:#40010D!important}
+.calg .d.u,.lg .k.u{background:linear-gradient(135deg,#faf6f1 52%,rgba(184,145,74,.6) 52%)!important;border-color:#9a7433!important}
+.calg .d.c,.lg .k.c{background:repeating-linear-gradient(45deg,#ece4da 0 4px,#e1d7cb 4px 8px)!important;color:#a89c90!important;border-color:#d8cdbf!important}
+.calg .d.s,.lg .k.s{background:#40010D!important;color:#ead7a4!important;border-color:#40010D!important}
+.lg{color:#5a4048}.lg .k{background:#faf6f1;border-color:rgba(154,116,51,.6)}
+.calsel p{color:#40010D}
+.top{background:rgba(42,1,11,.97)!important}
+.calg .d.p{opacity:.55;color:#8a7a70!important}
 </style></head><body>
 <script>try{var L=document.getElementById("fvc");if(L){var n=L.cloneNode();L.remove();document.head.appendChild(n)}}catch(e){}</script>
 <div id="intro" aria-hidden="true"><i class="band"></i><i class="blob bA"></i><i class="blob bB"></i>
