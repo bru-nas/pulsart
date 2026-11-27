@@ -1211,6 +1211,30 @@ html body #ctr .cpn{position:absolute;left:0;right:0;bottom:30px;text-align:cent
 }
 
 html body #ctr .cpg .pwm{left:50%;width:560px}
+
+/* filosofia: faixa maior e conteúdo centralizado */
+html body #filosofia{padding:clamp(86px,11vw,130px) 0!important;display:flex;align-items:center;justify-content:center;text-align:center}
+#filosofia .wrap{margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center}
+#filosofia .fp{margin:26px auto 0;max-width:640px;text-align:center}
+/* método: cards que viram */
+html body .mts{gap:18px}
+html body .mt{padding:0;border:0;background:none;perspective:1100px;cursor:pointer;min-height:190px;outline:none}
+html body .mt:before,html body .mt:after{display:none}
+.mti{position:relative;width:100%;height:100%;min-height:190px;transition:transform .8s cubic-bezier(.4,.1,.2,1);transform-style:preserve-3d}
+.mt.on .mti{transform:rotateY(180deg)}
+.mtf,.mtb{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid rgba(214,176,98,.45);background:linear-gradient(160deg,rgba(64,1,13,.92),rgba(34,0,8,.94));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 22px;box-shadow:0 14px 34px rgba(10,0,3,.45)}
+.mtf:after,.mtb:after{content:"";position:absolute;inset:7px;border:1px solid rgba(214,176,98,.18);pointer-events:none}
+.mtb{transform:rotateY(180deg)}
+.mtf .rm{color:#d6b062!important;font-size:1rem;letter-spacing:.3em;margin-bottom:10px}
+.mtf h4{color:#f3e5bd!important;font-size:1.5rem;margin:0}
+.mtf h4:after{content:"";display:block;width:36px;height:1px;background:#d6b062;margin:14px auto 0;opacity:.8}
+.mtm{margin-top:14px;font-style:normal;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(243,229,189,.6)}
+.mtb p{color:#eadccd!important;font-size:.96rem;line-height:1.75;margin:0}
+.mt:hover .mtf,.mt:focus-visible .mtf{border-color:rgba(214,176,98,.85)}
+@media(prefers-reduced-motion:reduce){.mti{transition:none}}
+html body .mt,.mti{min-height:210px}
+.mtb p{max-width:300px}
+.mtb:before{content:"";width:36px;height:1px;background:#d6b062;margin:0 0 16px;opacity:.8}
 </style></head><body>
 <script>try{var L=document.getElementById("fvc");if(L){var n=L.cloneNode();L.remove();document.head.appendChild(n)}}catch(e){}</script>
 <div id="intro" aria-hidden="true"><i class="band"></i><i class="blob bA"></i><i class="blob bB"></i>
@@ -1253,7 +1277,7 @@ setTimeout(fim,4400);
 </section>
 
 <section class="met" id="metodo"><div class="metbg" aria-hidden="true"><img alt="" src="img/teclado.jpg"></div><div class="wrap"><p class="kick rv"><span>Como trabalhamos</span></p><h2 class="st rv">O método <em>Marsalla</em></h2>
-<ol class="mts"><li class="mt rv" style="--d:0ms"><span class="rm">I</span><h4>Planejamento da experiência</h4><p>Entendemos a cerimônia, o espaço e o que o casal imagina para o momento.</p></li><li class="mt rv" style="--d:60ms"><span class="rm">II</span><h4>Construção musical da cerimônia</h4><p>Repertório e momentos pensados um a um, da entrada à saída.</p></li><li class="mt rv" style="--d:120ms"><span class="rm">III</span><h4>Definição da formação ideal</h4><p>A formação certa para o espaço, o número de convidados e o clima da cerimônia.</p></li><li class="mt rv" style="--d:180ms"><span class="rm">IV</span><h4>Alinhamento técnico</h4><p>Som, palco e tempos combinados com cerimonial, fotógrafo e equipe do local.</p></li><li class="mt rv" style="--d:240ms"><span class="rm">V</span><h4>Preparação operacional</h4><p>Chegada, montagem e passagem de som resolvidas antes de a cerimônia começar.</p></li><li class="mt rv" style="--d:300ms"><span class="rm">VI</span><h4>Condução ao vivo</h4><p>A equipe acompanha cada momento, sem improviso.</p></li></ol><p class="qt rv" style="margin-top:46px">Tranquilidade não acontece por acaso.</p></div></section>
+<ol class="mts"><li class="mt rv" style="--d:0ms" tabindex="0" role="button" aria-pressed="false"><div class="mti"><div class="mtf"><span class="rm">I</span><h4>Planejamento da experiência</h4><i class="mtm">Toque para ver</i></div><div class="mtb"><p>Entendemos a cerimônia, o espaço e o que o casal imagina para o momento.</p></div></div></li><li class="mt rv" style="--d:60ms" tabindex="0" role="button" aria-pressed="false"><div class="mti"><div class="mtf"><span class="rm">II</span><h4>Construção musical da cerimônia</h4><i class="mtm">Toque para ver</i></div><div class="mtb"><p>Repertório e momentos pensados um a um, da entrada à saída.</p></div></div></li><li class="mt rv" style="--d:120ms" tabindex="0" role="button" aria-pressed="false"><div class="mti"><div class="mtf"><span class="rm">III</span><h4>Definição da formação ideal</h4><i class="mtm">Toque para ver</i></div><div class="mtb"><p>A formação certa para o espaço, o número de convidados e o clima da cerimônia.</p></div></div></li><li class="mt rv" style="--d:180ms" tabindex="0" role="button" aria-pressed="false"><div class="mti"><div class="mtf"><span class="rm">IV</span><h4>Alinhamento técnico</h4><i class="mtm">Toque para ver</i></div><div class="mtb"><p>Som, palco e tempos combinados com cerimonial, fotógrafo e equipe do local.</p></div></div></li><li class="mt rv" style="--d:240ms" tabindex="0" role="button" aria-pressed="false"><div class="mti"><div class="mtf"><span class="rm">V</span><h4>Preparação operacional</h4><i class="mtm">Toque para ver</i></div><div class="mtb"><p>Chegada, montagem e passagem de som resolvidas antes de a cerimônia começar.</p></div></div></li><li class="mt rv" style="--d:300ms" tabindex="0" role="button" aria-pressed="false"><div class="mti"><div class="mtf"><span class="rm">VI</span><h4>Condução ao vivo</h4><i class="mtm">Toque para ver</i></div><div class="mtb"><p>A equipe acompanha cada momento, sem improviso.</p></div></div></li></ol><p class="qt rv" style="margin-top:46px">Tranquilidade não acontece por acaso.</p></div></section>
 
 <section class="cal" id="calendario"><div class="wrap"><p class="kick rv"><span>Agenda</span></p><h2 class="st rv">Escolha a data da sua <em>cerimônia</em></h2>
 <p class="cp2 rv">Toque em um dia disponível. Em seguida, escolha o pacote e fale com a Marsalla pelo WhatsApp.</p>
@@ -2169,6 +2193,9 @@ D.addEventListener("click",function(e){
 const _atz=window.atualizaData;if(typeof _atz==="function"){window.atualizaData=function(){_atz.apply(this,arguments);exUp()}}
 /* um vídeo por vez */
 $$("video").forEach(function(v){v.addEventListener("play",function(){$$("audio").forEach(function(a){a.pause()});$$("video").forEach(function(o){if(o!==v&&o.parentNode!==mv.parentNode)o.pause()})})});
+/* cards do método */
+(function(){var L=$$(".mt");function tg(x){var on=!x.classList.contains("on");L.forEach(function(o){o.classList.remove("on");o.setAttribute("aria-pressed","false")});if(on){x.classList.add("on");x.setAttribute("aria-pressed","true")}}
+L.forEach(function(x){x.addEventListener("click",function(){tg(x)});x.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();tg(x)}})})})();
 })();
 </script><script id="lbjs">(function(){function ini(){var D=document,t=[].slice.call(D.querySelectorAll(".gl .tile img")),i=0,lb=D.createElement("div");if(!t.length)return;lb.id="lb";
 lb.innerHTML='<button class="x" aria-label="Fechar">\u2715</button><button class="n l" aria-label="Anterior">\u2039</button><img alt=""><button class="n r" aria-label="Pr\u00f3xima">\u203A</button>';D.body.appendChild(lb);
