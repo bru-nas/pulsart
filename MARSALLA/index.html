@@ -1194,25 +1194,23 @@ html body #prop .pplus+.pit b:before{content:"+ ";color:#9a7433}
 html body #prop .pplus{display:none}
 
 /* contrato em folhas A4, mesmo estilo da proposta */
-html body #ctr{background:none!important;padding:0!important;margin:22px 0 0!important;width:794px;max-width:none;overflow:visible!important;color:#3a0a14;font-size:var(--cfs,12px)!important;line-height:1.3!important}
-html body #ctr .cpg{position:relative;width:794px;height:1123px;box-sizing:border-box;padding-left:92px;background:#f8f4ee;overflow:hidden;margin:0 0 22px;box-shadow:0 22px 60px rgba(0,0,0,.45);-webkit-print-color-adjust:exact;print-color-adjust:exact}
-html body #ctr .cpg:before{content:"";position:absolute;left:102px;right:10px;top:10px;bottom:10px;border:2px solid #b8914a;z-index:5;pointer-events:none}
-html body #ctr .cpg .ps{position:absolute;left:0;top:0;bottom:0;width:92px;background:#40010D;overflow:hidden}
-html body #ctr .cpg .ps:after{content:"";position:absolute;left:10px;right:10px;top:10px;bottom:10px;border:2px solid #b8914a;pointer-events:none}
-html body #ctr .cpg .ps img{position:absolute;left:50%;top:50%;width:205px;height:auto;max-width:none;transform:translate(-50%,-50%) rotate(-90deg);z-index:2}
-html body #ctr .cb{position:absolute;left:126px;right:36px;top:40px;bottom:50px;overflow:hidden;z-index:1;text-align:justify;font-family:'Times New Roman',Georgia,serif}
-html body #ctr .cb h1{font-family:'Cormorant Garamond',Georgia,serif!important;font-weight:600;font-size:22px!important;line-height:1.2;text-align:center;margin:0 0 12px!important;color:#40010D!important;-webkit-text-fill-color:#40010D!important;padding:0 0 10px!important;border-bottom:1px solid #b8914a;text-transform:none!important}
-html body #ctr .cb h4{font-family:'Montserrat',system-ui,sans-serif;font-size:calc(var(--cfs,12px) - 2px)!important;letter-spacing:.06em;color:#40010D;margin:10px 0 3px!important;text-transform:uppercase}
-html body #ctr .cb p{margin:0 0 3px!important;color:#3a0a14;line-height:1.3!important}
+html body #ctr{background:none!important;padding:0!important;margin:22px 0 0!important;width:794px;max-width:none;overflow:visible!important;color:#3a0a14;font-size:var(--cfs,12px)!important;line-height:var(--clh,1.3)!important}
+html body #ctr .cpg{position:relative;width:794px;height:1123px;box-sizing:border-box;background:#fbf9f5;overflow:hidden;margin:0 0 22px;box-shadow:0 22px 60px rgba(0,0,0,.45);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html body #ctr .cb{position:absolute;left:66px;right:66px;top:62px;bottom:70px;overflow:hidden;z-index:1;text-align:justify;font-family:'Times New Roman',Georgia,serif}
+html body #ctr .cb h1{font-family:'Cormorant Garamond',Georgia,serif!important;font-weight:600;font-size:22px!important;line-height:1.2;text-align:center;margin:0 0 12px!important;color:#40010D!important;-webkit-text-fill-color:#40010D!important;padding:0 0 4px!important;border:0!important;text-transform:none!important}
+html body #ctr .cb h4{font-family:'Montserrat',system-ui,sans-serif;font-size:calc(var(--cfs,12px) - 2px)!important;letter-spacing:.06em;color:#40010D;margin:calc(var(--cfs,12px)*.85*var(--cg,1)) 0 calc(var(--cfs,12px)*.25*var(--cg,1))!important;text-transform:uppercase}
+html body #ctr .cb p{margin:0 0 calc(var(--cfs,12px)*.28*var(--cg,1))!important;color:#3a0a14;line-height:var(--clh,1.3)!important}
 html body #ctr .cb .dt{text-align:right;margin-top:12px!important}
 html body #ctr .cb .sg{margin-top:34px!important}
 html body #ctr .cb .sg div{border-top:1px solid #40010D}
-html body #ctr .cpn{position:absolute;left:102px;right:10px;bottom:20px;text-align:center;font:600 8.5px 'Montserrat',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#9a7433;z-index:2}
+html body #ctr .cpn{position:absolute;left:0;right:0;bottom:30px;text-align:center;font:600 8.5px 'Montserrat',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#9a7433;z-index:2}
 @media print{
  @page{size:A4;margin:0}
  html body #ctr{transform:none!important;margin:0!important;width:210mm!important}
  html body #ctr .cpg{margin:0!important;box-shadow:none!important;page-break-after:always;break-after:page}
 }
+
+html body #ctr .cpg .pwm{left:50%;width:560px}
 </style></head><body>
 <script>try{var L=document.getElementById("fvc");if(L){var n=L.cloneNode();L.remove();document.head.appendChild(n)}}catch(e){}</script>
 <div id="intro" aria-hidden="true"><i class="band"></i><i class="blob bA"></i><i class="blob bB"></i>
@@ -2051,16 +2049,17 @@ addEventListener("resize",fitCtr);
 function montaFolhas(h){logos(function(brc,vin){
   const c=document.getElementById("ctr"),tpl=document.createElement("div");tpl.innerHTML=h;
   const bl=[].slice.call(tpl.children).filter(function(x){return x.tagName!=="IMG"});
-  let n=0;
-  for(let fs=14.4;fs>=10.2;fs-=.3){
-    c.innerHTML="";c.style.setProperty("--cfs",fs.toFixed(1)+"px");n=0;
-    const nova=()=>{n++;const p=document.createElement("div");p.className="cpg";p.innerHTML='<aside class="ps"><img alt="" src="'+brc+'"></aside><img class="pwm" alt="" src="'+vin+'"><div class="cb"></div><div class="cpn"></div>';c.appendChild(p);return p.querySelector(".cb")};
+  function monta(fs,lh,cg){
+    c.innerHTML="";c.style.setProperty("--cfs",fs.toFixed(1)+"px");c.style.setProperty("--clh",lh.toFixed(2));c.style.setProperty("--cg",cg.toFixed(2));let n=0;
+    const nova=()=>{n++;const p=document.createElement("div");p.className="cpg";p.innerHTML='<img class="pwm" alt="" src="'+vin+'"><div class="cb"></div><div class="cpn"></div>';c.appendChild(p);return p.querySelector(".cb")};
     let cb=nova();
     bl.forEach(function(b){const k=b.cloneNode(true);cb.appendChild(k);if(cb.scrollHeight>cb.clientHeight+1&&cb.children.length>1){cb.removeChild(k);cb=nova();cb.appendChild(k)}});
     const cbs=[].slice.call(c.querySelectorAll(".cb"));
     cbs.forEach(function(x,i){const l=x.lastElementChild;if(l&&l.tagName==="H4"&&cbs[i+1])cbs[i+1].insertBefore(l,cbs[i+1].firstChild)});
-    if(n<=2)break;
-  }
+    return n}
+  let ok=false,fs0=15.6,lh0=1.7;
+  for(let fs=15.6;fs>=10.2&&!ok;fs-=.3){for(let lh=1.7;lh>=1.28&&!ok;lh-=.04){if(monta(fs,lh,1)<=2){ok=true;fs0=fs;lh0=lh}}}
+  if(ok){let g=1;for(let t=1.15;t<=4;t+=.15){if(monta(fs0,lh0,t)<=2)g=t;else break}monta(fs0,lh0,g)}
   [].slice.call(c.querySelectorAll(".cpn")).forEach(function(x,i,a){x.textContent="Página "+(i+1)+" de "+a.length});
   fitCtr()})}
 
@@ -2657,7 +2656,7 @@ async function geraContrato(){
   try{
     var d=fr.contentDocument;
     d.body.innerHTML='<div id="pn" class="on"><div class="in"><div id="v-ctr" style="display:block"><div id="ctr"></div></div></div></div>';
-    var t=d.getElementById("ctr");t.innerHTML=c.innerHTML;t.style.cssText="width:794px;margin:0;transform:none";
+    var t=d.getElementById("ctr");t.innerHTML=c.innerHTML;t.style.width="794px";t.style.margin="0";t.style.transform="none";t.style.setProperty("--cfs",c.style.getPropertyValue("--cfs")||"12px");t.style.setProperty("--clh",c.style.getPropertyValue("--clh")||"1.3");
     await fontes(d);await esperar(450);
     var doc=new JS({unit:"mm",format:"a4",compress:true}),pgs=[].slice.call(t.querySelectorAll(".cpg"));
     for(var i=0;i<pgs.length;i++){
