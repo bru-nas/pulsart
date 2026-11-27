@@ -1054,18 +1054,14 @@ html body #prop .pfx span{display:block;font-size:10.5px;letter-spacing:.08em;co
 #intro .band,#intro .blob,#intro .fl,#intro .shn,#intro .rfl,#intro u{display:none!important}
 #intro .ilg{animation:mfade 1.1s ease-out .25s both,mline 1.1s cubic-bezier(.7,0,.3,1) 2s forwards!important}
 @keyframes mfade{from{opacity:0;filter:none;transform:none}to{opacity:1;filter:none;transform:none}}
-@keyframes mline{0%{opacity:1;transform:scale(1,1)}45%{opacity:1;transform:scale(1,.012)}80%{opacity:1;transform:scale(30,.012)}100%{opacity:0;transform:scale(36,.006)}}
-
-.fr2{grid-column:1/-1;padding:20px 0;border-top:1px dotted var(--g3);text-align:center}
-.fr2 .rm{display:block;font-family:var(--fh);font-style:italic;font-size:1.05rem;color:var(--g3);letter-spacing:.2em}
-.fr2 h4{font-family:var(--fh);font-weight:600;font-size:clamp(1.7rem,7vw,2.4rem);line-height:1.05;color:var(--g1);margin:2px 0 0}
-.fr2 .lead{display:block;height:0;border-top:1px dotted var(--g3);margin:12px auto 18px;width:min(260px,60%);opacity:.8}
-.fr2 .vv{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:560px;margin:0 auto}
-.fr2 .fo{font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--g2);line-height:1.7;margin:18px 0 0}
+@keyframes mline{0%{opacity:1;transform:scale(1,1)}60%{opacity:1;transform:scale(1,.012)}100%{opacity:0;transform:scale(1,.012)}}
+#intro .ilg{animation:mfade 1.1s ease-out .25s both,mline .75s cubic-bezier(.7,0,.3,1) 2s forwards!important}
+#intro .gl0{display:block!important;position:absolute;left:50%;top:50%;width:min(560px,78vw);height:2px;margin-top:-1px;transform:translateX(-50%);z-index:3;opacity:0;background:linear-gradient(90deg,transparent,#b8914a 14%,#ead7a4 50%,#b8914a 86%,transparent);animation:gl0 1.15s cubic-bezier(.7,0,.3,1) 2.5s forwards}
+@keyframes gl0{0%{opacity:1;width:min(560px,78vw)}55%{opacity:1;width:100vw}85%{opacity:1;width:100vw}100%{opacity:0;width:100vw}}
 </style></head><body>
 <script>try{var L=document.getElementById("fvc");if(L){var n=L.cloneNode();L.remove();document.head.appendChild(n)}}catch(e){}</script>
 <div id="intro" aria-hidden="true"><i class="band"></i><i class="blob bA"></i><i class="blob bB"></i>
-<div class="lw"><img class="ilg" alt="" src="img/logo.png"><i class="shn"></i><div class="rfl"><img class="ilr" alt=""></div></div><i class="fl"></i></div>
+<div class="lw"><img class="ilg" alt="" src="img/logo.png"><i class="shn"></i><div class="rfl"><img class="ilr" alt=""></div></div><i class="fl"></i><i class="gl0"></i></div>
 
 <script>(function(){var H=document.documentElement,I=document.getElementById("intro");
 var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
