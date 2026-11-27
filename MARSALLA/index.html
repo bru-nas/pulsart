@@ -2103,7 +2103,7 @@ $("#pp-gerar").onclick=()=>{
   const cond=val?(sp>0&&sp<100?`Sinal de ${sp}% no ato da contratação (${brl(Math.round(val*sp)/100)}) e saldo de ${brl(val-Math.round(val*sp)/100)} no dia da apresentação.`:(sp>=100?"Pagamento integral no ato da contratação.":"Pagamento no dia da apresentação.")):"";
   logos((gold,wmk)=>{
    const info=[["Data",`${sem}, ${dtx}`],...(hr?[["Horário",hExt(hr)]]:[]),...(loc?[["Local",esc(loc)]]:[]),["Evento",tipo]];
-   $("#prop").innerHTML=`<aside class="ps"><img alt="Marsalla Eventos Musicais" src="${gold}"></aside><img class="pwm" alt="" src="${wmk}">
+   $("#prop").innerHTML=`<aside class="ps"><img alt="Marsalla Eventos Musicais" src="${gold}"></aside>
    <div class="pb">
     <div class="ptt"><small>Proposta de apresentação musical</small><div class="pdv"><i></i></div><h1>${esc(nome)}</h1><p class="pev">${tipo} · ${dtx}</p></div>
     <p class="pint">Preparamos esta proposta para a sua cerimônia, com cada momento da música pensado para acontecer com presença e segurança.</p>
