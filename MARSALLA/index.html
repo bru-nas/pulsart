@@ -1115,6 +1115,13 @@ html body #prop .pfx span{display:block;font-size:10.5px;letter-spacing:.08em;co
 .calsel p{color:#40010D}
 .top{background:rgba(42,1,11,.97)!important}
 .calg .d.p{opacity:.55;color:#8a7a70!important}
+.cfm{background:#fff!important;border-color:rgba(154,116,51,.5)!important;box-shadow:0 14px 40px rgba(64,1,13,.08)}
+.cfm label{color:#9a7433!important}
+.cfm input{background:#faf6f1!important;color:#3a0a14!important;border:1px solid rgba(154,116,51,.5)!important}
+.cfm input::placeholder{color:#8a7a70}
+.cfm .seg .sg{background:#faf6f1!important;color:#40010D!important;border:1px solid rgba(154,116,51,.5)!important}
+.cfm .seg .sg.on{background:#40010D!important;color:#ead7a4!important;border-color:#40010D!important}
+.cfm .er2{color:#8a1a2a}
 </style></head><body>
 <script>try{var L=document.getElementById("fvc");if(L){var n=L.cloneNode();L.remove();document.head.appendChild(n)}}catch(e){}</script>
 <div id="intro" aria-hidden="true"><i class="band"></i><i class="blob bA"></i><i class="blob bB"></i>
@@ -1146,7 +1153,7 @@ setTimeout(fim,4400);
 <div class="orn"><i></i></div>
 <p class="lede">Condução musical para cerimônias que não permitem improviso.</p>
 <p class="sub2">Com cuidado, presença e segurança emocional.</p>
-<div class="btns"><button class="btn b1" data-open type="button">Pedir orçamento</button><a class="btn b2" href="#formacoes">Ver formações</a></div></div></section>
+<div class="btns"><a class="btn b2" href="#formacoes">Ver formações</a></div></div></section>
 
 <section class="sb" id="visao"><div class="wrap"><div class="m-split"><div class="m-txt"><p class="kick l rv"><span>Nossa visão</span></p><h2 class="st l rv">Uma cerimônia sem <em>improviso</em></h2>
 <p class="rv">A Marsalla cuida da música do casamento. Repertório, formação, tempos e som são planejados antes, para que o casal e os convidados vivam o momento por inteiro, sem se preocupar com o que vem a seguir.</p>
@@ -1370,7 +1377,7 @@ function segs(){ $$("#som .sg").forEach(b=>{const on=b.dataset.s===som_;b.classL
 function abrir(i){ esc_=(i!==""&&i!=null&&PL[+i])?PL[+i].n:(FMT||""); chips(); segs(); $$(".er2").forEach(e=>e.style.display="none"); modal.classList.add("on"); modal.scrollTop=0; document.body.style.overflow="hidden"; dtSync() }
 function fechar(){modal.classList.remove("on"); if(!pn.classList.contains("on"))document.body.style.overflow=""}
 document.addEventListener("click",e=>{
-  const p=e.target.closest(".pick"); if(p){if(!SEL){pedeData();return}FMT=PL[+p.dataset.i].n;atualizaData();var cs=document.getElementById("cal-sel");if(cs)cs.scrollIntoView({behavior:"smooth",block:"center"});return}
+  const p=e.target.closest(".pick"); if(p){FMT=PL[+p.dataset.i].n;if(!SEL){atualizaData();var cc=document.getElementById("calendario");if(cc)cc.scrollIntoView({behavior:"smooth"});aviso("Pacote escolhido. Agora escolha a data.");return}atualizaData();var cs=document.getElementById("cal-sel");if(cs)cs.scrollIntoView({behavior:"smooth",block:"center"});return}
   const bo=e.target.closest("[data-open]"); if(bo){if(!SEL){pedeData();return}if(!FMT){pedeFormato();return}irCartao();return}
   const c=e.target.closest("#chips .chip2"); if(c){esc_=c.dataset.c;chips();$("#e-fmt").style.display="none";return}
   const s=e.target.closest("#som .sg"); if(s){som_=s.dataset.s;segs();$("#e-som").style.display="none";return}
