@@ -1075,13 +1075,13 @@ setTimeout(fim,5000);
 
  <div id="v-prop" style="display:none">
   <div class="nopr"><button class="bt o" id="p-voltar" style="margin-top:0">← Voltar</button>
-   <button class="bt" id="p-pdf">Baixar PDF</button><button class="bt o" id="p-print">Imprimir</button><button class="bt o" id="p-zap">Enviar pelo WhatsApp</button><button class="bt o" id="p-copy">Copiar texto</button></div>
+   <button class="bt" id="p-pdf">Baixar PDF</button><button class="bt o" id="p-print">Imprimir</button><button class="bt o" id="p-zap">Compartilhar PDF</button><button class="bt o" id="p-copy">Copiar texto</button></div>
   <div id="propw"><div id="prop"></div></div>
  </div>
 
  <div id="v-ctr" style="display:none">
   <div class="nopr"><button class="bt o" id="r-voltar" style="margin-top:0">← Voltar</button>
-   <button class="bt" id="r-pdf">Baixar PDF</button><button class="bt o" id="r-print">Imprimir</button><button class="bt o" id="r-zap">Enviar pelo WhatsApp</button><button class="bt o" id="r-copy">Copiar texto</button></div>
+   <button class="bt" id="r-pdf">Baixar PDF</button><button class="bt o" id="r-print">Imprimir</button><button class="bt o" id="r-zap">Compartilhar PDF</button><button class="bt o" id="r-copy">Copiar texto</button></div>
   <div id="ctr"></div>
  </div>
 </div></div>
@@ -2317,7 +2317,7 @@ function quadro(w,h,estilo){
   return fr}
 function J(){var j=window.jspdf&&window.jspdf.jsPDF;if(!j||!window.html2canvas)throw new Error("Biblioteca de PDF não carregou. Recarregue a página.");return j}
 async function foto(el){return window.html2canvas(el,{scale:2.2,backgroundColor:"#ffffff",useCORS:true,logging:false,width:W,height:H,windowWidth:W,windowHeight:H,scrollX:0,scrollY:0})}
-window.baixarContratoPDF=async function(){
+async function geraContrato(){
   css();var JS=J(),c=document.getElementById("ctr"),wm=c.querySelector("img.wm");
   var fr=quadro(W,H,PGCSS);
   try{
@@ -2338,10 +2338,10 @@ window.baixarContratoPDF=async function(){
     await esperar(150);
     var doc=new JS({unit:"mm",format:"a4",compress:true});
     for(var i=0;i<els.length;i++){var cv=await foto(els[i]);if(i)doc.addPage();doc.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297,undefined,"FAST")}
-    doc.save("Contrato_"+(nm(document.getElementById("c-nome").value)||"Elvys_Max_Piano")+".pdf");
+    return{blob:doc.output("blob"),nome:"Contrato_"+(nm(document.getElementById("c-nome").value)||"Elvys_Max_Piano")+".pdf",txt:"Contrato de prestação de serviços artísticos — Elvys Max Piano"};
   }finally{fr.remove()}
-};
-window.baixarPropostaPDF=async function(){
+}
+async function geraProposta(){
   css();var JS=J(),p=document.getElementById("prop");
   var fr=quadro(900,1300,pageStyles());
   try{
@@ -2353,14 +2353,33 @@ window.baixarPropostaPDF=async function(){
     var cv=await window.html2canvas(t,{scale:2.2,backgroundColor:null,useCORS:true,logging:false,width:794,height:Math.min(Math.max(t.offsetHeight,1123),1123),windowWidth:900,windowHeight:1300,scrollX:0,scrollY:0});
     var doc=new JS({unit:"mm",format:"a4",compress:true});
     doc.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297,undefined,"FAST");
-    doc.save("Proposta_"+(nm(document.getElementById("pp-nome").value)||"Elvys_Max_Piano")+".pdf");
+    return{blob:doc.output("blob"),nome:"Proposta_"+(nm(document.getElementById("pp-nome").value)||"Elvys_Max_Piano")+".pdf",txt:"Proposta de apresentação musical — Elvys Max Piano"};
   }finally{fr.remove()}
-};
-function ligar(btn,fn){if(!btn)return;btn.onclick=async function(){var t=btn.textContent;btn.disabled=true;btn.textContent="Gerando PDF…";
-  try{await Promise.race([fn(),new Promise(function(_,rej){setTimeout(function(){rej(new Error("demorou demais. Tente de novo."))},120000)})])}
-  catch(e){alert("Não consegui gerar o PDF: "+(e&&e.message||e))}
-  btn.disabled=false;btn.textContent=t}}
-ligar(document.getElementById("p-pdf"),window.baixarPropostaPDF);
-ligar(document.getElementById("r-pdf"),window.baixarContratoPDF);
+}
+function baixar(r){var u=URL.createObjectURL(r.blob),a=document.createElement("a");a.href=u;a.download=r.nome;document.body.appendChild(a);a.click();setTimeout(function(){a.remove();URL.revokeObjectURL(u)},4000)}
+async function compartilhar(r){
+  var f=new File([r.blob],r.nome,{type:"application/pdf"});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:r.txt,text:r.txt});return "ok"}
+  baixar(r);setTimeout(function(){window.open("https://wa.me/?text="+encodeURIComponent(r.txt+" — o PDF foi baixado no seu aparelho, é só anexar na conversa."),"_blank")},600);return "baixou"}
+function tempo(p){return Promise.race([p,new Promise(function(_,rej){setTimeout(function(){rej(new Error("demorou demais. Tente de novo."))},120000)})])}
+function ligar(btn,gera,modo){if(!btn)return;var cache=null;
+  btn.onclick=async function(){var t=btn.dataset.t||btn.textContent;btn.dataset.t=t;btn.disabled=true;
+    try{
+      if(modo==="baixar"){btn.textContent="Gerando PDF…";baixar(await tempo(gera()))}
+      else{
+        var r=cache;if(!r){btn.textContent="Gerando PDF…";r=await tempo(gera());cache=r}
+        try{btn.textContent="Abrindo…";await compartilhar(r);cache=null}
+        catch(e){
+          if(e&&e.name==="AbortError"){cache=null}
+          else if(e&&e.name==="NotAllowedError"){btn.textContent="Toque de novo para enviar";btn.disabled=false;return}
+          else throw e}
+      }
+    }catch(e){alert("Não consegui gerar o PDF: "+(e&&e.message||e));cache=null}
+    btn.textContent=t;btn.disabled=false}}
+ligar(document.getElementById("p-pdf"),geraProposta,"baixar");
+ligar(document.getElementById("r-pdf"),geraContrato,"baixar");
+ligar(document.getElementById("p-zap"),geraProposta,"compartilhar");
+ligar(document.getElementById("r-zap"),geraContrato,"compartilhar");
+window.baixarPropostaPDF=geraProposta;window.baixarContratoPDF=geraContrato;
 })();
 </script></body></html>
