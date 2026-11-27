@@ -2358,6 +2358,8 @@ async function geraProposta(){
 }
 function baixar(r){var u=URL.createObjectURL(r.blob),a=document.createElement("a");a.href=u;a.download=r.nome;document.body.appendChild(a);a.click();setTimeout(function(){a.remove();URL.revokeObjectURL(u)},4000)}
 async function compartilhar(r){
+  var cel=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/i.test(navigator.platform));
+  if(!cel){baixar(r);return "baixou"}
   var f=new File([r.blob],r.nome,{type:"application/pdf"});
   if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:r.txt,text:r.txt});return "ok"}
   baixar(r);setTimeout(function(){window.open("https://wa.me/?text="+encodeURIComponent(r.txt+" — o PDF foi baixado no seu aparelho, é só anexar na conversa."),"_blank")},600);return "baixou"}
