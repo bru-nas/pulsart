@@ -1144,6 +1144,75 @@ html body #prop .pfx span{display:block;font-size:10.5px;letter-spacing:.08em;co
 .lgow img{display:block}
 .shn3{position:absolute;inset:0;pointer-events:none;background-size:320% 100%;background-position:130% 0;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;animation:shn2 5.5s ease-in-out 2.2s infinite}
 .top .brand{display:flex;align-items:center}
+
+/* ===== proposta: off white, marsala escuro e detalhes dourados ===== */
+html body #prop{padding-left:92px!important;background:#f8f4ee!important;color:#3a0a14!important}
+html body #prop:before{left:102px!important;right:10px!important;top:10px!important;bottom:10px!important}
+html body #prop .ps{width:92px!important;background:#40010D!important}
+html body #prop .ps:after{content:"";position:absolute;left:10px;right:10px;top:10px;bottom:10px;border:2px solid #b8914a;pointer-events:none}
+html body #prop .ps img{width:205px!important;z-index:2}
+@media print{body.pp-print #prop .ps img{width:54mm!important}body.pp-print #prop:before{left:27mm!important}}
+html body #prop .ptt small{color:#9a7433}
+html body #prop .ptt h1{color:#40010D!important;-webkit-text-fill-color:#40010D!important}
+html body #prop .pev{color:#9a7433}
+html body #prop .pdv i{background:#f8f4ee;border-color:#9a7433}
+html body #prop h2,html body #prop .pnote h2{color:#40010D!important;-webkit-text-fill-color:#40010D!important}
+html body #prop p,html body #prop dd{color:#3a0a14!important}
+html body #prop dt{color:#9a7433}
+html body #prop .pint{color:#40010D!important}
+html body #prop .ppil li{border-color:#b8914a;color:#40010D}
+html body #prop .pnote{border-color:rgba(154,116,51,.55)!important}
+html body #prop .pnote p{color:#40010D!important}
+html body #prop .pfm,html body #prop .pft{border-color:rgba(154,116,51,.5)}
+html body #prop .pvl{color:#40010D!important}
+html body #prop .pinv small{color:#9a7433}
+html body #prop .pcd{color:#6b4a2a!important}
+html body #prop .pq{color:#40010D!important}
+html body #prop .pct{color:#9a7433!important}
+html body #prop .pem{color:#7a6244!important}
+html body #prop .ppas ol li b{color:#40010D}
+html body #prop .ppas ol li{border-color:#b8914a}
+html body #prop .ppas ol li:before,html body #prop .ppas li:before{color:#9a7433}
+/* pacote e instrumentos na mesma linha */
+html body #prop .pfx.pfl{width:auto;max-width:100%;display:inline-flex;flex-wrap:wrap;align-items:baseline;justify-content:center;gap:10px 16px;padding:14px 24px 13px;border:2px solid #b8914a;background:#fff;box-sizing:border-box}
+html body #prop .pfm{text-align:center}
+html body #prop .pit{display:inline-flex;align-items:baseline;gap:12px}
+html body #prop .pit b{display:inline;font-family:'Cormorant Garamond',Georgia,serif;font-size:30px;font-weight:600;color:#40010D;line-height:1.1}
+html body #prop .pit span{display:inline;font-size:11.5px;letter-spacing:.06em;color:#6b4a2a;margin:0;padding-left:12px;border-left:1px solid #b8914a;line-height:1.5;text-align:left}
+html body #prop .pit span:empty{display:none}
+html body #prop .pplus{font-style:normal;font-family:'Cormorant Garamond',Georgia,serif;font-size:26px;color:#9a7433}
+
+/* proposta: marca d'água e pacote em linhas alinhadas */
+html body #prop .pb{position:relative;z-index:1}
+html body #prop .pwm,html body .cpg .pwm{position:absolute;left:calc(92px + (100% - 92px)/2);top:50%;width:540px;max-width:none;height:auto;transform:translate(-50%,-50%);opacity:.07;z-index:0;pointer-events:none}
+html body #prop .pfx.pfl{display:inline-block;text-align:left;padding:14px 26px 13px;min-width:340px}
+html body #prop .pit{display:grid;grid-template-columns:150px 1fr;align-items:baseline;gap:0 14px;padding:3px 0}
+html body #prop .pplus+.pit{margin-top:4px;padding-top:7px;border-top:1px dotted rgba(184,145,74,.6)}
+html body #prop .pit span{border-left:0;padding-left:0;font-size:12px}
+html body #prop .pit span:empty{display:block}
+html body #prop .pplus+.pit b:before{content:"+ ";color:#9a7433}
+html body #prop .pplus{display:none}
+
+/* contrato em folhas A4, mesmo estilo da proposta */
+html body #ctr{background:none!important;padding:0!important;margin:22px 0 0!important;width:794px;max-width:none;overflow:visible!important;color:#3a0a14;font-size:var(--cfs,12px)!important;line-height:1.3!important}
+html body #ctr .cpg{position:relative;width:794px;height:1123px;box-sizing:border-box;padding-left:92px;background:#f8f4ee;overflow:hidden;margin:0 0 22px;box-shadow:0 22px 60px rgba(0,0,0,.45);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html body #ctr .cpg:before{content:"";position:absolute;left:102px;right:10px;top:10px;bottom:10px;border:2px solid #b8914a;z-index:5;pointer-events:none}
+html body #ctr .cpg .ps{position:absolute;left:0;top:0;bottom:0;width:92px;background:#40010D;overflow:hidden}
+html body #ctr .cpg .ps:after{content:"";position:absolute;left:10px;right:10px;top:10px;bottom:10px;border:2px solid #b8914a;pointer-events:none}
+html body #ctr .cpg .ps img{position:absolute;left:50%;top:50%;width:205px;height:auto;max-width:none;transform:translate(-50%,-50%) rotate(-90deg);z-index:2}
+html body #ctr .cb{position:absolute;left:126px;right:36px;top:40px;bottom:50px;overflow:hidden;z-index:1;text-align:justify;font-family:'Times New Roman',Georgia,serif}
+html body #ctr .cb h1{font-family:'Cormorant Garamond',Georgia,serif!important;font-weight:600;font-size:22px!important;line-height:1.2;text-align:center;margin:0 0 12px!important;color:#40010D!important;-webkit-text-fill-color:#40010D!important;padding:0 0 10px!important;border-bottom:1px solid #b8914a;text-transform:none!important}
+html body #ctr .cb h4{font-family:'Montserrat',system-ui,sans-serif;font-size:calc(var(--cfs,12px) - 2px)!important;letter-spacing:.06em;color:#40010D;margin:10px 0 3px!important;text-transform:uppercase}
+html body #ctr .cb p{margin:0 0 3px!important;color:#3a0a14;line-height:1.3!important}
+html body #ctr .cb .dt{text-align:right;margin-top:12px!important}
+html body #ctr .cb .sg{margin-top:34px!important}
+html body #ctr .cb .sg div{border-top:1px solid #40010D}
+html body #ctr .cpn{position:absolute;left:102px;right:10px;bottom:20px;text-align:center;font:600 8.5px 'Montserrat',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#9a7433;z-index:2}
+@media print{
+ @page{size:A4;margin:0}
+ html body #ctr{transform:none!important;margin:0!important;width:210mm!important}
+ html body #ctr .cpg{margin:0!important;box-shadow:none!important;page-break-after:always;break-after:page}
+}
 </style></head><body>
 <script>try{var L=document.getElementById("fvc");if(L){var n=L.cloneNode();L.remove();document.head.appendChild(n)}}catch(e){}</script>
 <div id="intro" aria-hidden="true"><i class="band"></i><i class="blob bA"></i><i class="blob bB"></i>
@@ -1265,7 +1334,7 @@ setTimeout(fim,4400);
    <div class="box"><h3>Nova proposta</h3>
     <label>Nome do casal, aniversariante ou proponente</label><input id="pp-nome" placeholder="Ex.: Ana e Pedro">
     <div class="g2"><div><label>Tipo de evento</label><select id="pp-tipo"><option>Casamento</option><option>Festa de 15 anos</option><option>Evento corporativo</option><option>Aniversário</option><option>Formatura</option><option>Jantar ou coquetel</option><option value="Outro">Outro (digitar)</option></select><input id="pp-tipo-o" placeholder="Qual evento?" style="display:none;margin-top:8px"></div><div><label>Data do evento</label><input id="pp-data" type="date"></div></div>
-    <div class="g2"><div><label>Pacote</label><select id="pp-fmt"><option value="Essencial|3 a 5 músicos">Essencial — 3 a 5 músicos</option><option value="Essencial Impact|6 ou mais músicos">Essencial Impact — 6 ou mais músicos</option><option value="Premium|Cerimônia, coquetel, DJ e sonorização completa">Premium — Cerimônia, coquetel, DJ e sonorização completa</option></select></div><div><label>Horário (opcional)</label><input id="pp-hora" type="time"></div></div><label>Formação musical (opcional)</label><input id="pp-form" placeholder="Ex.: teclado, violino, cello e voz">
+    <div class="g2"><div><label>Pacote</label><select id="pp-fmt"><option value="Essencial|3 a 5 músicos">Essencial — 3 a 5 músicos</option><option value="Essencial Impact|6 ou mais músicos">Essencial Impact — 6 ou mais músicos</option><option value="Premium|Cerimônia, coquetel, DJ e sonorização completa">Premium — Cerimônia, coquetel, DJ e sonorização completa</option></select></div><div><label>Horário (opcional)</label><input id="pp-hora" type="time"></div></div><label>Instrumentos (opcional)</label><input id="pp-form" placeholder="Ex.: teclado, violino, cello e voz"><label>Coquetel</label><select id="pp-coq"><option value="">Sem coquetel</option><option value="1">Com coquetel</option></select><div id="pp-cwrap" style="display:none"><label>Instrumentos do coquetel (opcional)</label><input id="pp-cform" placeholder="Ex.: saxofone e teclado"></div>
     <label>Local do evento (opcional)</label><input id="pp-local" placeholder="Ex.: Espaço Jardim, Cidade - UF">
     <label>Valor da proposta (R$, opcional)</label><input id="pp-val" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Se deixar vazio, a proposta não mostra valor">
     <label>Observações (opcional)</label><textarea id="pp-obs" rows="3" placeholder="Ex.: repertório especial, entrada da noiva, passagem de som..." style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(128,128,128,.4);background:rgba(128,128,128,.12);color:inherit;font:inherit;resize:vertical"></textarea>
@@ -1968,21 +2037,41 @@ $("#c-gerar").onclick=()=>{
   S.slice(1).forEach(([ti,ps])=>{h+=`<h4>${esc(ti)}</h4>`+ps.map(p=>`<p>${esc(p)}</p>`).join("");t+="\n*"+ti+"*\n"+ps.join("\n")+"\n"});
   h+=`<p style="margin-top:16px">${fim}</p><p class="dt">${esc(cidade.split(",")[0])}, ${dataC}.</p><div class="sg"><div>Assinatura do Contratante<br>${esc(cn)}</div><div>Assinatura do Contratado<br>${esc(d.nome)}</div></div>`;
   t+="\n"+fim+"\n\n"+cidade.split(",")[0]+", "+dataC+".\n\n______________________\nContratante: "+cn+"\n\n______________________\nContratado: "+d.nome;
-  h+=``;$("#ctr").innerHTML=h; TXT=t; view("v-ctr"); marcaPag()};
+  h+=``;montaFolhas(h); TXT=t; view("v-ctr")};
 $("#r-voltar").onclick=()=>view("v-app");
 $("#r-print").onclick=()=>window.print();
 $("#r-copy").onclick=async()=>{try{await navigator.clipboard.writeText(TXT);$("#r-copy").textContent="Copiado ✓"}catch(e){$("#r-copy").textContent="Não foi possível copiar"}setTimeout(()=>$("#r-copy").textContent="Copiar texto",2000)};
 $("#r-zap").onclick=()=>{const a=document.createElement("a");a.href="https://wa.me/?text="+encodeURIComponent(TXT);a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove()};
 
 /* ================= PROPOSTA ================= */
-let PTXT="";function zapFmt(){var n=String(MEUZAP).replace(/\D/g,"");if(n.length===13&&n.slice(0,2)==="55"&&!/^0+$/.test(n.slice(2))){n=n.slice(2);return"WhatsApp ("+n.slice(0,2)+") "+n.slice(2,3)+" "+n.slice(3,7)+"-"+n.slice(7)+" · @marsallaeventos"}return"@marsallaeventos"}
-function logoOuro(cb){const im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=im.naturalWidth;c.height=im.naturalHeight;const x=c.getContext("2d");x.drawImage(im,0,0);x.globalCompositeOperation="source-in";const g=x.createLinearGradient(0,0,c.width,0);g.addColorStop(0,"#b5a341");g.addColorStop(.5,"#e6dca8");g.addColorStop(1,"#b5a341");x.fillStyle=g;x.fillRect(0,0,c.width,c.height);cb(c.toDataURL("image/png"))};im.src=LOGOD}
+let PTXT="";function zapFmt(){var n=String(MEUZAP).replace(/\D/g,"");if(n.length===13&&n.slice(0,2)==="55"&&!/^0+$/.test(n.slice(2))){n=n.slice(2);return"WhatsApp ("+n.slice(0,2)+") "+n.slice(2,3)+" "+n.slice(3,7)+"-"+n.slice(7)+" · @marsallaeventos"}return"@marsallaeventos"}function logoCor(cor,cb){const im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=im.naturalWidth;c.height=im.naturalHeight;const x=c.getContext("2d");x.drawImage(im,0,0);x.globalCompositeOperation="source-in";x.fillStyle=cor;x.fillRect(0,0,c.width,c.height);cb(c.toDataURL("image/png"))};im.src=LOGOD}
+function logos(cb){logoCor("#f8f4ee",function(b){logoCor("#40010D",function(m){cb(b,m)})})}
+function fitCtr(){const c=document.getElementById("ctr");if(!c||!c.firstChild)return;c.style.transform="";c.style.marginBottom="";const av=Math.min(794,(pn.clientWidth||innerWidth)-28),sc=Math.min(1,av/794);if(sc<1){c.style.transformOrigin="top left";c.style.transform="scale("+sc+")";c.style.marginBottom=(-(c.offsetHeight*(1-sc)))+"px"}}
+addEventListener("resize",fitCtr);
+function montaFolhas(h){logos(function(brc,vin){
+  const c=document.getElementById("ctr"),tpl=document.createElement("div");tpl.innerHTML=h;
+  const bl=[].slice.call(tpl.children).filter(function(x){return x.tagName!=="IMG"});
+  let n=0;
+  for(let fs=14.4;fs>=10.2;fs-=.3){
+    c.innerHTML="";c.style.setProperty("--cfs",fs.toFixed(1)+"px");n=0;
+    const nova=()=>{n++;const p=document.createElement("div");p.className="cpg";p.innerHTML='<aside class="ps"><img alt="" src="'+brc+'"></aside><img class="pwm" alt="" src="'+vin+'"><div class="cb"></div><div class="cpn"></div>';c.appendChild(p);return p.querySelector(".cb")};
+    let cb=nova();
+    bl.forEach(function(b){const k=b.cloneNode(true);cb.appendChild(k);if(cb.scrollHeight>cb.clientHeight+1&&cb.children.length>1){cb.removeChild(k);cb=nova();cb.appendChild(k)}});
+    const cbs=[].slice.call(c.querySelectorAll(".cb"));
+    cbs.forEach(function(x,i){const l=x.lastElementChild;if(l&&l.tagName==="H4"&&cbs[i+1])cbs[i+1].insertBefore(l,cbs[i+1].firstChild)});
+    if(n<=2)break;
+  }
+  [].slice.call(c.querySelectorAll(".cpn")).forEach(function(x,i,a){x.textContent="Página "+(i+1)+" de "+a.length});
+  fitCtr()})}
+
+function logoOuro(cb){const im=new Image();im.onload=()=>{const c=document.createElement("canvas");c.width=im.naturalWidth;c.height=im.naturalHeight;const x=c.getContext("2d");x.drawImage(im,0,0);x.globalCompositeOperation="source-in";const g=x.createLinearGradient(0,0,c.width,0);g.addColorStop(0,"#f6f1ea");g.addColorStop(.5,"#ffffff");g.addColorStop(1,"#f6f1ea");x.fillStyle=g;x.fillRect(0,0,c.width,c.height);cb(c.toDataURL("image/png"))};im.src=LOGOD}
 function fitProp(){const w=$("#propw"),p=$("#prop");if(!w||!p)return;const av=Math.min(794,(pn.clientWidth||innerWidth)-28),sc=Math.min(1,av/794);p.style.transform=sc<1?"scale("+sc+")":"";p.style.transformOrigin="top left";w.style.height=(p.offsetHeight*sc)+"px";w.style.width=(794*sc)+"px"}
 addEventListener("resize",fitProp);
+$("#pp-coq").onchange=()=>{$("#pp-cwrap").style.display=$("#pp-coq").value==="1"?"block":"none"};
 $("#pp-tipo").onchange=()=>{$("#pp-tipo-o").style.display=$("#pp-tipo").value==="Outro"?"block":"none"};
 $("#pp-gerar").onclick=()=>{
   const e=$("#pp-e");e.textContent="";
-  const nome=$("#pp-nome").value.trim(),tipo=($("#pp-tipo").value==="Outro"?($("#pp-tipo-o").value.trim()||"Evento"):$("#pp-tipo").value),tp0=$("#pp-tipo").value,dt=$("#pp-data").value,hr=$("#pp-hora").value,loc=$("#pp-local").value.trim(),val=+$("#pp-val").value||0,obs=$("#pp-obs").value.trim(),f=$("#pp-fmt").value.split("|");
+  const nome=$("#pp-nome").value.trim(),tipo=($("#pp-tipo").value==="Outro"?($("#pp-tipo-o").value.trim()||"Evento"):$("#pp-tipo").value),tp0=$("#pp-tipo").value,dt=$("#pp-data").value,hr=$("#pp-hora").value,loc=$("#pp-local").value.trim(),val=+$("#pp-val").value||0,obs=$("#pp-obs").value.trim(),f=$("#pp-fmt").value.split("|"),coq=$("#pp-coq").value==="1",cfi=($("#pp-cform").value||"").trim(),fi=($("#pp-form").value||"").trim();
   if(!nome||!dt){e.textContent="Preencha o nome do casal ou do proponente e a data do evento.";return}
   const sp=((load().d||{}).sinal)||0,hoje=new Date(),hj=hoje.getFullYear()+"-"+String(hoje.getMonth()+1).padStart(2,"0")+"-"+String(hoje.getDate()).padStart(2,"0");
   const NT=["Menos volume. Mais presença.","Alinhamento técnico e preparação operacional antes de cada cerimônia, para que ninguém precise se preocupar na hora."];
@@ -1990,9 +2079,9 @@ $("#pp-gerar").onclick=()=>{
   const FM=[];
   const fotos=["hero"].map(k=>{const el=document.querySelector('[data-m="'+k+'"]');return el&&el.src?el.src:""}).concat(["img/n3.jpg","img/n4.jpg","img/n5.jpg"].map(u=>new URL(u,location.href).href));
   const cond=val?(sp>0&&sp<100?`Sinal de ${sp}% no ato da contratação (${brl(Math.round(val*sp)/100)}) e saldo de ${brl(val-Math.round(val*sp)/100)} no dia da apresentação.`:(sp>=100?"Pagamento integral no ato da contratação.":"Pagamento no dia da apresentação.")):"";
-  logoOuro(gold=>{
+  logos((gold,wmk)=>{
    const info=[["Data",`${sem}, ${dtx}`],...(hr?[["Horário",hExt(hr)]]:[]),...(loc?[["Local",esc(loc)]]:[]),["Evento",tipo]];
-   $("#prop").innerHTML=`<aside class="ps"><img alt="Marsalla Eventos Musicais" src="${gold}"></aside>
+   $("#prop").innerHTML=`<aside class="ps"><img alt="Marsalla Eventos Musicais" src="${gold}"></aside><img class="pwm" alt="" src="${wmk}">
    <div class="pb">
     <div class="ptt"><small>Proposta de apresentação musical</small><div class="pdv"><i></i></div><h1>${esc(nome)}</h1><p class="pev">${tipo} · ${dtx}</p></div>
     <p class="pint">Preparamos esta proposta para a sua cerimônia, com cada momento da música pensado para acontecer com presença e segurança.</p>
@@ -2002,7 +2091,7 @@ $("#pp-gerar").onclick=()=>{
      <section class="pbx pev2"><h2>O seu evento</h2><dl>${info.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join("")}</dl></section>
     </div>
     <section class="pfm"><h2>Pacote proposto</h2>
-     <div class="pfx"><b>${f[0]}</b><span>${f[1]}${($("#pp-form").value||"").trim()?" · "+esc($("#pp-form").value.trim()):""}</span></div>
+     <div class="pfx pfl"><div class="pit"><b>${f[0]}</b><span>${esc(fi)}</span></div>${coq?`<i class="pplus">+</i><div class="pit"><b>Coquetel</b><span>${esc(cfi)}</span></div>`:""}</div>
     </section>
     <section class="pnote"><h2>${NT[0]}</h2><p>${NT[1]}</p></section>
     ${val?`<section class="pinv"><small>Investimento</small><div class="pvl">${brl(val)}</div><p>${reaisExt(val)}</p>${cond?`<p class="pcd">${esc(cond)}</p>`:""}</section>`:""}
@@ -2012,7 +2101,7 @@ $("#pp-gerar").onclick=()=>{
      <p class="pct">${zapFmt()}</p>
      <p class="pem">Proposta emitida em ${dataExt(hj)}</p></footer>
    </div>`;
-   PTXT=`PROPOSTA — MARSALLA EVENTOS MUSICAIS\n\n${tipo}: ${nome}\nData: ${sem}, ${dtx}${hr?"\nHorário: "+hExt(hr):""}${loc?"\nLocal: "+loc:""}\nPacote: ${f[0]} (${f[1].toLowerCase()})${($("#pp-form").value||"").trim()?"\nFormação: "+$("#pp-form").value.trim():""}${val?"\nInvestimento: "+brl(val)+" ("+reaisExt(val)+")"+(cond?"\n"+cond:""):""}${obs?"\n\n"+obs:""}\n\nTranquilidade não acontece por acaso.\n${zapFmt()}`;
+   PTXT=`PROPOSTA — MARSALLA EVENTOS MUSICAIS\n\n${tipo}: ${nome}\nData: ${sem}, ${dtx}${hr?"\nHorário: "+hExt(hr):""}${loc?"\nLocal: "+loc:""}\nPacote: ${f[0]}${fi?" · "+fi:""}${coq?"\nCoquetel: sim"+(cfi?" · "+cfi:""):""}${val?"\nInvestimento: "+brl(val)+" ("+reaisExt(val)+")"+(cond?"\n"+cond:""):""}${obs?"\n\n"+obs:""}\n\nTranquilidade não acontece por acaso.\n${zapFmt()}`;
    view("v-prop");setTimeout(fitProp,60);setTimeout(fitProp,500)});
 };
 $("#p-voltar").onclick=()=>view("v-app");
@@ -2563,26 +2652,17 @@ function quadro(w,h,estilo){
 function J(){var j=window.jspdf&&window.jspdf.jsPDF;if(!j||!window.html2canvas)throw new Error("Biblioteca de PDF não carregou. Recarregue a página.");return j}
 async function foto(el){return window.html2canvas(el,{scale:2.2,backgroundColor:"#ffffff",useCORS:true,logging:false,width:W,height:H,windowWidth:W,windowHeight:H,scrollX:0,scrollY:0})}
 async function geraContrato(){
-  css();var JS=J(),c=document.getElementById("ctr"),wm=c.querySelector("img.wm");
-  var fr=quadro(W,H,PGCSS);
+  css();var JS=J(),c=document.getElementById("ctr");
+  var fr=quadro(900,1300,pageStyles());
   try{
-    var d=fr.contentDocument,st=d.createElement("div");st.id="pdfstage";d.body.appendChild(st);
-    var blocos=[].slice.call(c.children).filter(function(x){return x.tagName!=="IMG"}).map(function(b){return d.importNode(b,true)});
-    var m=d.createElement("div");m.className="pg m";st.appendChild(m);
-    blocos.forEach(function(b){m.appendChild(b.cloneNode(true))});
-    await fontes(d);await esperar(80);
-    var kids=[].slice.call(m.children),top0=m.getBoundingClientRect().top+45,Hc=H-90;
-    var pos=kids.map(function(k){var r=k.getBoundingClientRect();return[r.top-top0,r.bottom-top0]});
-    var pages=[],s=0;
-    while(s<kids.length){var e=s;while(e+1<kids.length&&pos[e+1][1]-pos[s][0]<=Hc)e++;if(e+1<kids.length){while(e>s&&kids[e].tagName==="H4")e--}pages.push([s,e]);s=e+1}
-    st.innerHTML="";var els=[];
-    pages.forEach(function(p){var pg=d.createElement("div");pg.className="pg";
-      if(wm){var w=d.createElement("img");w.className="wmk";w.src=wm.src;pg.appendChild(w)}
-      for(var i=p[0];i<=p[1];i++)pg.appendChild(blocos[i].cloneNode(true));
-      st.appendChild(pg);els.push(pg)});
-    await esperar(150);
-    var doc=new JS({unit:"mm",format:"a4",compress:true});
-    for(var i=0;i<els.length;i++){var cv=await foto(els[i]);if(i)doc.addPage();doc.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297,undefined,"FAST")}
+    var d=fr.contentDocument;
+    d.body.innerHTML='<div id="pn" class="on"><div class="in"><div id="v-ctr" style="display:block"><div id="ctr"></div></div></div></div>';
+    var t=d.getElementById("ctr");t.innerHTML=c.innerHTML;t.style.cssText="width:794px;margin:0;transform:none";
+    await fontes(d);await esperar(450);
+    var doc=new JS({unit:"mm",format:"a4",compress:true}),pgs=[].slice.call(t.querySelectorAll(".cpg"));
+    for(var i=0;i<pgs.length;i++){
+      var cv=await window.html2canvas(pgs[i],{scale:2.2,backgroundColor:null,useCORS:true,logging:false,width:794,height:1123,windowWidth:900,windowHeight:1300,scrollX:0,scrollY:0});
+      if(i)doc.addPage();doc.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297,undefined,"FAST")}
     return{blob:doc.output("blob"),nome:"Contrato_"+(nm(document.getElementById("c-nome").value)||"Marsalla")+".pdf",txt:"Contrato de prestação de serviços artísticos — Marsalla Eventos Musicais"};
   }finally{fr.remove()}
 }
