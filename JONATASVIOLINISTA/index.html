@@ -1565,7 +1565,7 @@ setTimeout(fim,3800);
   <div class="tabs2 nopr" id="tabs2"><button data-p="ag" class="on">Agenda</button><button data-p="prop">Proposta</button><button data-p="ft">Fotos</button><button data-p="ctr">Contratos</button></div>
   <div class="pane on" data-p="ag">
    <div class="box" id="pd-box"><h3>Pedidos pendentes</h3><p class="h">Quem escolheu uma data e foi para o WhatsApp aparece aqui, com o nome, e o dia já fica ocupado no site. Se a pessoa fechar, toque em <b>Confirmar</b> (vira lançamento na agenda). Se não fechar, toque em <b>Excluir</b> e a data volta a ficar livre.</p><div id="pd-list"></div><div class="er" id="pd-e"></div><button class="bt o" id="pd-rf">Atualizar lista</button></div>
-   <div class="box"><h3>Agenda de marcações</h3><p class="h">Lance aqui os eventos fechados. Cada dia aceita até 2 marcações: com 2, o dia fica fechado no calendário do site. Para reabrir, exclua um lançamento. Datas passadas saem sozinhas.</p>
+   <div class="box"><h3>Agenda de marcações</h3><p class="h">Lance aqui os eventos fechados. Quando o dia chega no limite de eventos, ele fica fechado no calendário do site. Para reabrir, exclua um lançamento. Datas passadas saem sozinhas.</p><label>Quantos eventos você aceita por dia?</label><select id="ag-lim"><option value="1">1 evento por dia</option><option value="2" selected>2 eventos por dia</option><option value="3">3 eventos por dia</option><option value="4">4 eventos por dia</option><option value="5">5 eventos por dia</option></select>
     <div id="ag-list"></div>
     <button class="bt o" id="ag-add">+ Adicionar lançamento</button>
     <div class="er" id="ag-e"></div><button class="bt" id="ag-save">Salvar agenda</button> <span id="ag-ok" style="color:#9fd69f"></span>
@@ -1663,9 +1663,9 @@ function renderCal(){
   for(var d=1,dim=new Date(y,m+1,0).getDate();d<=dim;d++){
     var iso=y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0"),n=BOOK[iso]||0,c="d",dis=false,lab=dataLonga(iso);
     if(iso<=hj){c+=" p";dis=true;lab+=", indisponível"}
-    else if(n>=2){c+=" c";dis=true;lab+=", dia fechado"}
+    else if(n>=LIMDIA){c+=" c";dis=true;lab+=", dia fechado"}
     else if(iso===SEL){c+=" s";lab+=", data escolhida"}
-    else if(n===1){c+=" u o";lab+=", 1 vaga restante"}
+    else if(n>=1){c+=" u o";lab+=", "+(LIMDIA-n)+(LIMDIA-n===1?" vaga restante":" vagas restantes")}
     else{c+=" o";lab+=", disponível"}
     h+='<button type="button" class="'+c+'" data-d="'+iso+'"'+(dis?" disabled":"")+' aria-label="'+lab+'">'+d+"</button>"}
   g.innerHTML=h}
@@ -1959,7 +1959,8 @@ async function token(){
   FBR.tok=j.id_token;FBR.ref=j.refresh_token;FBR.exp=Date.now()+(Math.max(+j.expires_in||3600,120)-60)*1000;return FBR.tok}
 async function dbGet(p,q){const r=await fetch(FB.db+"/"+p+".json"+(q||""));if(!r.ok)throw new Error("get "+r.status);return r.json()}
 async function dbGetA(p){const t=await token();const r=await fetch(FB.db+"/"+p+".json?auth="+t);if(!r.ok)throw new Error("get "+r.status);return r.json()}
-async function dbPut(p,v){const t=await token();const r=await fetch(FB.db+"/"+p+".json?auth="+t,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(v)});if(!r.ok){const e=new Error("put "+r.status);e.status=r.status;throw e}return r.json()}
+var LIMDIA=2;
+async function dbPut(p,v){if(p==="agenda/"+PAGE.art){var a=Array.isArray(v)?v.filter(function(x){return x&&!x.c}):[];if(LIMDIA!==2)a.push({c:LIMDIA});v=a.length?a:null}const t=await token();const r=await fetch(FB.db+"/"+p+".json?auth="+t,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(v)});if(!r.ok){const e=new Error("put "+r.status);e.status=r.status;throw e}return r.json()}
 const TS={".sv":"timestamp"};
 const fmtData=ms=>{const d=new Date(ms);return String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+d.getFullYear()};
 
@@ -2135,7 +2136,7 @@ document.addEventListener("click",async function(e){
     if(b.dataset.a==="del"){if(!confirm("Excluir o pedido de "+x.n+" ("+dd+")? A data volta a ficar livre no site."))return;b.disabled=true;await dbPut("pedidos/"+PAGE.art+"/"+k,null);await dbPut("reservas/"+PAGE.art+"/"+k,null)}
     else{var h=prompt("Horário do evento de "+x.n+" em "+dd+" (ex.: 16:00):","");if(h===null)return;h=h.trim();
       if(!/^([01]?\d|2[0-3]):[0-5]\d$/.test(h)){er.textContent="Horário inválido. Use o formato 16:00.";return}if(h.length===4)h="0"+h;
-      var cnt=futuros(ST.agenda).filter(function(s){return s.d===x.d}).length;if(cnt>=2){er.textContent="O dia "+dd+" já tem 2 lançamentos na agenda.";return}
+      var cnt=futuros(ST.agenda).filter(function(s){return s.d===x.d}).length;if(cnt>=LIMDIA){er.textContent="O dia "+dd+" já tem "+LIMDIA+(LIMDIA===1?" lançamento":" lançamentos")+" na agenda (o limite por dia está em "+LIMDIA+").";return}
       b.disabled=true;var o=futuros((ST.agenda||[]).concat([{d:x.d,l:(x.n+(x.c?" — "+x.c:"")).slice(0,80),h:h}])).map(function(s){var r={d:s.d,l:s.l.slice(0,80)};if(s.h)r.h=s.h;return r});
       await dbPut("agenda/"+PAGE.art,o);ST.agenda=o;await dbPut("pedidos/"+PAGE.art+"/"+k,null);await dbPut("reservas/"+PAGE.art+"/"+k,null);desenharAgendaForm()}
     await desenharPedidos();await recarregaRes()
@@ -2148,6 +2149,7 @@ const futuros=L=>(L||[]).filter(s=>s&&s.d&&s.l&&s.h&&s.d>=hojeISO()).sort((a,b)=
 const escH=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function agRow(s){return `<div class="agr" data-k="${s.d?escH((s.d||"")+"|"+(s.l||"")+"|"+(s.h||"")):""}"><input class="ad" type="date" value="${s.d||""}"><input class="al" placeholder="Evento e local (ex.: Casamento Ana e Pedro — Cidade)" maxlength="80" value="${escH(s.l||"")}"><button class="x2" aria-label="Excluir lançamento" title="Excluir lançamento">Excluir</button><div class="hh"><input class="ah" type="time" value="${s.h||""}"><span class="nota2" style="align-self:center">Horário (obrigatório)</span></div></div>`}
 function desenharAgendaForm(){const L=futuros(ST.agenda);$("#ag-list").innerHTML=L.length?L.map(agRow).join(""):agRow({})}
+(function(){var sl=$("#ag-lim");if(!sl)return;sl.onchange=async function(){var er=$("#ag-e"),ok=$("#ag-ok");er.textContent="";ok.textContent="";var ant=LIMDIA;LIMDIA=+sl.value;var o=(ST.agenda||[]).filter(function(x){return x&&!x.c});try{await dbPut("agenda/"+PAGE.art,o);ST.agenda=o;agendaPublica(o);ok.textContent=" ✓ Limite salvo: "+LIMDIA+(LIMDIA===1?" evento":" eventos")+" por dia"}catch(_){LIMDIA=ant;sl.value=ant;er.textContent="Erro ao salvar o limite. Verifique a internet e a sessão."}}})();
 $("#ag-add").onclick=()=>$("#ag-list").insertAdjacentHTML("beforeend",agRow({}));
 $("#ag-list").addEventListener("click",async e=>{const x=e.target.closest(".x2");if(!x)return;const r=x.closest(".agr"),k=r.dataset.k,er=$("#ag-e");er.textContent="";
   if(!k){r.remove();return}
@@ -2159,14 +2161,14 @@ function lerAgendaForm(){return $$("#ag-list .agr").map(r=>({d:$(".ad",r).value,
 $("#ag-save").onclick=async()=>{const e=$("#ag-e"),ok=$("#ag-ok");e.textContent="";ok.textContent="";const L=lerAgendaForm();
   if(L.some(s=>!s.d||!s.l||!s.h)){e.textContent="Preencha data, evento/local e horário de cada lançamento (ou exclua a linha).";return}
   if(L.length>200){e.textContent="Máximo de 200 lançamentos.";return}
-  const cnt={};for(const s of futuros(L)){cnt[s.d]=(cnt[s.d]||0)+1;if(cnt[s.d]>2){e.textContent="O dia "+s.d.split("-").reverse().join("/")+" já tem 2 marcações. Cada dia aceita no máximo 2.";return}}
+  const cnt={};for(const s of futuros(L)){cnt[s.d]=(cnt[s.d]||0)+1;if(cnt[s.d]>LIMDIA){e.textContent="O dia "+s.d.split("-").reverse().join("/")+" passou do limite de "+LIMDIA+(LIMDIA===1?" evento":" eventos")+" por dia. Mude o limite acima ou exclua um lançamento.";return}}
   const o=futuros(L).map(s=>{const r={d:s.d,l:s.l.slice(0,80)};if(s.h)r.h=s.h;return r});
   try{await dbPut("agenda/"+PAGE.art,o.length?o:null);ST.agenda=o;ok.textContent=" ✓ Agenda salva";desenharAgendaForm();agendaPublica(o)}catch(x){e.textContent="Erro ao salvar. Verifique a internet e a sessão."}};
 var RES={};
 function gravaPedido(id,nm,cd,pf,som){var T={".sv":"timestamp"},h={method:"PUT",headers:{"Content-Type":"application/json"},keepalive:true},b=FB.db+"/";
   var p=Promise.all([fetch(b+"reservas/"+PAGE.art+"/"+id+".json",Object.assign({body:JSON.stringify({d:SEL,ts:T})},h)),fetch(b+"pedidos/"+PAGE.art+"/"+id+".json",Object.assign({body:JSON.stringify({d:SEL,n:nm.slice(0,80),c:cd.slice(0,120),f:String(pf.n).slice(0,60),g:String(som).slice(0,40),ts:T})},h))]);
   return Promise.race([p,new Promise(function(r){setTimeout(r,3000)})])}
-function agendaPublica(L){BOOK={};futuros(L).forEach(x=>{BOOK[x.d]=(BOOK[x.d]||0)+1});Object.keys(RES).forEach(function(d){if(d>=hojeISO())BOOK[d]=(BOOK[d]||0)+RES[d]});if(SEL&&(BOOK[SEL]||0)>=2){SEL=null}renderCal();atualizaData()}
+function agendaPublica(L){var cf=(L||[]).find(function(x){return x&&x.c});if(cf)LIMDIA=Math.max(1,Math.min(9,+cf.c||2));var sl=document.getElementById("ag-lim");if(sl)sl.value=LIMDIA;BOOK={};futuros(L).forEach(x=>{BOOK[x.d]=(BOOK[x.d]||0)+1});Object.keys(RES).forEach(function(d){if(d>=hojeISO())BOOK[d]=(BOOK[d]||0)+RES[d]});if(SEL&&(BOOK[SEL]||0)>=LIMDIA){SEL=null}renderCal();atualizaData()}
 
 /* ---- arte da agenda (canvas) ---- */
 function carregaImg(src){return new Promise(ok=>{if(!src)return ok(null);const i=new Image();i.onload=()=>ok(i);i.onerror=()=>ok(null);i.src=src})}
