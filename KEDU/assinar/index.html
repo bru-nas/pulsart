@@ -282,7 +282,10 @@ async function enviar(e) {
     const r = await fetch(WORKER + '/pagar/criar', { method:'POST', headers:{ 'Content-Type':'application/json' },
       body: JSON.stringify({ email: $('em').value.trim(), nome: $('nm').value.trim(), cpf: $('cp').value, produto: produto(), plano, forma }) });
     const j = await r.json().catch(() => ({}));
-    if (r.ok && j.url) { location.href = j.url; return; }
+    if (r.ok && j.url) {
+      try { const pr = PROD[produto()], v = pr && (pr[plano] || pr.unico || pr.mensal); const val = v && v[forma]; if (val) localStorage.setItem('kedu_compra', JSON.stringify({ valor: val, nome: pr.nome, ts: Date.now() })); } catch (x) {}
+      location.href = j.url; return;
+    }
     $('erro').textContent = j.mensagem || 'Não consegui abrir o pagamento. Tente de novo.';
   } catch (x) { $('erro').textContent = 'Sem conexão. Tente de novo.'; }
   $('ir').disabled = false; $('ir').textContent = 'Criar conta e ir para o checkout';
