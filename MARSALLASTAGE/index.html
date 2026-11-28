@@ -435,6 +435,7 @@ G.forEach(function(g,k){g.parentNode.addEventListener("click",function(){show(k)
 L.addEventListener("click",function(e){if(e.target.classList.contains("p"))show(i-1);else if(e.target.classList.contains("n"))show(i+1);else L.classList.remove("on")});
 addEventListener("keydown",function(e){if(!L.classList.contains("on"))return;if(e.key==="Escape")L.classList.remove("on");if(e.key==="ArrowLeft")show(i-1);if(e.key==="ArrowRight")show(i+1)});
 var sx=0;L.addEventListener("touchstart",function(e){sx=e.touches[0].clientX},{passive:true});L.addEventListener("touchend",function(e){var d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(i+(d<0?1:-1))},{passive:true})})();</script>
+
 <!--GEN--><style>#gn{position:fixed;inset:0;z-index:99999;background:#050506;color:#eee;overflow:auto;display:none;font-family:Montserrat,system-ui,sans-serif;-webkit-overflow-scrolling:touch}
 #gn.on{display:block}
 #gn .gi{max-width:860px;margin:0 auto;padding:22px 14px 80px}
@@ -464,32 +465,32 @@ var sx=0;L.addEventListener("touchstart",function(e){sx=e.touches[0].clientX},{p
 .pg.pr .pb{position:absolute;left:182px;right:30px;top:30px;bottom:26px;display:flex;flex-direction:column;justify-content:space-between}
 .pg.pr small{display:block;font:600 11px Montserrat;letter-spacing:.34em;text-transform:uppercase;color:#a30d1f;text-align:center}
 .pg.pr .ptt{text-align:center}
-.pg.pr .ptt h1{font-weight:300;font-size:44px;margin:8px 0 4px;letter-spacing:.01em;color:#0b0b0d;line-height:1.1}
+.pg.pr .ptt h1{font-weight:300;font-size:44px;margin:6px 0 8px;letter-spacing:.01em;color:#0b0b0d;line-height:1.2}
 .pg.pr .pev{font-size:14px;letter-spacing:.08em;color:#a30d1f;margin:0}
-.pg.pr .pint{text-align:center;color:#444;font-size:13px;line-height:1.7;margin:0 24px}
-.pg.pr .pcol{display:grid;grid-template-columns:1.15fr 1fr;gap:26px}
+.pg.pr .pint{text-align:center;color:#444;font-size:13px;line-height:1.7;margin:6px 24px 0}
+.pg.pr .pcol{display:flex;gap:26px;align-items:flex-start}.pg.pr .pcol>div:first-child{width:54%}.pg.pr .pcol>div:last-child{width:46%}
 .pg.pr h2{font-weight:700;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#a30d1f;margin:0 0 8px}
 .pg.pr p{margin:0 0 7px;font-size:12.5px;line-height:1.65;color:#333}
-.pg.pr ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px}
-.pg.pr li{border:1.5px solid #a30d1f;padding:6px 10px;font:600 9px Montserrat;letter-spacing:.14em;text-transform:uppercase;color:#a30d1f}
-.pg.pr dl{margin:0;display:grid;grid-template-columns:70px 1fr;gap:9px 10px;align-items:baseline}
-.pg.pr dt{font:700 9.5px Montserrat;letter-spacing:.18em;text-transform:uppercase;color:#a30d1f}
-.pg.pr dd{margin:0;font-size:12.5px;color:#1a1a1d}
+.pg.pr ul{list-style:none;padding:0;margin:10px 0 0;font-size:0}
+.pg.pr li{display:inline-block;vertical-align:top;box-sizing:border-box;height:26px;line-height:20px;padding:0 8px 0 10px;margin:0 6px 6px 0;border:1.5px solid #a30d1f;font:600 9px/20px Montserrat;letter-spacing:.14em;text-transform:uppercase;color:#a30d1f;text-align:center;white-space:nowrap}
+.pg.pr dl{margin:0;overflow:hidden}
+.pg.pr dt{float:left;clear:left;width:70px;margin:0 0 9px;line-height:18px;font:700 9.5px/18px Montserrat;letter-spacing:.18em;text-transform:uppercase;color:#a30d1f}
+.pg.pr dd{margin:0 0 9px 80px;min-height:18px;line-height:18px;font-size:12.5px;color:#1a1a1d}
 .pg.pr .pfm{text-align:center;border-top:1px solid #e2e2e6;padding-top:14px}
-.pg.pr .pfx{display:inline-block;text-align:left;border:2px solid #a30d1f;box-shadow:0 0 12px rgba(163,13,31,.35);padding:14px 26px;min-width:340px;background:#fff}
-.pg.pr .pit{display:grid;grid-template-columns:190px 1fr;gap:0 14px;align-items:baseline}
-.pg.pr .pit b{font-weight:600;font-size:21px;color:#a30d1f}.pg.pr .pit span{font-size:12px;color:#444}
-.pg.pr .pnote{border:1.5px solid #a30d1f;text-align:center;padding:12px 18px}
+.pg.pr .pfx{display:block;margin:0;max-width:none;box-sizing:border-box;text-align:center;border:2px solid #a30d1f;box-shadow:0 0 12px rgba(163,13,31,.35);padding:12px 26px;background:#fff}
+.pg.pr .pit{display:block;text-align:center}
+.pg.pr .pit b{display:block;font-weight:600;font-size:21px;line-height:1.3;color:#a30d1f}.pg.pr .pit span{display:block;margin-top:5px;font-size:12px;line-height:1.5;color:#444}
+.pg.pr .pnote{border:2px solid #a30d1f;text-align:center;padding:10px 18px}
 .pg.pr .pnote h2{text-transform:none;font-weight:700;font-size:18px;margin:0 0 4px;color:#a30d1f}
 .pg.pr .pnote p{margin:0;color:#444}
 .pg.pr .pinv{text-align:center;border-top:1px solid #e2e2e6;padding-top:10px}
 .pg.pr .pinv small{color:#777;letter-spacing:.3em;font-weight:500}
-.pg.pr .pvl{font-weight:600;font-size:38px;color:#a30d1f;text-shadow:0 0 14px rgba(163,13,31,.35);margin:2px 0}
+.pg.pr .pvl{font-weight:600;font-size:34px;color:#a30d1f;text-shadow:0 0 14px rgba(163,13,31,.35);margin:2px 0}
 .pg.pr .pinv p{margin:0 0 4px}.pg.pr .pinv .pcd{color:#555;font-size:12px}
-.pg.pr ol{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
-.pg.pr ol li{border:0;border-top:2px solid #a30d1f;padding:8px 0 0;display:block;text-transform:none;letter-spacing:0;font-weight:400;color:#444;counter-increment:s;font-size:12px}
-.pg.pr ol li:before{content:"0" counter(s);display:block;color:#a30d1f;font-weight:300;font-size:20px;margin-bottom:2px}
-.pg.pr ol li b{display:block;font:700 11px Montserrat;letter-spacing:.14em;text-transform:uppercase;color:#0b0b0d;margin-bottom:3px}
+.pg.pr ol{list-style:none;padding:0;margin:0;display:flex;gap:18px}
+.pg.pr ol li{border:0;border-top:2px solid #a30d1f;padding:8px 0 6px;display:block;flex:1 1 0;min-width:0;width:auto;height:auto;margin:0;box-sizing:border-box;white-space:normal;text-align:left;vertical-align:baseline;text-transform:none;letter-spacing:0;font-weight:400;line-height:1.5;color:#444;font-size:12px;font-family:Montserrat,sans-serif}
+.pg.pr ol li i{display:block;font-style:normal;color:#a30d1f;font-weight:300;font-size:20px;line-height:1.3;margin-bottom:2px}
+.pg.pr ol li b{display:block;line-height:1.4;font:700 11px Montserrat;letter-spacing:.14em;text-transform:uppercase;color:#0b0b0d;margin-bottom:3px}
 .pg.pr .pft{text-align:center;border-top:1px solid #e2e2e6;padding-top:10px}
 .pg.pr .pq{font-weight:300;font-size:20px;color:#0b0b0d;margin:0 0 4px}
 .pg.pr .pct{font:700 11px Montserrat;letter-spacing:.2em;text-transform:uppercase;color:#a30d1f;margin:0 0 4px}
@@ -497,7 +498,7 @@ var sx=0;L.addEventListener("touchstart",function(e){sx=e.touches[0].clientX},{p
 /* contrato */
 #gn .pg.ct{background:#fff;color:#1a1a1d}
 .pg.ct .pwm{position:absolute;left:50%;top:50%;width:600px;max-width:none;transform:translate(-50%,-50%);opacity:.09;pointer-events:none}
-.pg.ct:before{content:"";position:absolute;left:14px;right:14px;top:14px;bottom:14px;border:2px solid #ff2a3d;box-shadow:0 0 8px rgba(255,42,61,.35)}
+.pg.ct:before{content:"";position:absolute;left:14px;right:14px;top:14px;bottom:14px;border:2px solid #a30d1f;box-shadow:0 0 6px rgba(163,13,31,.4)}
 .pg.ct .cb{position:absolute;left:66px;right:66px;top:62px;bottom:70px;overflow:hidden;text-align:justify;font-family:'Times New Roman',Georgia,serif;font-size:var(--cfs,12px);line-height:var(--clh,1.3);color:#1a1a1d}
 .pg.ct h1{font:700 19px Montserrat;letter-spacing:.06em;text-align:center;margin:0 0 14px;color:#a30d1f;text-transform:uppercase;line-height:1.35}
 .pg.ct h4{font:700 calc(var(--cfs,12px) - 2px) Montserrat;letter-spacing:.06em;color:#a30d1f;margin:calc(var(--cfs,12px)*.85*var(--cg,1)) 0 calc(var(--cfs,12px)*.25*var(--cg,1));text-transform:uppercase;text-align:left}
@@ -584,7 +585,7 @@ $("#pp-gerar").onclick=function(){
  '<div class="pnote"><h2>Menos improviso. Mais controle.</h2><p>Montagem, teste de som e ajuste de luz antes do evento, e um técnico responsável durante toda a operação.</p></div>'+
  (val?'<div class="pinv"><small>INVESTIMENTO</small><div class="pvl">'+brl(val)+'</div><p>'+rext(val)+'</p>'+(cond?'<p class="pcd">'+esc(cond)+'</p>':"")+'</div>':"")+
  (obs?'<div><h2>Observações</h2>'+obs.split(/\n+/).map(function(x){return"<p>"+esc(x)+"</p>"}).join("")+'</div>':"")+
- '<div><h2>Próximos passos</h2><ol><li><b>Confirmação</b>Você aprova a proposta e reservamos a data.</li><li><b>Contrato</b>Formalizamos o combinado por escrito.</li><li><b>O evento</b>Nossa equipe monta e opera toda a estrutura.</li></ol></div>'+
+ '<div><h2>Próximos passos</h2><ol><li><i>01</i><b>Confirmação</b>Você aprova a proposta e reservamos a data.</li><li><i>02</i><b>Contrato</b>Formalizamos o combinado por escrito.</li><li><i>03</i><b>O evento</b>Nossa equipe monta e opera toda a estrutura.</li></ol></div>'+
  '<div class="pft"><p class="pq">Menos improviso. Mais controle.</p><p class="pct">'+zapFmt()+'</p><p class="pem">Proposta emitida em '+dext(hjs)+'</p></div></div></div>';
  TXT="PROPOSTA — MARSALLA STAGE\n\n"+tipo+": "+nome+"\nData: "+sem+", "+dtx+(hr?"\nHorário: "+hext(hr):"")+(loc?"\nLocal: "+loc:"")+"\nServiço: "+f+(fi?" · "+fi:"")+(val?"\nInvestimento: "+brl(val)+" ("+rext(val)+")"+(cond?"\n"+cond:""):"")+(obs?"\n\n"+obs:"")+"\n\nMenos improviso. Mais controle.\n"+zapFmt();
  mostra()};
@@ -631,12 +632,24 @@ function folhas(h){
 $("#r-copy").onclick=function(){var b=$("#r-copy");(navigator.clipboard?navigator.clipboard.writeText(TXT):Promise.reject()).then(function(){b.textContent="Copiado ✓"},function(){b.textContent="Não foi possível copiar"});setTimeout(function(){b.textContent="Copiar texto"},2000)};
 $("#r-zap").onclick=function(){var a=D.createElement("a");a.href="https://wa.me/?text="+encodeURIComponent(TXT);a.target="_blank";a.rel="noopener";D.body.appendChild(a);a.click();a.remove()};
 function lib(u){return new Promise(function(ok,no){var s=D.createElement("script");s.src=u;s.onload=ok;s.onerror=no;D.head.appendChild(s)})}
-$("#r-pdf").onclick=function(){var e=$("#r-e"),pgs=$$("#gdoc .pg");e.textContent="Gerando PDF…";var dc=$("#gdoc"),old=dc.style.transform;dc.style.transform="";
- (window.html2canvas?Promise.resolve():lib("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js")).then(function(){return window.jspdf?0:lib("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js")}).then(function(){
-  var pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4"}),i=0;
-  function next(){if(i>=pgs.length){pdf.save((MODE==="p"?"Proposta":"Contrato")+"_Marsalla_Stage.pdf");dc.style.transform=old;e.textContent="PDF baixado ✓";return}
-   return html2canvas(pgs[i],{scale:2,backgroundColor:"#ffffff",useCORS:true}).then(function(cv){if(i)pdf.addPage();pdf.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297);i++;return next()})}
-  return next()}).catch(function(){dc.style.transform=old;e.textContent="Não consegui gerar o PDF. Tente de novo com internet."})};
+function esp(ms){return new Promise(function(r){setTimeout(r,ms)})}
+function nomeArq(){var n=MODE==="p"?$("#pp-nome").value:$("#c-nome").value;n=String(n||"").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^A-Za-z0-9]+/g,"_").replace(/^_+|_+$/g,"").slice(0,40);return(MODE==="p"?"Proposta_":"Contrato_")+(n||"Marsalla_Stage")+".pdf"}
+$("#r-pdf").onclick=async function(){var e=$("#r-e"),btn=$("#r-pdf");e.textContent="Gerando PDF…";btn.disabled=true;var fr=null;
+ try{
+  if(!window.html2canvas)await lib("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js");
+  if(!window.jspdf)await lib("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
+  var css=$$("style").map(function(s){return s.textContent}).join("\n"),links=$$('link[rel="stylesheet"]').map(function(l){return'<link rel="stylesheet" href="'+l.href+'">'}).join("");
+  fr=D.createElement("iframe");fr.setAttribute("aria-hidden","true");fr.style.cssText="position:fixed;left:-20000px;top:0;width:900px;height:1300px;border:0;pointer-events:none";D.body.appendChild(fr);
+  var d=fr.contentDocument;d.open();d.write('<!doctype html><html><head><meta charset="utf-8"><base href="'+location.href+'">'+links+'<style>'+css+'#gn{position:static!important;display:block!important;overflow:visible!important;background:#fff!important;height:auto!important}#gn .pg{margin:0 0 20px!important}</style></head><body style="margin:0;background:#fff"><div id="gn" class="on">'+$("#gdoc").innerHTML+'</div></body></html>');d.close();
+  try{await Promise.all(["300","400","600","700"].map(function(w){return d.fonts.load(w+' 20px "Montserrat"').catch(function(){})}));await d.fonts.ready}catch(x){}
+  var im=[].slice.call(d.images);await Promise.all(im.map(function(i){return i.complete?0:new Promise(function(r){i.onload=i.onerror=r})}));await esp(700);
+  var pgs=[].slice.call(d.querySelectorAll(".pg")),pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4",compress:true});
+  for(var i=0;i<pgs.length;i++){var cv=await window.html2canvas(pgs[i],{scale:2.2,backgroundColor:"#ffffff",useCORS:true,logging:false,width:794,height:1123,windowWidth:900,windowHeight:1300,scrollX:0,scrollY:0});
+   if(i)pdf.addPage();pdf.addImage(cv.toDataURL("image/jpeg",.93),"JPEG",0,0,210,297,undefined,"FAST")}
+  var blob=pdf.output("blob"),u=URL.createObjectURL(blob),a=D.createElement("a");a.href=u;a.download=nomeArq();D.body.appendChild(a);a.click();setTimeout(function(){a.remove();URL.revokeObjectURL(u)},4000);
+  e.textContent="PDF baixado ✓"
+ }catch(x){e.textContent="Não consegui gerar o PDF: "+(x&&x.message||x)}
+ finally{if(fr)fr.remove();btn.disabled=false}};
 })();
 </script><!--/GEN-->
 </body>
