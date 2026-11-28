@@ -274,10 +274,10 @@ function desenharChip(){
   var s=S.st,c=$('#chip');if(!s){c.classList.add('hide');return}c.classList.remove('hide');
   var h;
   if(s.modo==='teste'){
-    h='<b>'+s.restam+'</b><span>de '+s.gratis+' redações grátis'+(s.restam?'':' · acabaram')+'</span><a href="'+SITE+'?produto=corrige">Assinar</a>';
+    h='<b>'+s.restam+'</b><span>de '+s.gratis+' redações grátis'+(s.restam?'':' · acabaram')+'</span><a href="'+SITE+'?produto='+(s.siap?'upgrade':'corrige')+'">Assinar'+(s.siap?' por R$ 110':'')+'</a>';
   }else{
     var det=[];if(s.acumulo)det.push(s.acumulo+' acumuladas do mês passado');if(s.pacote)det.push(s.pacote+' de pacote');
-    h='<b>'+s.restam+'</b><span>redações disponíveis'+(det.length?'<br><small>'+det.join(' · ')+'</small>':'')+'</span><a href="'+SITE+'?produto=pacote30">Mais redações</a>';
+    h='<b>'+s.restam+'</b><span>redações disponíveis'+(det.length?'<br><small>'+det.join(' · ')+'</small>':'')+'</span>'+(s.restam<=0?'<a href="'+SITE+'?produto=pacote30">Mais redações</a>':'');
   }
   c.className='chip'+(s.restam<=10?' low':'');c.innerHTML=h;
   $('#bKedu').classList.toggle('hide',!(s.siap&&S.itens.some(function(i){return i.estado==='ok'||i.estado==='manual'})));

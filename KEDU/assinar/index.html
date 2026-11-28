@@ -217,8 +217,7 @@ const NOTAS = () => ({
   unico: { pix:'Pagamento único no Pix. As redações entram na sua conta assim que o pagamento é confirmado.', boleto:'Pagamento único. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao:'Pagamento único no cartão. Inclui a taxa da maquininha (3%).' }
 });
 const OFERTA = {
-  siap: 'Levar também o <b>K.Edu Corrige</b> <em>+ R$ 110/mês</em>',
-  corrige: 'Levar também o <b>K.Edu para o SIAP</b> <em>+ R$ 30/mês</em>'
+  siap: 'Levar também o <b>K.Edu Corrige</b> <em>+ R$ 110/mês</em>'
 };
 function pintar() {
   const pr = produto(), P = PROD[pr], u = !!P.unico, T = P.unico || P[plano];
@@ -233,11 +232,11 @@ function pintar() {
   $('sel').hidden = !esconde; if (esconde) $('selN').textContent = PROD[base].nome;
   $('hProd').parentElement.style.display = esconde ? 'none' : '';
   $('cPlano').hidden = u;
-  const of = $('oferta'); of.hidden = !(base === 'siap' || base === 'corrige');
+  const of = $('oferta'); of.hidden = base !== 'siap';
   of.style.display = of.hidden ? 'none' : 'flex';
   if (!of.hidden) $('oferTx').innerHTML = OFERTA[base];
   $('oferCk').checked = extra;
-  $('dUpg').hidden = base !== 'corrige'; $('dUpg').style.display = $('dUpg').hidden ? 'none' : '';
+  $('dUpg').hidden = true; $('dUpg').style.display = $('dUpg').hidden ? 'none' : '';
   $('hT').textContent = { siap:'Assine o K.Edu', corrige:'Assine o K.Edu Corrige', combo:'Assine o K.Edu + Corrige', upgrade:'Adicione o K.Edu Corrige', pacote30:'Mais redações no Corrige', pacote100:'Mais redações no Corrige' }[base];
   $('hP').textContent = base === 'corrige' || base === 'upgrade' || base.startsWith('pacote') ? 'Pague e use: as redações são liberadas sozinhas assim que o pagamento é confirmado.' : 'Escolha o plano, pague e pronto: a licença é liberada sozinha assim que o pagamento é confirmado.';
   $('sAnual').textContent = P.sAnual || '';
@@ -289,6 +288,10 @@ async function enviar(e) {
       const m = (ja.error && ja.error.message) || '';
       $('erro').textContent = /WEAK_PASSWORD/.test(m) ? 'A senha precisa ter pelo menos 6 caracteres.' : /INVALID_EMAIL/.test(m) ? 'Confira o e-mail digitado.' : 'Não consegui criar a conta. Tente de novo.';
       $('ir').disabled = false; $('ir').textContent = 'Criar conta e ir para o checkout'; return;
+    }
+    if (produto() === 'corrige') {
+      const rs = await fetch(WORKER + '/corrige/status', { method:'POST', headers:{ 'Content-Type':'application/json', Authorization:'Bearer ' + ja.idToken }, body:'{}' }).then(x => x.json()).catch(() => ({}));
+      if (rs.siap) { base = 'upgrade'; extra = false; pintar(); $('erro').textContent = 'Você já usa o K.Edu! Então o Corrige sai por só R$ 110,00 por mês. Confira o valor e toque de novo para continuar.'; $('ir').disabled = false; $('ir').textContent = 'Ir para o checkout'; return; }
     }
     $('ir').textContent = 'Abrindo o pagamento...';
     const r = await fetch(WORKER + '/pagar/criar', { method:'POST', headers:{ 'Content-Type':'application/json' },
