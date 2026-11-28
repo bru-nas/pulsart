@@ -2907,7 +2907,7 @@ async function geraContrato(){
     for(var i=0;i<pgs.length;i++){
       var cv=await window.nativo(pgs[i],{scale:2.2,backgroundColor:null,useCORS:true,logging:false,width:794,height:1123,windowWidth:900,windowHeight:1300,scrollX:0,scrollY:0});
       if(i)doc.addPage();doc.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297,undefined,"FAST")}
-    return{blob:doc.output("blob"),nome:"Contrato_"+(nm(document.getElementById("c-nome").value)||"Jonatas")+".pdf",txt:"Contrato de prestação de serviços artísticos — Jônatas Violinista"};
+    return{blob:doc.output("blob"),nome:"Contrato_"+(nm(document.getElementById("c-nome").value)||"Jônatas")+".pdf",txt:"Contrato de prestação de serviços artísticos — Jônatas Violinista"};
   }finally{fr.remove()}
 }
 async function geraProposta(){
@@ -2922,7 +2922,7 @@ async function geraProposta(){
     var cv=await window.nativo(t,{scale:2.2,backgroundColor:null,useCORS:true,logging:false,width:794,height:Math.min(Math.max(t.offsetHeight,1123),1123),windowWidth:900,windowHeight:1300,scrollX:0,scrollY:0});
     var doc=new JS({unit:"mm",format:"a4",compress:true});
     doc.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297,undefined,"FAST");
-    return{blob:doc.output("blob"),nome:"Proposta_"+(nm(document.getElementById("pp-nome").value)||"Jonatas")+".pdf",txt:"Proposta de apresentação musical — Jônatas Violinista"};
+    return{blob:doc.output("blob"),nome:"Proposta_"+(nm(document.getElementById("pp-nome").value)||"Jônatas")+".pdf",txt:"Proposta de apresentação musical — Jônatas Violinista"};
   }finally{fr.remove()}
 }
 function baixar(r){var u=URL.createObjectURL(r.blob),a=document.createElement("a");a.href=u;a.download=r.nome;document.body.appendChild(a);a.click();setTimeout(function(){a.remove();URL.revokeObjectURL(u)},4000)}
