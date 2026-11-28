@@ -1418,6 +1418,11 @@ html body article.pk{border-top:3px solid #0c1a38!important}
 #intro .ilt b{font-size:19.6vw!important}
 #intro .ilt small{font-size:7.4vw!important;letter-spacing:.6em!important;text-indent:.6em!important;margin-top:3vw!important}
 @media(min-width:900px){#intro .ilt b{font-size:min(19.6vw,170px)!important}#intro .ilt small{font-size:min(7.4vw,40px)!important}}
+/* página já completa quando a abertura se abre */
+html body .et>*,html body .eph img{opacity:1!important;transform:none!important;transition:none!important}
+html body .eph img{animation:none!important}
+#intro .fl{animation:gdown 1.4s cubic-bezier(.6,0,.3,1) 1.4s forwards!important}
+@keyframes gdown{0%{opacity:1;transform:scaleY(0)}62%{opacity:1;transform:scaleY(1)}100%{opacity:0;transform:scaleY(1)}}
 </style></head><body>
 <script>try{var L=document.getElementById("fvc");if(L){var n=L.cloneNode();L.remove();document.head.appendChild(n)}}catch(e){}</script>
 <div id="intro" aria-hidden="true"><i class="band"></i><i class="blob bA"></i><i class="blob bB"></i>
