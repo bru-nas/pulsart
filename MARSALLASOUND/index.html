@@ -337,19 +337,19 @@ footer a{color:var(--rd2)}
 (function(){
 var I=document.getElementById("intro"),B=document.body,done=false,ctx=null,out=null;
 /* som de energia (sintetizado, sem arquivo) */
-try{var AC=window.AudioContext||window.webkitAudioContext;ctx=new AC();window.__ctx=ctx;out=ctx.createGain();out.gain.value=.95;out.connect(ctx.destination)}catch(e){ctx=null}
+try{var AC=window.AudioContext||window.webkitAudioContext;ctx=new AC();window.__ctx=ctx;out=ctx.createGain();out.gain.value=.5;var cp=ctx.createDynamicsCompressor();cp.threshold.value=-10;cp.ratio.value=6;out.connect(cp);cp.connect(ctx.destination)}catch(e){ctx=null}
 function on(){return ctx&&ctx.state==="running"}
 function wake(){if(ctx&&ctx.state==="suspended")ctx.resume()}
 ["pointerdown","keydown","touchstart","click"].forEach(function(ev){addEventListener(ev,wake,{passive:true})});
-function noise(d){var n=ctx.sampleRate*d,b=ctx.createBuffer(1,n,ctx.sampleRate),a=b.getChannelData(0);for(var i=0;i<n;i++)a[i]=Math.random()*2-1;var s=ctx.createBufferSource();s.buffer=b;return s}
-function buzz(d,g,f){if(!on())return;var t=ctx.currentTime,gn=ctx.createGain();gn.gain.setValueAtTime(g,t);gn.gain.exponentialRampToValueAtTime(.001,t+d);gn.connect(out);
- var o=ctx.createOscillator();o.type="sawtooth";o.frequency.value=f||100;o.connect(gn);o.start(t);o.stop(t+d);
- var o2=ctx.createOscillator();o2.type="square";o2.frequency.value=(f||100)*2.01;var g2=ctx.createGain();g2.gain.value=.35;o2.connect(g2);g2.connect(gn);o2.start(t);o2.stop(t+d);
- var n=noise(d),bp=ctx.createBiquadFilter();bp.type="bandpass";bp.frequency.value=2600;bp.Q.value=.8;var g3=ctx.createGain();g3.gain.value=.9;n.connect(bp);bp.connect(g3);g3.connect(gn);n.start(t)}
-function zap(){if(!on())return;var t=ctx.currentTime,n=noise(.5),hp=ctx.createBiquadFilter();hp.type="highpass";hp.frequency.setValueAtTime(800,t);hp.frequency.exponentialRampToValueAtTime(6000,t+.35);var g=ctx.createGain();g.gain.setValueAtTime(.5,t);g.gain.exponentialRampToValueAtTime(.001,t+.5);n.connect(hp);hp.connect(g);g.connect(out);n.start(t);
- var o=ctx.createOscillator();o.type="sawtooth";o.frequency.setValueAtTime(70,t);o.frequency.exponentialRampToValueAtTime(260,t+.45);var og=ctx.createGain();og.gain.setValueAtTime(.3,t);og.gain.exponentialRampToValueAtTime(.001,t+.6);o.connect(og);og.connect(out);o.start(t);o.stop(t+.6)}
-function thump(){if(!on())return;var t=ctx.currentTime,o=ctx.createOscillator();o.type="sine";o.frequency.setValueAtTime(130,t);o.frequency.exponentialRampToValueAtTime(42,t+.22);var g=ctx.createGain();g.gain.setValueAtTime(.95,t);g.gain.exponentialRampToValueAtTime(.001,t+.34);o.connect(g);g.connect(out);o.start(t);o.stop(t+.36);
- var n=noise(.06),lp=ctx.createBiquadFilter();lp.type="lowpass";lp.frequency.value=900;var g2=ctx.createGain();g2.gain.setValueAtTime(.35,t);g2.gain.exponentialRampToValueAtTime(.001,t+.06);n.connect(lp);lp.connect(g2);g2.connect(out);n.start(t)}
+function tone(type,f0,f1,d,g,t0){var t=ctx.currentTime+(t0||0),o=ctx.createOscillator();o.type=type;o.frequency.setValueAtTime(f0,t);if(f1&&f1!==f0)o.frequency.exponentialRampToValueAtTime(f1,t+d);var e=ctx.createGain();e.gain.setValueAtTime(.0001,t);e.gain.exponentialRampToValueAtTime(g,t+.012);e.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(e);e.connect(out);o.start(t);o.stop(t+d+.02);return e}
+/* zumbido elétrico grave (sem chiado): serra filtrada em 60 Hz */
+function buzz(d,g,f){if(!on())return;var t=ctx.currentTime,o=ctx.createOscillator();o.type="sawtooth";o.frequency.value=(f||100)>105?60:50;var lp=ctx.createBiquadFilter();lp.type="lowpass";lp.frequency.value=280;lp.Q.value=2;var e=ctx.createGain();e.gain.setValueAtTime(.0001,t);e.gain.exponentialRampToValueAtTime(Math.max(.02,g*.5),t+.01);e.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(lp);lp.connect(e);e.connect(out);o.start(t);o.stop(t+d+.02);tone("sine",60,60,d,g*.35)}
+/* batida grave: bumbo de subgrave */
+function thump(){if(!on())return;tone("sine",95,38,.5,1);tone("sine",190,76,.18,.35);tone("sine",48,34,.6,.7)}
+/* ligar a luz: swell grave subindo + toque de energia baixo */
+function zap(){if(!on())return;tone("sine",40,110,.55,.8);tone("sawtooth",55,55,.5,.12);tone("sine",80,30,.7,.6,.35)}
+/* abrir a página: descida grave */
+function open_(){if(!on())return;tone("sine",150,34,1.0,.85);tone("sine",300,70,.5,.2)}
 function fim(){if(done)return;done=true;I.classList.add("gone");document.getElementById("fio").style.display="none";B.classList.remove("lock");setTimeout(function(){I.remove();if(ctx)ctx.close&&ctx.close()},1200)}
 function at(ms,f){setTimeout(function(){if(!done)f()},ms)}
 /* linha do tempo (começa quando o som está liberado) */
@@ -361,7 +361,7 @@ at(700,function(){I.classList.add("off")});
 at(2500,function(){I.classList.add("on");zap();buzz(.12,.5,110);at(0,function(){});setTimeout(function(){buzz(.1,.45,115)},240);setTimeout(function(){buzz(.08,.5,120)},520)});
 at(3300,function(){I.classList.add("snd1")});
 at(3900,function(){I.classList.add("beat");thump();setTimeout(thump,460);setTimeout(thump,920)});
-at(5450,function(){I.classList.add("open");document.getElementById("fio").classList.add("go");zap()});
+at(5450,function(){I.classList.add("open");document.getElementById("fio").classList.add("go");open_()});
 at(6750,fim);
 }
 function go(){wake();if(ctx&&ctx.state==="suspended"){ctx.resume().then(run,run);setTimeout(run,350)}else run()}
