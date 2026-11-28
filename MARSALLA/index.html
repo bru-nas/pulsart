@@ -1154,7 +1154,7 @@ html body #prop .ps img{width:205px!important;z-index:2}
 @media print{body.pp-print #prop .ps img{width:54mm!important}body.pp-print #prop:before{left:27mm!important}}
 html body #prop .ptt small{color:#9a7433}
 html body #prop .ptt h1{color:#40010D!important;-webkit-text-fill-color:#40010D!important}
-html body #prop .pev{color:#9a7433}
+html body #prop .pev{color:#9a7433;text-align:center;margin-top:4px}
 html body #prop .pdv i{background:#f8f4ee;border-color:#9a7433}
 html body #prop h2,html body #prop .pnote h2{color:#40010D!important;-webkit-text-fill-color:#40010D!important}
 html body #prop p,html body #prop dd{color:#3a0a14!important}
@@ -1185,12 +1185,12 @@ html body #prop .pplus{font-style:normal;font-family:'Cormorant Garamond',Georgi
 /* proposta: marca d'água e pacote em linhas alinhadas */
 html body #prop .pb{position:relative;z-index:1}
 html body #prop .pwm,html body .cpg .pwm{position:absolute;left:calc(92px + (100% - 92px)/2);top:50%;width:540px;max-width:none;height:auto;transform:translate(-50%,-50%);opacity:.07;z-index:0;pointer-events:none}
-html body #prop .pfx.pfl{display:inline-block;text-align:left;padding:14px 26px 13px;min-width:340px}
-html body #prop .pit{display:grid;grid-template-columns:150px 1fr;align-items:baseline;gap:0 14px;padding:3px 0}
+html body #prop .pfx.pfl{display:block;text-align:center;padding:14px 26px 13px;width:auto;max-width:none;box-sizing:border-box}
+html body #prop .pit{display:block;text-align:center;padding:3px 0}
 html body #prop .pplus+.pit{margin-top:4px;padding-top:7px;border-top:1px dotted rgba(184,145,74,.6)}
-html body #prop .pit span{border-left:0;padding-left:0;font-size:12px}
-html body #prop .pit span:empty{display:block}
-html body #prop .pplus+.pit b:before{content:"+ ";color:#9a7433}
+html body #prop .pit b{display:block;line-height:1.25}
+html body #prop .pit span{display:block;border-left:0;padding-left:0;margin-top:3px;font-size:12px;text-align:center}
+html body #prop .pit span:empty{display:none}
 html body #prop .pplus{display:none}
 
 /* contrato em folhas A4, mesmo estilo da proposta */
