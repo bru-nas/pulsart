@@ -20,7 +20,7 @@ a{color:inherit;text-decoration:none}
 /* ===== logo + Sound ===== */
 .lock-logo{position:relative;display:inline-block;line-height:0}
 .lock-logo img{width:100%;height:auto}
-.snd{position:absolute;right:1%;top:calc(100% + .35em);font-weight:600;letter-spacing:.5em;margin-right:-.5em;text-transform:uppercase;color:var(--rd2);line-height:1;white-space:nowrap}
+.snd{position:absolute;right:2%;top:calc(100% - 1.7em);font-weight:600;letter-spacing:.5em;margin-right:-.5em;text-transform:uppercase;color:var(--rd2);line-height:1;white-space:nowrap}
 
 /* ===== abertura ===== */
 #intro{position:fixed;inset:0;z-index:999;background:#000;overflow:hidden}
@@ -69,7 +69,7 @@ a{color:inherit;text-decoration:none}
 .top.sc{background:rgba(6,6,8,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .top .lock-logo{width:132px;font-size:132px;line-height:0}
 .top .snd{font-size:.036em}
-.top .snd{font-size:5px}
+.top .snd{font-size:5.5px;top:calc(100% - 3px)}
 .nav{display:flex;gap:30px;align-items:center}
 .nav a{font-size:.66rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#d8d8de;transition:color .2s}
 .nav a:hover{color:var(--rd2)}
@@ -79,10 +79,10 @@ a{color:inherit;text-decoration:none}
 
 /* ===== hero ===== */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-.hero .bg{position:absolute;inset:0;background:url(img/hero.jpg) center 35%/cover no-repeat;filter:saturate(.7) contrast(1.1)}
+.hero .bg{position:absolute;inset:0;background:url(img/hero.jpg) center 28%/cover no-repeat;filter:saturate(.8) contrast(1.08)}
 .hero:before{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(80% 70% at 50% 45%,rgba(4,4,5,.55),rgba(4,4,5,.9) 75%),linear-gradient(to bottom,rgba(4,4,5,.5),var(--bg))}
 .hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;z-index:3;background:linear-gradient(90deg,transparent,var(--rd),transparent);box-shadow:var(--glow)}
-.hero .in{position:relative;z-index:2;padding:120px 0 90px}
+.hero .in{position:relative;z-index:2}
 .kick{display:inline-flex;align-items:center;gap:16px;font-size:.66rem;font-weight:600;letter-spacing:.42em;text-transform:uppercase;color:var(--rd2);text-shadow:0 0 14px rgba(255,42,61,.6)}
 .kick:before,.kick:after{content:"";width:46px;height:1px;background:linear-gradient(90deg,transparent,var(--rd))}
 .kick:after{transform:scaleX(-1)}
@@ -94,9 +94,22 @@ h1 b{font-weight:800;color:#fff;text-shadow:0 0 30px rgba(255,42,61,.55)}
 .btn.ghost{background:none;border:1px solid rgba(255,255,255,.28);box-shadow:none;margin-left:12px}
 .btn.ghost:hover{border-color:var(--rd);box-shadow:0 0 20px rgba(255,42,61,.45)}
 
+/* hero: painel fosco na frente, foto atrás (troque img/mesa.jpg pela mesa de som) */
+.hero .bg{background:url(img/mesa.jpg) center/cover no-repeat,url(img/hero.jpg) center 14%/cover no-repeat;filter:saturate(.95) contrast(1.05)}
+.hero:before{background:linear-gradient(to bottom,rgba(4,4,5,.45),rgba(4,4,5,.1) 35%,rgba(4,4,5,.1) 65%,var(--bg) 100%)}
+.hero .in{width:min(860px,100% - 32px);margin:0 auto;padding:46px clamp(22px,5vw,64px) 50px;margin-top:70px;margin-bottom:40px;
+ background:linear-gradient(150deg,rgba(255,255,255,.09),rgba(255,255,255,.025) 45%,rgba(255,255,255,.05)),rgba(8,8,11,.42);
+ backdrop-filter:blur(22px) saturate(1.15);-webkit-backdrop-filter:blur(22px) saturate(1.15);
+ border:1px solid rgba(255,255,255,.12);border-top-color:rgba(255,255,255,.22);
+ box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.14),0 0 70px rgba(255,42,61,.12)}
+.hero .in:before{content:"";position:absolute;left:0;top:0;width:46px;height:46px;border-left:1px solid var(--rd);border-top:1px solid var(--rd);box-shadow:-6px -6px 18px -8px rgba(255,42,61,.8)}
+.hero .in:after{content:"";position:absolute;right:0;bottom:0;width:46px;height:46px;border-right:1px solid var(--rd);border-bottom:1px solid var(--rd);box-shadow:6px 6px 18px -8px rgba(255,42,61,.8)}
+.hero h1{font-size:clamp(1.9rem,4.6vw,3.4rem)}
+
 /* ===== seções ===== */
 section{position:relative;padding:clamp(70px,10vw,120px) 0}
-.alt{background:linear-gradient(160deg,#0d0d11 0%,#060608 55%,#0a0a0d 100%)}
+.alt{background:linear-gradient(to bottom,var(--bg) 0%,#0c0c10 22%,#101016 50%,#0c0c10 78%,var(--bg) 100%)}
+section:not(.alt):not(.hero){background:var(--bg)}
 .st{font-weight:300;font-size:clamp(1.7rem,3.8vw,2.7rem);line-height:1.2;margin:16px 0 0}
 .st b{font-weight:700}
 .st em{font-style:normal;color:var(--rd2);text-shadow:0 0 22px rgba(255,42,61,.55)}
@@ -107,14 +120,14 @@ section{position:relative;padding:clamp(70px,10vw,120px) 0}
 .two p{margin-top:18px;color:#c4c4cc}
 .two p.big{font-size:1.15rem;color:#fff;font-weight:500}
 .ph{position:relative}
-.ph img{width:100%;aspect-ratio:4/5;object-fit:cover;border:1px solid var(--line);filter:saturate(.85) contrast(1.05)}
+.ph img{width:100%;aspect-ratio:1/1;object-fit:cover;border:1px solid var(--line);filter:saturate(.85) contrast(1.05)}
 .ph:before{content:"";position:absolute;inset:-1px;border:1px solid rgba(255,42,61,.55);clip-path:polygon(0 0,40px 0,40px 1px,1px 1px,1px 40px,0 40px,0 0);z-index:2}
 .ph:after{content:"";position:absolute;right:-1px;bottom:-1px;width:42px;height:42px;border-right:1px solid rgba(255,42,61,.8);border-bottom:1px solid rgba(255,42,61,.8);box-shadow:4px 4px 18px -4px rgba(255,42,61,.7)}
 
 /* método */
 .steps{list-style:none;display:grid;gap:14px;margin-top:46px;grid-template-columns:1fr}
-@media(min-width:700px){.steps{grid-template-columns:1fr 1fr}}
-@media(min-width:1040px){.steps{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:700px){.steps{grid-template-columns:1fr 1fr}.steps li:last-child{grid-column:1/-1}}
+@media(min-width:1040px){.steps{grid-template-columns:repeat(12,1fr)}.steps li{grid-column:span 3}.steps li:nth-child(n+5){grid-column:span 4}.steps li:last-child{grid-column:span 4}}
 .steps li{position:relative;padding:26px 22px 24px;background:linear-gradient(155deg,rgba(255,255,255,.055),rgba(255,255,255,.012));border:1px solid var(--line);transition:.3s}
 .steps li:hover{border-color:rgba(255,42,61,.6);box-shadow:0 0 28px rgba(255,42,61,.18)}
 .steps .n{display:block;font-weight:800;font-size:1.7rem;color:transparent;-webkit-text-stroke:1px var(--rd);text-shadow:0 0 16px rgba(255,42,61,.5);letter-spacing:.04em}
@@ -140,6 +153,14 @@ section{position:relative;padding:clamp(70px,10vw,120px) 0}
 .gal figure:hover img{transform:scale(1.06);filter:saturate(1)}
 .gal figure:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(4,4,5,.6),transparent 50%);pointer-events:none}
 
+/* vídeos */
+.vds{display:grid;gap:14px;grid-template-columns:repeat(2,1fr);margin-top:46px;grid-auto-flow:dense}
+@media(min-width:900px){.vds{grid-template-columns:repeat(4,1fr)}}
+.vd{position:relative;border:1px solid var(--line);background:#000;overflow:hidden;box-shadow:0 0 0 1px rgba(255,42,61,0)}
+.vd:hover{border-color:rgba(255,42,61,.55);box-shadow:0 0 26px rgba(255,42,61,.18)}
+.vd video{width:100%;height:100%;display:block;object-fit:cover}
+.vd.p{aspect-ratio:9/16}
+.vd.l{aspect-ratio:16/9;grid-column:span 2}
 /* final */
 .final{text-align:center;overflow:hidden}
 .final:before{content:"";position:absolute;left:50%;top:50%;width:90vmin;height:90vmin;margin:-45vmin 0 0 -45vmin;background:radial-gradient(circle,rgba(255,42,61,.22),transparent 62%);pointer-events:none}
@@ -257,9 +278,7 @@ footer a{color:var(--rd2)}
     <p>Um evento não permanece igual do início ao fim. Existem momentos de recepção, discursos, apresentações, celebração e festa. Cada um deles possui necessidades diferentes de sonorização e iluminação.</p>
     <p>Por isso, nossa atenção está na integração entre os equipamentos, o ambiente e a programação. O objetivo é que a estrutura acompanhe essas mudanças sem comprometer a experiência dos convidados.</p>
     <p>O melhor resultado é aquele em que a parte técnica funciona sem precisar se tornar o centro das atenções.</p></div>
-    <div class="gal rv">
-      <figure><img src="img/g2.jpg" alt=""></figure><figure><img src="img/g3.jpg" alt=""></figure><figure><img src="img/g5.jpg" alt=""></figure><figure><img src="img/g1.jpg" alt=""></figure>
-    </div>
+    <div class="vds rv"><figure class="vd p"><video src="v/v1.mp4" poster="img/v1.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v2.mp4" poster="img/v2.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v3.mp4" poster="img/v3.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v4.mp4" poster="img/v4.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v5.mp4" poster="img/v5.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v6.mp4" poster="img/v6.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v7.mp4" poster="img/v7.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v8.mp4" poster="img/v8.jpg" preload="none" playsinline controls></video></figure></div>
   </div>
 </section>
 
@@ -300,6 +319,8 @@ var tp=document.getElementById("top");
 addEventListener("scroll",function(){tp.classList.toggle("sc",scrollY>40)},{passive:true});
 var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.12});
 document.querySelectorAll(".rv").forEach(function(e){io.observe(e)});
+var vl=[].slice.call(document.querySelectorAll(".vd video"));
+vl.forEach(function(v){v.addEventListener("play",function(){vl.forEach(function(o){if(o!==v)o.pause()})})});
 })();
 </script>
 </body>
