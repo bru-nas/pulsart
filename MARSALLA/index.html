@@ -1285,7 +1285,7 @@ setTimeout(fim,4400);
 <div class="lg"><span><i class="k o"></i>Disponível</span><span><i class="k u"></i>1 vaga restante</span><span><i class="k c"></i>Dia fechado</span><span><i class="k s"></i>Data escolhida</span></div></div>
 <div class="calsel" id="cal-sel" hidden><p id="cal-st"></p><a class="btn b1" id="cal-go" href="#formatos">Escolher o pacote</a>
 <div class="cfm" id="cal-fm" hidden><div class="cfr"><span>Data</span><b id="cf-d"></b><a href="#calendario" class="tr" id="cf-td">Trocar</a></div><div class="cfr"><span>Pacote</span><b id="cf-f"></b><a href="#formatos" class="tr">Trocar</a></div>
-<label for="cs-cd">Cidade e local</label><input id="cs-cd" placeholder="Ex.: Cidade - UF, nome do espaço" autocomplete="off">
+<label for="cs-nome">Seu nome</label><input id="cs-nome" placeholder="Nome completo" autocomplete="name" maxlength="80"><label for="cs-cd">Cidade e local</label><input id="cs-cd" placeholder="Ex.: Cidade - UF, nome do espaço" autocomplete="off">
 <label>Quantidade de convidados</label><div class="seg" id="cs-som"><button type="button" class="sg" data-s="Até 150">Até 150</button><button type="button" class="sg" data-s="Mais de 150">Mais de 150</button></div>
 <div class="er2" id="cs-e"></div><button class="btn b1 go" id="cs-send" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.45 9.45 0 0 1-4.82-1.32l-.35-.2-3.58.94.96-3.49-.22-.36a9.43 9.43 0 0 1-1.45-5.03c0-5.2 4.24-9.44 9.46-9.44 2.52 0 4.9.99 6.68 2.77a9.4 9.4 0 0 1 2.76 6.68c0 5.21-4.24 9.45-9.43 9.45zM20.1 3.9A11.4 11.4 0 0 0 12.04.5C5.74.5.6 5.63.6 11.93c0 2.02.53 3.98 1.53 5.72L.5 23.5l6.02-1.58a11.4 11.4 0 0 0 5.52 1.4h.01c6.3 0 11.44-5.13 11.44-11.43 0-3.05-1.19-5.92-3.4-8.09z"/></svg> Enviar pelo WhatsApp</button></div></div></div></section>
 
@@ -1339,6 +1339,7 @@ setTimeout(fim,4400);
    <input type="email" id="rec-em" autocomplete="email" inputmode="email" placeholder="voce@gmail.com"><div class="er" id="rec-e"></div><button class="bt" id="rec-b">Salvar e-mail</button></div>
   <div class="tabs2 nopr" id="tabs2"><button data-p="ag" class="on">Agenda</button><button data-p="prop">Proposta</button><button data-p="ft">Fotos</button><button data-p="ctr">Contratos</button></div>
   <div class="pane on" data-p="ag">
+   <div class="box" id="pd-box"><h3>Pedidos pendentes</h3><p class="h">Quem escolheu uma data e foi para o WhatsApp aparece aqui, com o nome, e o dia já fica ocupado no site. Se a pessoa fechar, toque em <b>Confirmar</b> (vira lançamento na agenda). Se não fechar, toque em <b>Excluir</b> e a data volta a ficar livre.</p><div id="pd-list"></div><div class="er" id="pd-e"></div><button class="bt o" id="pd-rf">Atualizar lista</button></div>
    <div class="box"><h3>Agenda de marcações</h3><p class="h">Lance aqui os eventos fechados. Cada dia aceita até 2 marcações: com 2, o dia fica fechado no calendário do site. Para reabrir, exclua um lançamento. Datas passadas saem sozinhas.</p>
     <div id="ag-list"></div>
     <button class="bt o" id="ag-add">+ Adicionar lançamento</button>
@@ -1471,11 +1472,14 @@ document.addEventListener("click",function(e){
   if(e.target.closest&&e.target.closest("#cs-send")){
     var cd=document.getElementById("cs-cd").value.trim().replace(/\s+/g," "),er=document.getElementById("cs-e");
     if(!SEL){pedeData();return}if(!FMT){pedeFormato();return}
+    var nm=document.getElementById("cs-nome").value.trim().replace(/\s+/g," ");if(!nm){er.textContent="Digite o seu nome.";return}
     if(!cd){er.textContent="Digite a cidade e o local da cerimônia.";return}
     if(!SOM2){er.textContent="Informe a quantidade de convidados.";return}
     var pf=PL.find(function(p){return p.n===FMT});
-    var m="Olá, Marsalla! Quero um orçamento para a cerimônia do meu casamento.\n\n📅 Data da cerimônia: "+brData(SEL)+" ("+CALD[new Date(+SEL.slice(0,4),+SEL.slice(5,7)-1,+SEL.slice(8,10)).getDay()]+")\n📍 Cidade e local: "+cd+"\n🎼 Pacote desejado: "+pf.n+" ("+pf.sub.toLowerCase()+")\n👥 Convidados: "+SOM2+exTxt();
-    window.location.href="https://wa.me/"+MEUZAP+"?text="+encodeURIComponent(m)}});
+    var m="Olá, Marsalla! Quero um orçamento para a cerimônia do meu casamento.\n\n👤 Nome: "+nm+"\n📅 Data da cerimônia: "+brData(SEL)+" ("+CALD[new Date(+SEL.slice(0,4),+SEL.slice(5,7)-1,+SEL.slice(8,10)).getDay()]+")\n📍 Cidade e local: "+cd+"\n🎼 Pacote desejado: "+pf.n+" ("+pf.sub.toLowerCase()+")\n👥 Convidados: "+SOM2+exTxt();
+    var pid=Date.now().toString(36)+Math.random().toString(36).slice(2,7),go=function(){window.location.href="https://wa.me/"+MEUZAP+"?text="+encodeURIComponent(m)};
+    document.getElementById("cs-send").disabled=true;er.textContent="";RES[SEL]=(RES[SEL]||0)+1;
+    gravaPedido(pid,nm,cd,pf,SOM2).then(go,go)}});
 renderCal();atualizaData();
 function dtSync(){var el=document.getElementById("dtev"),tr=document.getElementById("trocar");
   if(SEL){el.value=brData(SEL);el.readOnly=true;el.dataset.auto="1";tr.style.display="block";document.getElementById("e-dt").style.display="none"}
@@ -1794,7 +1798,7 @@ async function carregarStatus(){
     await Promise.all(Object.keys(k||{}).map(async id=>{try{ST.midia[id]=await dbGet("midia/"+PAGE.art+"/"+id+"/ts")}catch(_){}}))}catch(_){}
   try{ST.agenda=(await dbGet("agenda/"+PAGE.art))||[]}catch(_){ST.agenda=[]}
   if(!Array.isArray(ST.agenda))ST.agenda=Object.values(ST.agenda);
-  desenharPrecos();desenharMidia();desenharAgendaForm()}
+  desenharPrecos();desenharMidia();desenharAgendaForm();desenharPedidos()}
 const travaDe=ts=>ts&&Date.now()<ts+SEIS_MESES?ts+SEIS_MESES:0;
 const infoTrava=(ts,vazio)=>{const t=travaDe(ts);return t?{trv:1,txt:"🔒 Trocado em "+fmtData(ts)+" — libera em "+fmtData(t)}:{trv:0,txt:ts?"✓ Liberado para trocar (última troca: "+fmtData(ts)+")":(vazio||"✓ Liberado para trocar")}};
 
@@ -1883,6 +1887,29 @@ async function trocarMidia(it,file){
       catch(x){er.textContent=x.status===401||x.status===403?"Não foi possível: este item foi trocado há menos de 6 meses (ou a sessão expirou).":"Erro ao enviar. Verifique a internet.";b.disabled=false}}
   }catch(x){ex.innerHTML=`<div class="er">${x.message||"Não deu certo."}</div>`}}
 
+
+/* ---------- pedidos pendentes (nome + data gravados ao ir para o WhatsApp) ---------- */
+var PED={};
+function recarregaRes(){return dbGet("reservas/"+PAGE.art).then(function(R){RES={};Object.keys(R||{}).forEach(function(k){var x=R[k];if(x&&x.d)RES[x.d]=(RES[x.d]||0)+1});agendaPublica(ST.agenda)},function(){})}
+async function desenharPedidos(){var box=document.getElementById("pd-list");if(!box)return;
+  try{PED=(await dbGetA("pedidos/"+PAGE.art))||{}}catch(_){box.innerHTML='<p class="h">Não consegui carregar os pedidos. Verifique a internet.</p>';return}
+  var L=Object.keys(PED).map(function(k){var x=PED[k];x.k=k;return x}).filter(function(x){return x&&x.d&&x.d>=hojeISO()}).sort(function(a,b){return a.d.localeCompare(b.d)||(a.ts||0)-(b.ts||0)});
+  box.innerHTML=L.length?L.map(function(x){return '<div class="agr" data-k="'+escH(x.k)+'" style="display:block;border:1px solid rgba(184,145,74,.45);padding:10px;margin-bottom:8px"><div><b>'+x.d.split("-").reverse().join("/")+'</b> — '+escH(x.n||"")+'</div><small class="nota2">'+escH(x.f||"")+(x.c?" · "+escH(x.c):"")+(x.g?" · "+escH(x.g):"")+(x.ts?" · pedido em "+fmtData(x.ts):"")+'</small><div class="row2" style="margin-top:8px"><button class="bt" data-a="ok">Confirmar</button><button class="bt o" data-a="del">Excluir</button></div></div>'}).join(""):'<p class="h">Nenhum pedido pendente.</p>'}
+document.addEventListener("click",async function(e){
+  if(e.target.closest&&e.target.closest("#pd-rf")){desenharPedidos();return}
+  var b=e.target.closest&&e.target.closest("#pd-list button[data-a]");if(!b||b.disabled)return;
+  var k=b.closest(".agr").dataset.k,x=PED[k],er=document.getElementById("pd-e");er.textContent="";if(!x)return;
+  var dd=x.d.split("-").reverse().join("/");
+  try{
+    if(b.dataset.a==="del"){if(!confirm("Excluir o pedido de "+x.n+" ("+dd+")? A data volta a ficar livre no site."))return;b.disabled=true;await dbPut("pedidos/"+PAGE.art+"/"+k,null);await dbPut("reservas/"+PAGE.art+"/"+k,null)}
+    else{var h=prompt("Horário do evento de "+x.n+" em "+dd+" (ex.: 16:00):","");if(h===null)return;h=h.trim();
+      if(!/^([01]?\d|2[0-3]):[0-5]\d$/.test(h)){er.textContent="Horário inválido. Use o formato 16:00.";return}if(h.length===4)h="0"+h;
+      var cnt=futuros(ST.agenda).filter(function(s){return s.d===x.d}).length;if(cnt>=2){er.textContent="O dia "+dd+" já tem 2 lançamentos na agenda.";return}
+      b.disabled=true;var o=futuros((ST.agenda||[]).concat([{d:x.d,l:(x.n+(x.c?" — "+x.c:"")).slice(0,80),h:h}])).map(function(s){var r={d:s.d,l:s.l.slice(0,80)};if(s.h)r.h=s.h;return r});
+      await dbPut("agenda/"+PAGE.art,o);ST.agenda=o;await dbPut("pedidos/"+PAGE.art+"/"+k,null);await dbPut("reservas/"+PAGE.art+"/"+k,null);desenharAgendaForm()}
+    await desenharPedidos();await recarregaRes()
+  }catch(_){er.textContent="Erro. Verifique a internet e a sessão.";b.disabled=false}});
+
 /* ---------- agenda ---------- */
 const MESES3=["JAN","FEV","MAR","ABR","MAI","JUN","JUL","AGO","SET","OUT","NOV","DEZ"],DIAS3=["DOM","SEG","TER","QUA","QUI","SEX","SÁB"];
 const hojeISO=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
@@ -1904,7 +1931,11 @@ $("#ag-save").onclick=async()=>{const e=$("#ag-e"),ok=$("#ag-ok");e.textContent=
   const cnt={};for(const s of futuros(L)){cnt[s.d]=(cnt[s.d]||0)+1;if(cnt[s.d]>2){e.textContent="O dia "+s.d.split("-").reverse().join("/")+" já tem 2 marcações. Cada dia aceita no máximo 2.";return}}
   const o=futuros(L).map(s=>{const r={d:s.d,l:s.l.slice(0,80)};if(s.h)r.h=s.h;return r});
   try{await dbPut("agenda/"+PAGE.art,o.length?o:null);ST.agenda=o;ok.textContent=" ✓ Agenda salva";desenharAgendaForm();agendaPublica(o)}catch(x){e.textContent="Erro ao salvar. Verifique a internet e a sessão."}};
-function agendaPublica(L){BOOK={};futuros(L).forEach(x=>{BOOK[x.d]=(BOOK[x.d]||0)+1});if(SEL&&(BOOK[SEL]||0)>=2){SEL=null}renderCal();atualizaData()}
+var RES={};
+function gravaPedido(id,nm,cd,pf,som){var T={".sv":"timestamp"},h={method:"PUT",headers:{"Content-Type":"application/json"},keepalive:true},b=FB.db+"/";
+  var p=Promise.all([fetch(b+"reservas/"+PAGE.art+"/"+id+".json",Object.assign({body:JSON.stringify({d:SEL,ts:T})},h)),fetch(b+"pedidos/"+PAGE.art+"/"+id+".json",Object.assign({body:JSON.stringify({d:SEL,n:nm.slice(0,80),c:cd.slice(0,120),f:String(pf.n).slice(0,60),g:String(som).slice(0,40),ts:T})},h))]);
+  return Promise.race([p,new Promise(function(r){setTimeout(r,3000)})])}
+function agendaPublica(L){BOOK={};futuros(L).forEach(x=>{BOOK[x.d]=(BOOK[x.d]||0)+1});Object.keys(RES).forEach(function(d){if(d>=hojeISO())BOOK[d]=(BOOK[d]||0)+RES[d]});if(SEL&&(BOOK[SEL]||0)>=2){SEL=null}renderCal();atualizaData()}
 
 /* ---- arte da agenda (canvas) ---- */
 function carregaImg(src){return new Promise(ok=>{if(!src)return ok(null);const i=new Image();i.onload=()=>ok(i);i.onerror=()=>ok(null);i.src=src})}
@@ -1974,6 +2005,7 @@ $("#ag-reels").onclick=()=>baixarArte("reels");$("#ag-post").onclick=()=>baixarA
 /* ---------- aplicar no site público (todo visitante) ---------- */
 async function aplicarPublico(){
   try{const P=await dbGet("precos/"+PAGE.art); if(P)PAGE.precos.forEach(p=>{const x=P[p.id];if(x&&x.v>0)p.set(+x.v)})}catch(_){}
+  try{const R=await dbGet("reservas/"+PAGE.art);RES={};Object.keys(R||{}).forEach(function(k){var x=R[k];if(x&&x.d)RES[x.d]=(RES[x.d]||0)+1})}catch(_){}
   try{const L=await dbGet("agenda/"+PAGE.art); agendaPublica(Array.isArray(L)?L:(L?Object.values(L):[]))}catch(_){}
   try{const K=await dbGet("midia/"+PAGE.art,"?shallow=true"); if(K)await Promise.all(PAGE.midia.filter(m=>K[m.id]).map(async m=>{
     try{ if(m.tipo==="img"){const v=await dbGet("midia/"+PAGE.art+"/"+m.id+"/v"); if(v)PAGE.aplicar(m.id,{url:v,data:v})}
