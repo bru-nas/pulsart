@@ -478,10 +478,10 @@ var sx=0;L.addEventListener("touchstart",function(e){sx=e.touches[0].clientX},{p
 .pg.pr dt{float:left;clear:left;width:70px;margin:0 0 9px;line-height:18px;font:700 9.5px/18px Montserrat;letter-spacing:.18em;text-transform:uppercase;color:#a30d1f}
 .pg.pr dd{margin:0 0 9px 80px;min-height:18px;line-height:18px;font-size:12.5px;color:#1a1a1d}
 .pg.pr .pfm{text-align:center;border-top:1px solid #e2e2e6;padding-top:14px}
-.pg.pr .pfx{display:block;margin:0;max-width:none;box-sizing:border-box;text-align:center;border:2px solid #a30d1f;box-shadow:0 0 12px rgba(163,13,31,.35);padding:12px 26px;background:#fff}
+.pg.pr .pfx{display:block;margin:0;text-align:center;padding:4px 0 2px;background:none;border:0;box-shadow:none}
 .pg.pr .pit{display:block;text-align:center}
 .pg.pr .pit b{display:block;font-weight:600;font-size:21px;line-height:1.3;color:#a30d1f}.pg.pr .pit span{display:block;margin-top:5px;font-size:12px;line-height:1.5;color:#444}
-.pg.pr .pnote{border:2px solid #a30d1f;text-align:center;padding:10px 18px}
+.pg.pr .pnote{text-align:center;padding:12px 18px;border-top:1px solid #e2e2e6}
 .pg.pr .pnote h2{text-transform:none;font-weight:700;font-size:18px;margin:0 0 4px;color:#a30d1f}
 .pg.pr .pnote p{margin:0;color:#444}
 .pg.pr .pinv{text-align:center;border-top:1px solid #e2e2e6;padding-top:10px}
@@ -635,22 +635,37 @@ $("#r-zap").onclick=function(){var a=D.createElement("a");a.href="https://wa.me/
 function lib(u){return new Promise(function(ok,no){var s=D.createElement("script");s.src=u;s.onload=ok;s.onerror=no;D.head.appendChild(s)})}
 function esp(ms){return new Promise(function(r){setTimeout(r,ms)})}
 function nomeArq(){var n=MODE==="p"?$("#pp-nome").value:$("#c-nome").value;n=String(n||"").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^A-Za-z0-9]+/g,"_").replace(/^_+|_+$/g,"").slice(0,40);return(MODE==="p"?"Proposta_":"Contrato_")+(n||"Marsalla_Stage")+".pdf"}
-$("#r-pdf").onclick=async function(){var e=$("#r-e"),btn=$("#r-pdf");e.textContent="Gerando PDF…";btn.disabled=true;var fr=null;
+function b64(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.blob()}).then(function(b){return new Promise(function(ok,no){var f=new FileReader();f.onload=function(){ok(f.result)};f.onerror=no;f.readAsDataURL(b)})})}
+var FCSS=null;
+async function fontesCss(){if(FCSS!==null)return FCSS;var out="";
+ try{var ls=$$('link[rel="stylesheet"]').filter(function(l){return/fonts\.googleapis|localhost/.test(l.href)});
+  for(var a=0;a<ls.length;a++){var t=await fetch(ls[a].href).then(function(r){return r.text()});
+   var bl=t.match(/(\/\*[^*]*\*\/\s*)?@font-face\s*\{[^}]*\}/g)||[];
+   for(var b=0;b<bl.length;b++){var x=bl[b];if(!/Montserrat/i.test(x))continue;if(/\/\*\s*(cyrillic|greek|vietnamese|cyrillic-ext|greek-ext)/.test(x))continue;
+    var m=x.match(/url\(([^)]+)\)/);if(!m)continue;var u=m[1].replace(/["']/g,"");
+    try{var d=await b64(u);out+=x.replace(/url\([^)]+\)/,"url("+d+")").replace(/\/\*[^*]*\*\//,"")+"\n"}catch(e2){}}}
+ }catch(e){}
+ FCSS=out;return out}
+function folhaImg(el,css,vars){return new Promise(function(ok,no){
+ var doc=D.implementation.createHTMLDocument(""),w=doc.createElement("div");w.setAttribute("id","gn");w.setAttribute("class","on");w.setAttribute("style",vars);
+ var st=doc.createElement("style");st.textContent=css+"#gn{position:static!important;display:block!important;overflow:visible!important;background:#fff!important;height:auto!important;width:794px!important;margin:0!important;transform:none!important}#gn .pg{margin:0!important}";w.appendChild(st);w.appendChild(doc.importNode(el,true));
+ var xml=new XMLSerializer().serializeToString(w).replace(/<div /,'<div xmlns="http://www.w3.org/1999/xhtml" ');
+ var svg='<svg xmlns="http://www.w3.org/2000/svg" width="794" height="1123"><foreignObject x="0" y="0" width="794" height="1123">'+xml+'</foreignObject></svg>';
+ var im=new Image();im.onload=function(){ok(im)};im.onerror=function(){no(new Error("render"))};im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg)})}
+async function folhaJpg(el,css,vars){var S=2,cv=D.createElement("canvas");cv.width=794*S;cv.height=1123*S;var c=cv.getContext("2d");
+ for(var n=0;n<2;n++){var im=await folhaImg(el,css,vars);await esp(n?120:400);c.fillStyle="#fff";c.fillRect(0,0,cv.width,cv.height);c.drawImage(im,0,0,cv.width,cv.height)}
+ return cv.toDataURL("image/jpeg",.93)}
+$("#r-pdf").onclick=async function(){var e=$("#r-e"),btn=$("#r-pdf");e.textContent="Gerando PDF…";btn.disabled=true;
  try{
-  if(!window.html2canvas)await lib("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js");
   if(!window.jspdf)await lib("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
-  var css=$$("style").map(function(s){return s.textContent}).join("\n"),links=$$('link[rel="stylesheet"]').map(function(l){return'<link rel="stylesheet" href="'+l.href+'">'}).join("");
-  fr=D.createElement("iframe");fr.setAttribute("aria-hidden","true");fr.style.cssText="position:fixed;left:-20000px;top:0;width:900px;height:1300px;border:0;pointer-events:none";D.body.appendChild(fr);
-  var d=fr.contentDocument;d.open();d.write('<!doctype html><html><head><meta charset="utf-8"><base href="'+location.href+'">'+links+'<style>'+css+'#gn{position:static!important;display:block!important;overflow:visible!important;background:#fff!important;height:auto!important}#gn .pg{margin:0 0 20px!important}#gn .pg.pr li span{position:relative;top:-5.5px}</style></head><body style="margin:0;background:#fff"><div id="gn" class="on" style="'+["--cfs","--clh","--cg"].map(function(k){var v=$("#gdoc").style.getPropertyValue(k);return v?k+":"+v+";":""}).join("")+'">'+$("#gdoc").innerHTML+'</div></body></html>');d.close();
-  try{await Promise.all(["300","400","600","700"].map(function(w){return d.fonts.load(w+' 20px "Montserrat"').catch(function(){})}));await d.fonts.ready}catch(x){}
-  var im=[].slice.call(d.images);await Promise.all(im.map(function(i){return i.complete?0:new Promise(function(r){i.onload=i.onerror=r})}));await esp(700);
-  var pgs=[].slice.call(d.querySelectorAll(".pg")),pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4",compress:true});
-  for(var i=0;i<pgs.length;i++){var cv=await window.html2canvas(pgs[i],{scale:2.2,backgroundColor:"#ffffff",useCORS:true,logging:false,width:794,height:1123,windowWidth:900,windowHeight:1300,scrollX:0,scrollY:0});
-   if(i)pdf.addPage();pdf.addImage(cv.toDataURL("image/jpeg",.93),"JPEG",0,0,210,297,undefined,"FAST")}
-  var blob=pdf.output("blob"),u=URL.createObjectURL(blob),a=D.createElement("a");a.href=u;a.download=nomeArq();D.body.appendChild(a);a.click();setTimeout(function(){a.remove();URL.revokeObjectURL(u)},4000);
+  var css=$$("style").map(function(s){return s.textContent}).join("\n")+"\n"+await fontesCss();
+  var vars=["--cfs","--clh","--cg"].map(function(k){var v=$("#gdoc").style.getPropertyValue(k);return v?k+":"+v+";":""}).join("");
+  var pgs=[].slice.call($$("#gdoc .pg")),pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4",compress:true});
+  for(var i=0;i<pgs.length;i++){var u=await folhaJpg(pgs[i],css,vars);if(i)pdf.addPage();pdf.addImage(u,"JPEG",0,0,210,297,undefined,"FAST")}
+  var blob=pdf.output("blob"),u2=URL.createObjectURL(blob),a=D.createElement("a");a.href=u2;a.download=nomeArq();D.body.appendChild(a);a.click();setTimeout(function(){a.remove();URL.revokeObjectURL(u2)},4000);
   e.textContent="PDF baixado ✓"
  }catch(x){e.textContent="Não consegui gerar o PDF: "+(x&&x.message||x)}
- finally{if(fr)fr.remove();btn.disabled=false}};
+ finally{btn.disabled=false}};
 })();
 </script><!--/GEN-->
 </body>
