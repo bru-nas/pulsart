@@ -163,6 +163,7 @@ function cartaoCor(c) {
     </div>
     <details><summary>Mais opções</summary><div class="acoes" style="margin-top:8px">
       <button class="btn g" data-a="zerar" data-id="${id}">Zerar uso do mês</button>
+      <button class="btn g" data-a="caparelhos" data-id="${id}" ${(c.pc || c.cel) ? '' : 'disabled'}>Liberar troca de aparelhos${c.pc ? ' (PC)' : ''}${c.cel ? ' (celular)' : ''}</button>
       <button class="btn r" data-a="csuspender" data-id="${id}">Suspender</button><button class="btn r" data-a="cexcluir" data-id="${id}">Excluir</button></div></details>
   </div>`;
 }
@@ -172,7 +173,7 @@ async function carregar() {
   try {
     licencas = (await getDocs(collection(db, 'licencas'))).docs.map(d => { const x = d.data(); return { id: d.id, email: x.email, ativo: !!x.ativo, ate: x.ate ? x.ate.toDate() : null, plano: x.plano || '', forma: x.forma || '', aparelho: x.aparelho || '', siap: x.siap || '' }; });
     notas = {}; (await getDocs(collection(db, 'notas'))).docs.forEach(d => { notas[d.id] = d.data().texto || ''; });
-    try { corriges = (await getDocs(collection(db, 'corrige'))).docs.map(d => { const x = d.data(); return { id: d.id, email: x.email || '', ativo: !!x.ativo, ate: x.ate ? x.ate.toDate() : null, plano: x.plano || '', mes: x.mes || '', usadas: x.usadas || 0, carry: x.carry || 0, pacote: x.pacote || 0, gratis: x.gratis || 0 }; }); }
+    try { corriges = (await getDocs(collection(db, 'corrige'))).docs.map(d => { const x = d.data(); return { id: d.id, email: x.email || '', ativo: !!x.ativo, ate: x.ate ? x.ate.toDate() : null, plano: x.plano || '', mes: x.mes || '', usadas: x.usadas || 0, carry: x.carry || 0, pacote: x.pacote || 0, gratis: x.gratis || 0, pc: x.pc || '', cel: x.cel || '' }; }); }
     catch (e) { corriges = []; $('msg').textContent = 'A aba Corrige precisa das regras novas do Firestore (coleção "corrige"). ' + e.message; }
     desenhar();
   } catch (e) { $('msg').textContent = 'Não consegui carregar (confira as regras do Firestore): ' + e.message; }
@@ -195,6 +196,7 @@ async function acao(a, id) {
       await setDoc(doc(db, 'corrige', id), { ativo: true, ate: ts(baseDe(c) + n * 86400000), plano: n === 365 ? 'anual' : 'mensal', email: (c && c.email) || (l && l.email) || '' }, { merge: true });
     } else if (a === 'p30' || a === 'p100') await setDoc(doc(db, 'corrige', id), { pacote: ((c && c.pacote) || 0) + (a === 'p30' ? 30 : 100), email: (c && c.email) || emailDe(id) }, { merge: true });
     else if (a === 'zerar') await updateDoc(doc(db, 'corrige', id), { usadas: 0 });
+    else if (a === 'caparelhos') await updateDoc(doc(db, 'corrige', id), { pc: '', cel: '' });
     else if (a === 'csuspender') await updateDoc(doc(db, 'corrige', id), { ativo: false });
     else if (a === 'cexcluir') { if (!confirm('Excluir os dados do Corrige de ' + (c.email || emailDe(id)) + '? Ele volta a ter as 3 redações grátis.')) return; await deleteDoc(doc(db, 'corrige', id)); }
     await carregar();

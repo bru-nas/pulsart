@@ -193,7 +193,7 @@ const PROD = {
 };
 const BENEF = {
   siap: ['Todos os recursos do K.Edu', 'Licença liberada sozinha após o pagamento', '1 computador por licença'],
-  corrige: ['200 redações por mês, com relatório', 'Até 50 sobram para o mês seguinte', 'Funciona no celular, sem instalar nada'],
+  corrige: ['200 redações por mês, com relatório', 'Até 50 sobram para o mês seguinte', '1 celular e 1 computador'],
   combo: ['K.Edu para o SIAP completo', 'K.Edu Corrige: 200 redações por mês', 'Notas do Corrige direto para o SIAP'],
   upgrade: ['200 redações por mês, com relatório', 'Notas do Corrige direto para o SIAP', 'Vale para quem já tem o K.Edu ativo'],
   pacote30: ['30 redações a mais, sem prazo', 'Usadas depois das 200 do mês', 'Para quem tem o Corrige ativo'],
@@ -260,7 +260,7 @@ function pintar() {
   const tem = pr === 'siap' || pr === 'corrige';
   tb.hidden = !tem; tn.hidden = !tem; tb.style.display = tem ? '' : 'none'; tn.style.display = tem ? '' : 'none';
   if (tem && !tb.disabled) tb.textContent = pr === 'corrige' ? 'Testar 3 redações grátis' : 'Testar 24 horas grátis';
-  tn.textContent = pr === 'corrige' ? 'Sem pagar nada. Você corrige 3 redações de graça.' : 'Sem pagar nada. Um teste por CPF.';
+  tn.textContent = pr === 'corrige' ? 'Sem pagar nada. Você corrige 3 redações de graça (1 por pessoa).' : 'Sem pagar nada. Um teste por CPF.';
 }
 $('gProd').onclick = e => { const b = e.target.closest('.opt'); if (b) { base = b.dataset.v; extra = false; pintar(); } };
 $('oferCk').onchange = () => { extra = $('oferCk').checked; pintar(); };

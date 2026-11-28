@@ -114,8 +114,8 @@ textarea{resize:vertical;min-height:70px}
 <section id="vLogin" class="hide">
   <div class="card center">
     <img class="mascot" src="/KEDU/img/mascote-comemorando.png" alt="Mascote do K.Edu">
-    <h2>Entre com a sua conta do K.Edu</h2>
-    <p class="s">É a mesma conta da extensão. Se ainda não tem, crie agora: você ganha 3 redações grátis para testar.</p>
+    <h2>Entre na sua conta</h2>
+    <p class="s">Ainda não tem? Crie agora e teste 3 redações grátis.</p>
   </div>
   <div class="card">
     <div class="seg" id="segLogin"><button class="on" data-m="in">Entrar</button><button data-m="up">Criar conta</button></div>
@@ -124,6 +124,29 @@ textarea{resize:vertical;min-height:70px}
     <div class="err hide" id="lErr"></div><div class="okmsg hide" id="lOk"></div>
     <button class="btn p full" id="bEntrar" style="margin-top:14px">Entrar</button>
     <p class="center" style="margin:12px 0 0"><button class="lnk" id="bEsqueci">Esqueci minha senha</button></p>
+  </div>
+</section>
+
+<!-- Ativar teste grátis (CPF) -->
+<section id="vCpf" class="hide">
+  <div class="card center">
+    <img class="mascot" src="/KEDU/img/mascote-comemorando.png" alt="Mascote do K.Edu">
+    <h2>Ative as suas 3 redações grátis</h2>
+    <p class="s">Para liberar o teste, informe o seu CPF. Cada pessoa tem um teste grátis, e o CPF serve só para isso.</p>
+    <label for="cCpf" style="text-align:left">CPF</label><input id="cCpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14">
+    <div class="err hide" id="cErr"></div>
+    <button class="btn p full" id="bCpf" style="margin-top:14px">Ativar meu teste grátis</button>
+    <p class="hint" style="margin:12px 0 0">Prefere já assinar? <a href="/KEDU/assinar/?produto=corrige" style="color:var(--blue);font-weight:700">Ver planos</a></p>
+  </div>
+</section>
+
+<!-- Aparelho não autorizado -->
+<section id="vBloq" class="hide">
+  <div class="card center">
+    <img class="mascot" src="/KEDU/img/mascote-erro.png" alt="Mascote do K.Edu">
+    <h2>Esta conta está em outro aparelho</h2>
+    <p class="s" id="bloqMsg"></p>
+    <a class="btn p full" id="bloqZap" href="https://wa.me/5562996690398?text=Ol%C3%A1!%20Preciso%20trocar%20de%20aparelho%20no%20K.Edu%20Corrige." target="_blank" rel="noopener">Falar com o suporte</a>
   </div>
 </section>
 
@@ -223,7 +246,7 @@ var $=function(s){return document.querySelector(s)},$$=function(s){return [].sli
 var S={tok:'',exp:0,rt:'',email:'',st:null,modo:'enem',entrada:'um',loginModo:'in',fotos:[],bloco:[],itens:[],run:null,crit:[]};
 function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function show(id){['vLogin','vSetup','vRun','vRes'].forEach(function(v){$('#'+v).classList.toggle('hide',v!==id)});$('#bSair').classList.toggle('hide',id==='vLogin');window.scrollTo(0,0)}
+function show(id){['vLogin','vCpf','vBloq','vSetup','vRun','vRes'].forEach(function(v){$('#'+v).classList.toggle('hide',v!==id)});$('#bSair').classList.toggle('hide',id==='vLogin');window.scrollTo(0,0)}
 function erro(el,m){el.textContent=m;el.classList.toggle('hide',!m)}
 function num(s){var n=parseFloat(String(s).replace(',','.'));return isFinite(n)?n:NaN}
 function fmt(n){return (Math.round(n*10)/10).toString().replace('.',',')}
@@ -239,11 +262,27 @@ function renovar(){
    .then(function(r){return r.json().then(function(j){if(!r.ok||!j.id_token)throw 0;guardar(j)})});
 }
 function token(){return Date.now()<S.exp&&S.tok?Promise.resolve(S.tok):renovar().then(function(){return S.tok})}
+/* ---------- aparelho: 1 computador e 1 celular por conta ---------- */
+function ck(n,v){try{if(v===undefined){var m=document.cookie.match(new RegExp('(?:^|; )'+n+'=([^;]*)'));return m?decodeURIComponent(m[1]):null}document.cookie=n+'='+encodeURIComponent(v)+';max-age=315360000;path=/;SameSite=Lax'}catch(e){return null}}
+function fnv(s,seed){var h=seed>>>0;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0}return ('00000000'+h.toString(16)).slice(-8)}
+function aparelho(){
+  if(S.ap)return S.ap;
+  var id=ls('kc_dev')||ck('kc_dev');
+  if(!id||!/^[A-Za-z0-9]{16,64}$/.test(id)){var a=new Uint8Array(12);(window.crypto||window.msCrypto).getRandomValues(a);id=Array.prototype.map.call(a,function(x){return ('0'+x.toString(16)).slice(-2)}).join('')}
+  ls('kc_dev',id);ck('kc_dev',id);
+  var ua=navigator.userAgent||'',tipo=(/android|iphone|ipad|ipod|mobile/i.test(ua)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform||''))||(window.matchMedia&&matchMedia('(pointer:coarse)').matches))?'cel':'pc';
+  var sw=Math.max(screen.width,screen.height),sh=Math.min(screen.width,screen.height);
+  var raw=[navigator.platform,sw,sh,window.devicePixelRatio,navigator.language,navigator.hardwareConcurrency,navigator.maxTouchPoints,(Intl.DateTimeFormat().resolvedOptions().timeZone||'')].join('|');
+  S.ap=id+':'+tipo+':'+fnv(raw,2166136261)+fnv(raw,5381);return S.ap;
+}
+function bloquear(m){S.bloq=true;$('#bloqMsg').textContent=m||'Para trocar de aparelho, chame o suporte.';show('vBloq')}
+function mascCpf(v){v=v.replace(/\D/g,'').slice(0,11);return v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2')}
+
 function api(caminho,corpo,_t){
-  return token().then(function(t){return fetch(API+caminho,{method:'POST',headers:{'content-type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify(corpo||{})})})
+  return token().then(function(t){return fetch(API+caminho,{method:'POST',headers:{'content-type':'application/json',Authorization:'Bearer '+t,'X-Aparelho':aparelho()},body:JSON.stringify(corpo||{})})})
    .then(function(r){return r.json().catch(function(){return {}}).then(function(j){
       if(r.status===401&&!_t){S.exp=0;return api(caminho,corpo,1)}
-      j._s=r.status;return j})},function(){return {erro:'rede',mensagem:'Sem conexão com a internet. Confira o sinal e tente de novo.',_s:0}});
+      j._s=r.status;if(j.erro==='aparelho')bloquear(j.mensagem);else if(j.erro==='cpf'&&j._s===403&&caminho!=='/corrige/ativar'){S.precisaCpf=true;show('vCpf')}return j})},function(){return {erro:'rede',mensagem:'Sem conexão com a internet. Confira o sinal e tente de novo.',_s:0}});
 }
 function entrar(){
   var em=$('#lEmail').value.trim().toLowerCase(),se=$('#lSenha').value;erro($('#lErr'),'');$('#lOk').classList.add('hide');
@@ -260,13 +299,13 @@ function esqueci(){
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){erro($('#lErr'),'Digite seu e-mail acima e toque de novo em "Esqueci minha senha".');return}
   post(API+'/senha/pedir',{email:em}).then(function(){var o=$('#lOk');o.textContent='Se esse e-mail tem conta, enviamos o link para criar uma senha nova. Olhe também o spam.';o.classList.remove('hide')},function(){erro($('#lErr'),'Sem conexão com a internet.')});
 }
-function sair(){S.tok='';S.rt='';S.exp=0;S.st=null;ls('kc_rt',null);show('vLogin')}
+function sair(){S.bloq=false;S.tok='';S.rt='';S.exp=0;S.st=null;ls('kc_rt',null);show('vLogin')}
 
 /* ---------- situação da conta ---------- */
 function carregarStatus(){
   return api('/corrige/status',{}).then(function(j){
     if(j._s===401){sair();return}
-    if(j.ok){S.st=j;S.email=j.email||S.email}
+    if(j.ok){S.st=j;S.email=j.email||S.email;S.precisaCpf=!!j.precisaCpf}
     desenharChip();return j;
   });
 }
@@ -471,6 +510,8 @@ function abrir(){
   S.crit=lerCrit();desenharCrit();
   setModo(f.modo==='meus'?'meus':'enem');
   carregarStatus().then(function(){
+    if(S.bloq)return;
+    if(S.precisaCpf){show('vCpf');return}
     if(S.itens.length){mostrarRes('')}else show('vSetup');
   });
   instrucoes();
@@ -512,6 +553,17 @@ document.addEventListener('change',function(e){
   var t=e.target;
   if(t.dataset&&t.dataset.adj){var v=num(t.value),it=S.itens.filter(function(i){return i.id===t.dataset.adj})[0];if(it&&isFinite(v)&&v>=0){it.nota=Math.round(v*10)/10;salvarLista();var h=$('#r'+it.id+' .nota');if(h)h.innerHTML=fmt(it.nota)+(it.res?'<small> /'+fmt(it.res.valor)+'</small>':'')}else if(it)t.value=fmt(it.nota)}
 });
+$('#cCpf').addEventListener('input',function(){this.value=mascCpf(this.value)});
+$('#bCpf').onclick=function(){
+  var v=$('#cCpf').value.replace(/\D/g,'');erro($('#cErr'),'');
+  if(v.length!==11){erro($('#cErr'),'Digite os 11 números do CPF.');return}
+  var b=this;b.disabled=true;b.textContent='Ativando…';
+  api('/corrige/ativar',{cpf:v}).then(function(j){
+    b.disabled=false;b.textContent='Ativar meu teste grátis';
+    if(j.ok){S.precisaCpf=false;carregarStatus().then(function(){show(S.itens.length?'vRes':'vSetup');if(S.itens.length)mostrarRes('')})}
+    else if(!j.erro||j.erro!=='aparelho')erro($('#cErr'),j.mensagem||'Não consegui ativar agora. Tente de novo.');
+  });
+};
 $('#bEntrar').onclick=entrar;$('#bEsqueci').onclick=esqueci;$('#bSair').onclick=sair;
 $('#lSenha').addEventListener('keydown',function(e){if(e.key==='Enter')entrar()});
 $('#bAddCrit').onclick=function(){if(S.crit.length>=12)return;S.crit.push({nome:'',peso:1,desc:''});desenharCrit();salvarCrit()};
