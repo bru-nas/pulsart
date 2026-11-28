@@ -418,6 +418,7 @@ vl.forEach(function(v){v.addEventListener("play",function(){vl.forEach(function(
 
 
 
+
 <!--GEN--><style>#gn{position:fixed;inset:0;z-index:99999;background:#050506;color:#eee;overflow:auto;display:none;font-family:Montserrat,system-ui,sans-serif;-webkit-overflow-scrolling:touch}
 #gn.on{display:block}
 #gn .gi{max-width:860px;margin:0 auto;padding:22px 14px 80px}
@@ -478,15 +479,16 @@ vl.forEach(function(v){v.addEventListener("play",function(){vl.forEach(function(
 .pg.pr .pct{font:700 11px Montserrat;letter-spacing:.2em;text-transform:uppercase;color:#ff2a3d;margin:0 0 4px}
 .pg.pr .pem{font-size:10.5px;color:#888;margin:0}
 /* contrato */
-.pg.ct .pwm{position:absolute;left:50%;top:50%;width:560px;transform:translate(-50%,-50%);opacity:.06;pointer-events:none}
-.pg.ct:before{content:"";position:absolute;left:14px;right:14px;top:14px;bottom:14px;border:1px solid rgba(255,42,61,.55)}
-.pg.ct .cb{position:absolute;left:66px;right:66px;top:62px;bottom:70px;overflow:hidden;text-align:justify;font-family:'Times New Roman',Georgia,serif;font-size:var(--cfs,12px);line-height:var(--clh,1.3);color:#e4e4e7}
-.pg.ct h1{font:600 19px Montserrat;letter-spacing:.06em;text-align:center;margin:0 0 14px;color:#fff;text-transform:uppercase;line-height:1.35}
+#gn .pg.ct{background:#fff;color:#1a1a1d}
+.pg.ct .pwm{position:absolute;left:50%;top:50%;width:600px;max-width:none;transform:translate(-50%,-50%);opacity:.09;pointer-events:none}
+.pg.ct:before{content:"";position:absolute;left:14px;right:14px;top:14px;bottom:14px;border:2px solid #ff2a3d;box-shadow:0 0 8px rgba(255,42,61,.35)}
+.pg.ct .cb{position:absolute;left:66px;right:66px;top:62px;bottom:70px;overflow:hidden;text-align:justify;font-family:'Times New Roman',Georgia,serif;font-size:var(--cfs,12px);line-height:var(--clh,1.3);color:#1a1a1d}
+.pg.ct h1{font:700 19px Montserrat;letter-spacing:.06em;text-align:center;margin:0 0 14px;color:#ff2a3d;text-transform:uppercase;line-height:1.35}
 .pg.ct h4{font:700 calc(var(--cfs,12px) - 2px) Montserrat;letter-spacing:.06em;color:#ff2a3d;margin:calc(var(--cfs,12px)*.85*var(--cg,1)) 0 calc(var(--cfs,12px)*.25*var(--cg,1));text-transform:uppercase;text-align:left}
 .pg.ct p{margin:0 0 calc(var(--cfs,12px)*.28*var(--cg,1))}
 .pg.ct .dt{text-align:right;margin-top:12px}
 .pg.ct .sg{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:34px;text-align:center;font-size:calc(var(--cfs,12px) - 1px)}
-.pg.ct .sg div{border-top:1px solid #ff2a3d;padding-top:5px}
+.pg.ct .sg div{border-top:1px solid #1a1a1d;padding-top:5px}
 .pg.ct .cpn{position:absolute;left:0;right:0;bottom:30px;text-align:center;font:600 8.5px Montserrat;letter-spacing:.3em;text-transform:uppercase;color:#ff2a3d}
 </style><div id="gn" aria-hidden="true"><div class="gi"><button class="gx" id="gx">FECHAR</button>
 <h3>Marsalla <b>Stage</b> · Painel</h3>
@@ -533,9 +535,9 @@ function durext(h){var n=+h,i=Math.floor(n),m=(n-i)>=.5;if(!i)return"30 minutos 
 function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
 function load(){try{return JSON.parse(localStorage.getItem("msnd_d")||"{}")}catch(e){return{}}}
 function zapFmt(){var n=ZAP.slice(2);return"WhatsApp ("+n.slice(0,2)+") "+n.slice(2,3)+" "+n.slice(3,7)+"-"+n.slice(7)+" · @marsallaeventos"}
-var LOGO="img/logo.png",LOGOR="";
+var LOGO="img/logo.png",LOGOR="",LOGOW="";
 (function(){var im=new Image();im.onload=function(){var p=60,W=im.naturalWidth,H=im.naturalHeight,X=20,c=D.createElement("canvas");c.width=W+p*2;c.height=H+X+p*2;var x=c.getContext("2d"),t=D.createElement("canvas");t.width=W;t.height=H+X;var y=t.getContext("2d");y.drawImage(im,0,0);y.globalCompositeOperation="source-in";y.fillStyle="#ff2a3d";y.fillRect(0,0,W,H);y.globalCompositeOperation="source-over";y.fillStyle="#ff2a3d";y.font="700 34px Montserrat,Arial,sans-serif";y.textBaseline="alphabetic";var s="STAGE",sp=17,w=0,i;for(i=0;i<s.length;i++)w+=y.measureText(s[i]).width+sp;w-=sp;var tx=W*.97-w;for(i=0;i<s.length;i++){y.fillText(s[i],tx,H-14);tx+=y.measureText(s[i]).width+sp}
-x.shadowColor="rgba(255,42,61,.95)";x.shadowBlur=34;x.drawImage(t,p,p);x.shadowBlur=12;x.drawImage(t,p,p);LOGOR=c.toDataURL("image/png")};im.src=LOGO})();
+x.shadowColor="rgba(255,42,61,.95)";x.shadowBlur=34;x.drawImage(t,p,p);x.shadowBlur=12;x.drawImage(t,p,p);LOGOR=c.toDataURL("image/png");var w=D.createElement("canvas");w.width=W;w.height=H+X;w.getContext("2d").drawImage(t,0,0);LOGOW=w.toDataURL("image/png")};im.src=LOGO})();
 // abrir painel: 5 toques na logo
 var tp=0,tt;var lg=$("#top .logo,#top img,#top a");
 function abre(){$("#gn").classList.add("on");$("#gn").setAttribute("aria-hidden","false");var d=load();["nome","cpf","banco","pix","foro"].forEach(function(k){if(d[k])$("#d-"+k).value=d[k]});if(d.sinal!=null)$("#d-sinal").value=d.sinal}
@@ -603,7 +605,7 @@ $("#c-gerar").onclick=function(){
 function folhas(h){
  var c=$("#gdoc"),tpl=D.createElement("div");tpl.innerHTML=h;var bl=[].slice.call(tpl.children);
  function monta(fs,lh,cg){c.innerHTML="";c.style.setProperty("--cfs",fs.toFixed(1)+"px");c.style.setProperty("--clh",lh.toFixed(2));c.style.setProperty("--cg",cg.toFixed(2));var n=0;
-  function nova(){n++;var p=D.createElement("div");p.className="pg ct";p.innerHTML='<img class="pwm" alt="" src="'+LOGO+'"><div class="cb"></div><div class="cpn"></div>';c.appendChild(p);return p.querySelector(".cb")}
+  function nova(){n++;var p=D.createElement("div");p.className="pg ct";p.innerHTML='<img class="pwm" alt="" src="'+(LOGOW||LOGO)+'"><div class="cb"></div><div class="cpn"></div>';c.appendChild(p);return p.querySelector(".cb")}
   var cb=nova();bl.forEach(function(b){var k=b.cloneNode(true);cb.appendChild(k);if(cb.scrollHeight>cb.clientHeight+1&&cb.children.length>1){cb.removeChild(k);cb=nova();cb.appendChild(k)}});
   var cbs=$$(".cb",c);cbs.forEach(function(x,i){var l=x.lastElementChild;if(l&&l.tagName==="H4"&&cbs[i+1])cbs[i+1].insertBefore(l,cbs[i+1].firstChild)});return n}
  var ok=false,fs0=15.6,lh0=1.7;
@@ -617,7 +619,7 @@ $("#r-pdf").onclick=function(){var e=$("#r-e"),pgs=$$("#gdoc .pg");e.textContent
  (window.html2canvas?Promise.resolve():lib("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js")).then(function(){return window.jspdf?0:lib("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js")}).then(function(){
   var pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4"}),i=0;
   function next(){if(i>=pgs.length){pdf.save((MODE==="p"?"Proposta":"Contrato")+"_Marsalla_Stage.pdf");dc.style.transform=old;e.textContent="PDF baixado ✓";return}
-   return html2canvas(pgs[i],{scale:2,backgroundColor:MODE==="p"?"#ffffff":"#050506",useCORS:true}).then(function(cv){if(i)pdf.addPage();pdf.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297);i++;return next()})}
+   return html2canvas(pgs[i],{scale:2,backgroundColor:"#ffffff",useCORS:true}).then(function(cv){if(i)pdf.addPage();pdf.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297);i++;return next()})}
   return next()}).catch(function(){dc.style.transform=old;e.textContent="Não consegui gerar o PDF. Tente de novo com internet."})};
 })();
 </script><!--/GEN-->
