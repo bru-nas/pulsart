@@ -583,12 +583,12 @@ $("#pp-gerar").onclick=function(){
  '<div class="pcol"><div><h2>Sobre a Marsalla Stage</h2><p>A Marsalla Stage cuida da sonorização e da iluminação de eventos que não permitem improviso. Estrutura, tempos e operação são planejados antes, para que ninguém precise se preocupar na hora.</p><p>Equipe técnica experiente, equipamentos revisados e alinhamento prévio com o local e com a produção.</p><ul><li><span>Planejamento</span></li><li><span>Alinhamento técnico</span></li><li><span>Operação ao vivo</span></li></ul></div>'+
  '<div><h2>O seu evento</h2><dl>'+info.map(function(x){return"<dt>"+x[0]+"</dt><dd>"+x[1]+"</dd>"}).join("")+'</dl></div></div>'+
  '<div class="pfm"><h2>Serviço proposto</h2><div class="pfx"><div class="pit"><b>'+esc(f)+'</b><span>'+esc(fi)+'</span></div></div></div>'+
- '<div class="pnote"><h2>Menos improviso. Mais controle.</h2><p>Montagem, teste de som e ajuste de luz antes do evento, e um técnico responsável durante toda a operação.</p></div>'+
+ '<div class="pnote"><p>Montagem, teste de som e ajuste de luz antes do evento, e um técnico responsável durante toda a operação.</p></div>'+
  (val?'<div class="pinv"><small>INVESTIMENTO</small><div class="pvl">'+brl(val)+'</div><p>'+rext(val)+'</p>'+(cond?'<p class="pcd">'+esc(cond)+'</p>':"")+'</div>':"")+
  (obs?'<div><h2>Observações</h2>'+obs.split(/\n+/).map(function(x){return"<p>"+esc(x)+"</p>"}).join("")+'</div>':"")+
  '<div><h2>Próximos passos</h2><ol><li><i>01</i><b>Confirmação</b>Você aprova a proposta e reservamos a data.</li><li><i>02</i><b>Contrato</b>Formalizamos o combinado por escrito.</li><li><i>03</i><b>O evento</b>Nossa equipe monta e opera toda a estrutura.</li></ol></div>'+
  '<div class="pft"><p class="pct">'+zapFmt()+'</p><p class="pem">Proposta emitida em '+dext(hjs)+'</p></div></div></div>';
- TXT="PROPOSTA — MARSALLA STAGE\n\n"+tipo+": "+nome+"\nData: "+sem+", "+dtx+(hr?"\nHorário: "+hext(hr):"")+(loc?"\nLocal: "+loc:"")+"\nServiço: "+f+(fi?" · "+fi:"")+(val?"\nInvestimento: "+brl(val)+" ("+rext(val)+")"+(cond?"\n"+cond:""):"")+(obs?"\n\n"+obs:"")+"\n\nMenos improviso. Mais controle.\n"+zapFmt();
+ TXT="PROPOSTA — MARSALLA STAGE\n\n"+tipo+": "+nome+"\nData: "+sem+", "+dtx+(hr?"\nHorário: "+hext(hr):"")+(loc?"\nLocal: "+loc:"")+"\nServiço: "+f+(fi?" · "+fi:"")+(val?"\nInvestimento: "+brl(val)+" ("+rext(val)+")"+(cond?"\n"+cond:""):"")+(obs?"\n\n"+obs:"")+"\n\n"+zapFmt();
  mostra()};
 /* CONTRATO */
 $("#c-gerar").onclick=function(){
