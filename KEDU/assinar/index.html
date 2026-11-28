@@ -88,6 +88,12 @@ footer a{color:var(--mute)}
 [hidden]{display:none!important}
 @media(max-width:860px){.grid{grid-template-columns:1fr}.res{position:static}.hero img{width:92px;height:92px;border-width:3px;margin:0}.hero .w{gap:12px}.nav .seg span{display:none}}
 @media(max-width:420px){.opts.quatro{grid-template-columns:1fr}.opts.dois{grid-template-columns:1fr}}
+.ofer{display:flex;gap:10px;align-items:center;margin-top:14px;padding:11px 14px;border:1.5px solid var(--amber);border-radius:12px;background:#FFFBEB;cursor:pointer;font-size:15px;font-weight:500}
+.ofer input{width:20px;height:20px;margin:0;flex:none}
+.ofer em{font-style:normal;font-weight:700;color:#8a5a00;white-space:nowrap}
+.ofer[hidden]{display:none}
+.sel{margin:0;font-size:17px}.sel b{font-family:Outfit,sans-serif}.sel a{margin-left:8px;font-size:14px;color:var(--blue)}
+#dUpg{margin:10px 0 0;font-size:14px}
 </style>
 </head>
 <body>
@@ -104,14 +110,15 @@ footer a{color:var(--mute)}
 <main class="w"><div class="grid">
   <div>
     <section class="card" id="cProd">
-      <div class="st"><i>1</i><h2>O que você quer assinar?</h2></div>
+      <div class="st"><i>1</i><h2 id="hProd">O que você quer assinar?</h2></div>
+      <p class="sel" id="sel" hidden><b id="selN"></b> <a href="#" id="lTroca">trocar</a></p>
       <div class="opts quatro" id="gProd">
         <button type="button" class="opt" data-v="siap" aria-pressed="true"><b>K.Edu para o SIAP</b><small>Lança frequência, notas e planejamento</small></button>
         <button type="button" class="opt" data-v="corrige" aria-pressed="false"><b>K.Edu Corrige</b><small>Corrige redações com IA, para qualquer professor</small></button>
         <button type="button" class="opt" data-v="combo" aria-pressed="false"><span class="tag">Economiza</span><b>Os dois juntos</b><small>K.Edu + Corrige com desconto</small></button>
       </div>
-      <label class="ofer" id="oferta" hidden style="display:flex;gap:10px;align-items:flex-start;font-weight:500;margin-top:16px;padding:12px;border:2px dashed var(--amber);border-radius:12px;background:#FFFBEB;cursor:pointer"><input type="checkbox" id="oferCk" style="width:22px;height:22px;margin:2px 0 0;flex:none"><span id="oferTx"></span></label>
-      <p class="dica" id="dUpg">Já tem o K.Edu pago e ativo? <a href="#" id="lUpg" style="color:var(--blue);font-weight:600">Pague só a diferença para ter o Corrige</a>.</p>
+      <label class="ofer" id="oferta" hidden><input type="checkbox" id="oferCk"><span id="oferTx"></span></label>
+      <p class="dica" id="dUpg">Já tem o K.Edu? <a href="#" id="lUpg" style="color:var(--blue);font-weight:600">Pague só a diferença</a>.</p>
     </section>
 
     <section class="card" id="cPlano">
@@ -197,6 +204,7 @@ const $ = id => document.getElementById(id);
 const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
 const q = new URLSearchParams(location.search);
 let base = PROD[q.get('produto')] && q.get('produto') !== 'combo' ? q.get('produto') : (q.get('produto') === 'combo' ? 'combo' : 'siap');
+let trocando = false, escolhido = ['siap','corrige','combo'].includes(q.get('produto'));
 let extra = false; // caixinha de oferta: leva também o outro produto (vira combo)
 let plano = ['mensal','anual'].includes(q.get('plano')) ? q.get('plano') : 'mensal';
 let forma = ['pix','boleto','cartao'].includes(q.get('forma')) ? q.get('forma') : 'pix';
@@ -209,8 +217,8 @@ const NOTAS = () => ({
   unico: { pix:'Pagamento único no Pix. As redações entram na sua conta assim que o pagamento é confirmado.', boleto:'Pagamento único. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao:'Pagamento único no cartão. Inclui a taxa da maquininha (3%).' }
 });
 const OFERTA = {
-  siap: 'Quero também o <b>K.Edu Corrige</b> (corrige redações com IA): <b>+ R$ 110,00</b> por mês, total de R$ 159,90.',
-  corrige: 'Quero também o <b>K.Edu para o SIAP</b> (frequência, notas e planejamento): <b>+ R$ 30,00</b> por mês, total de R$ 159,90.'
+  siap: 'Levar também o <b>K.Edu Corrige</b> <em>+ R$ 110/mês</em>',
+  corrige: 'Levar também o <b>K.Edu para o SIAP</b> <em>+ R$ 30/mês</em>'
 };
 function pintar() {
   const pr = produto(), P = PROD[pr], u = !!P.unico, T = P.unico || P[plano];
@@ -220,13 +228,16 @@ function pintar() {
   const ehProd = ['siap', 'corrige', 'combo'].includes(base);
   document.querySelectorAll('#gProd .opt').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === base));
   $('cProd').hidden = !ehProd;
-  $('gProd').hidden = !ehProd;
+  const esconde = escolhido && !trocando && ehProd;
+  $('gProd').hidden = !ehProd || esconde;
+  $('sel').hidden = !esconde; if (esconde) $('selN').textContent = PROD[base].nome;
+  $('hProd').parentElement.style.display = esconde ? 'none' : '';
   $('cPlano').hidden = u;
   const of = $('oferta'); of.hidden = !(base === 'siap' || base === 'corrige');
   of.style.display = of.hidden ? 'none' : 'flex';
   if (!of.hidden) $('oferTx').innerHTML = OFERTA[base];
   $('oferCk').checked = extra;
-  $('dUpg').hidden = base === 'upgrade' || !ehProd; $('dUpg').style.display = $('dUpg').hidden ? 'none' : '';
+  $('dUpg').hidden = base !== 'corrige'; $('dUpg').style.display = $('dUpg').hidden ? 'none' : '';
   $('hT').textContent = { siap:'Assine o K.Edu', corrige:'Assine o K.Edu Corrige', combo:'Assine o K.Edu + Corrige', upgrade:'Adicione o K.Edu Corrige', pacote30:'Mais redações no Corrige', pacote100:'Mais redações no Corrige' }[base];
   $('hP').textContent = base === 'corrige' || base === 'upgrade' || base.startsWith('pacote') ? 'Pague e use: as redações são liberadas sozinhas assim que o pagamento é confirmado.' : 'Escolha o plano, pague e pronto: a licença é liberada sozinha assim que o pagamento é confirmado.';
   $('sAnual').textContent = P.sAnual || '';
@@ -252,6 +263,7 @@ function pintar() {
 }
 $('gProd').onclick = e => { const b = e.target.closest('.opt'); if (b) { base = b.dataset.v; extra = false; pintar(); } };
 $('oferCk').onchange = () => { extra = $('oferCk').checked; pintar(); };
+$('lTroca').onclick = e => { e.preventDefault(); trocando = true; pintar(); };
 $('lUpg').onclick = e => { e.preventDefault(); base = 'upgrade'; extra = false; pintar(); };
 $('gPlano').onclick = e => { const b = e.target.closest('.opt'); if (b) { plano = b.dataset.v; pintar(); } };
 $('gForma').onclick = e => { const b = e.target.closest('.opt'); if (b) { forma = b.dataset.v; pintar(); } };
