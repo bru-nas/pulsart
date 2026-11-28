@@ -159,20 +159,16 @@ section:nth-of-type(even)::after{animation-delay:-1.6s}
 @keyframes feixe{0%{background-position:-40% 0;opacity:0}8%{opacity:1}62%{background-position:140% 0;opacity:1}70%,100%{background-position:140% 0;opacity:0}}
 @keyframes linha{0%,100%{opacity:.25}8%{opacity:1}14%{opacity:.35}22%{opacity:1}60%{opacity:.85}78%{opacity:.3}}
 /* carrossel de vídeos */
-.car{position:relative;margin-top:46px}
-.vds{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;padding:2px;margin-top:0;scroll-behavior:smooth}
-.vds::-webkit-scrollbar{display:none}
-.vd{position:relative;border:1px solid var(--line);background:#000;overflow:hidden}
-.vd:hover{border-color:rgba(255,42,61,.55);box-shadow:0 0 26px rgba(255,42,61,.18)}
-.vd video{width:100%;height:100%;display:block;object-fit:cover}
-.vd.p{aspect-ratio:9/16}
-.vds .vd{flex:0 0 calc(78% - 7px);scroll-snap-align:start}
-@media(min-width:700px){.vds .vd{flex-basis:calc(33.333% - 10px)}}
-@media(min-width:1000px){.vds .vd{flex-basis:calc(25% - 10.5px)}}
-.cb{position:absolute;top:50%;width:46px;height:46px;margin-top:-23px;z-index:5;display:grid;place-items:center;background:rgba(8,8,11,.78);backdrop-filter:blur(8px);border:1px solid var(--rd);color:#fff;cursor:pointer;box-shadow:0 0 16px rgba(255,42,61,.45);font-size:1.1rem;transition:.2s}
-.cb:hover{background:var(--rd)}
-.cb.pv{left:-14px}.cb.nx{right:-14px}
-@media(max-width:700px){.cb.pv{left:4px}.cb.nx{right:4px}}
+.car{position:relative;margin-top:40px;overflow:hidden;padding:6px 0 10px}
+.cv{position:relative;height:min(74vh,600px,calc(74vw*16/9));touch-action:pan-y;-webkit-user-select:none;user-select:none;cursor:grab}
+.cv.dr{cursor:grabbing}
+.vd{position:absolute;left:50%;top:0;height:100%;aspect-ratio:9/16;background:#000;overflow:hidden;border:1px solid var(--line);
+ transform:translateX(calc(-50% + var(--x,0px) + var(--dx,0px))) scale(var(--s,1));opacity:var(--o,1);filter:var(--f,none);z-index:var(--z,1);
+ transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .55s,filter .55s;will-change:transform}
+.cv.dr .vd{transition:none}
+.vd video{width:100%;height:100%;display:block;object-fit:cover;pointer-events:none}
+.vd.on{border-color:rgba(255,42,61,.6);box-shadow:0 0 40px rgba(255,42,61,.28),0 20px 60px rgba(0,0,0,.6)}
+.vd.on video{pointer-events:auto}
 /* galeria de fotos */
 .fgal{display:grid;gap:12px;grid-template-columns:repeat(2,1fr);margin-top:46px}
 @media(min-width:800px){.fgal{grid-template-columns:repeat(3,1fr)}}
@@ -298,7 +294,7 @@ footer a{color:var(--rd2)}
     <p>Um evento não permanece igual do início ao fim. Existem momentos de recepção, discursos, apresentações, celebração e festa. Cada um deles possui necessidades diferentes de sonorização e iluminação.</p>
     <p>Por isso, nossa atenção está na integração entre os equipamentos, o ambiente e a programação. O objetivo é que a estrutura acompanhe essas mudanças sem comprometer a experiência dos convidados.</p>
     <p>O melhor resultado é aquele em que a parte técnica funciona sem precisar se tornar o centro das atenções.</p></div>
-    <div class="car rv"><button class="cb pv" type="button" aria-label="Anterior">&#10094;</button><div class="vds"><figure class="vd p"><video src="v/v3.mp4" poster="img/v3.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v1.mp4" poster="img/v1.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v2.mp4" poster="img/v2.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v5.mp4" poster="img/v5.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v7.mp4" poster="img/v7.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v8.mp4" poster="img/v8.jpg" preload="none" playsinline controls></video></figure></div><button class="cb nx" type="button" aria-label="Próximo">&#10095;</button></div>
+    <div class="car rv"><div class="cv" id="cv"><figure class="vd p"><video src="v/v3.mp4" poster="img/v3.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v1.mp4" poster="img/v1.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v2.mp4" poster="img/v2.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v5.mp4" poster="img/v5.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v7.mp4" poster="img/v7.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v8.mp4" poster="img/v8.jpg" preload="none" playsinline controls></video></figure></div></div>
   </div>
 </section>
 
@@ -366,7 +362,7 @@ function run(){if(started||done)return;started=true;gate.hidden=true;I.classList
 at(700,function(){I.classList.add("off")});
 /* falhas da luz apagando (seguem as piscadas do CSS: 1,3s a partir de 700 ms) */
 [[0,.08,.45],[130,.06,.7],[285,.07,.4],[440,.04,.6],[620,.05,.35],[780,.04,.5],[950,.03,.3],[1130,.02,.25]].forEach(function(p){at(700+p[0],function(){buzz(p[1]+.05,p[2]*.55,p[0]%2?95:120)})});
-at(2500,function(){I.classList.add("on");zap();buzz(.12,.5,110);at(0,function(){});setTimeout(function(){buzz(.1,.45,115)},240);setTimeout(function(){buzz(.08,.5,120)},520)});
+at(2500,function(){I.classList.add("on")});
 at(3300,function(){I.classList.add("snd1")});
 at(3900,function(){I.classList.add("beat");thump();setTimeout(thump,460);setTimeout(thump,920)});
 at(5300,function(){I.classList.add("open");document.getElementById("fio").classList.add("go");open_()});
@@ -380,9 +376,23 @@ var tp=document.getElementById("top");
 addEventListener("scroll",function(){tp.classList.toggle("sc",scrollY>40)},{passive:true});
 var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.12});
 document.querySelectorAll(".rv").forEach(function(e){io.observe(e)});
-(function(){var tr=document.querySelector(".vds"),pv=document.querySelector(".cb.pv"),nx=document.querySelector(".cb.nx");function st(){var c=tr.querySelector(".vd");return c.getBoundingClientRect().width+14}
-pv.addEventListener("click",function(){tr.scrollBy({left:-st(),behavior:"smooth"})});nx.addEventListener("click",function(){tr.scrollBy({left:st(),behavior:"smooth"})})})();
-var vl=[].slice.call(document.querySelectorAll(".vd video,.ph.vid video"));
+(function(){var cv=document.getElementById("cv");if(!cv)return;var C=[].slice.call(cv.querySelectorAll(".vd")),cur=0,sx=0,sy=0,dx=0,drag=false,moved=false,id=null;
+function layout(){var h=cv.clientHeight,w=h*9/16,step=w*.56;C.forEach(function(c,i){var d=i-cur,a=Math.abs(d);
+ c.style.setProperty("--x",(d*step)+"px");c.style.setProperty("--s",Math.max(.5,1-a*.14));c.style.setProperty("--o",a>2?0:(1-a*.28));
+ c.style.setProperty("--f",a?"brightness(.5) blur("+(a*1.4)+"px)":"none");c.style.setProperty("--z",20-a);c.style.pointerEvents=a>2?"none":"auto";
+ c.classList.toggle("on",!a);var v=c.querySelector("video");v.controls=!a;if(a)v.pause()})}
+function go(n){cur=Math.max(0,Math.min(C.length-1,n));layout()}
+function dn(e){if(e.button>0)return;var t=e.target,on=C[cur];if(t===on.querySelector("video")){var r=t.getBoundingClientRect();if(e.clientY>r.bottom-64)return}
+ drag=true;moved=false;sx=e.clientX;sy=e.clientY;dx=0;id=e.pointerId}
+function mv(e){if(!drag)return;dx=e.clientX-sx;if(Math.abs(dx)>8&&!moved){moved=true;cv.classList.add("dr");try{cv.setPointerCapture(id)}catch(x){}}
+ if(moved){cv.style.setProperty("--dx",dx+"px");C.forEach(function(c){c.style.setProperty("--dx",dx+"px")})}}
+function up(e){if(!drag)return;drag=false;cv.classList.remove("dr");C.forEach(function(c){c.style.setProperty("--dx","0px")});
+ if(moved){if(dx<-45)go(cur+1);else if(dx>45)go(cur-1);else layout()}
+ else{var el=e.target.closest&&e.target.closest(".vd");if(el){var i=C.indexOf(el);if(i!==cur&&i>-1)go(i)}}}
+cv.addEventListener("pointerdown",dn);cv.addEventListener("pointermove",mv);cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",function(e){drag=false;cv.classList.remove("dr");layout()});
+cv.addEventListener("wheel",function(e){if(Math.abs(e.deltaX)>Math.abs(e.deltaY)&&Math.abs(e.deltaX)>25){e.preventDefault();var n=Date.now();if(!cv._w||n-cv._w>450){cv._w=n;go(cur+(e.deltaX>0?1:-1))}}},{passive:false});
+addEventListener("resize",layout);layout()})();
+var vl=[].slice.call(document.querySelectorAll(".cv .vd video,.ph.vid video"));
 vl.forEach(function(v){v.addEventListener("play",function(){vl.forEach(function(o){if(o!==v)o.pause()})})});
 })();
 </script>
