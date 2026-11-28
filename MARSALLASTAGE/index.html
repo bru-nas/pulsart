@@ -416,6 +416,8 @@ vl.forEach(function(v){v.addEventListener("play",function(){vl.forEach(function(
 
 
 
+
+
 <!--GEN--><style>#gn{position:fixed;inset:0;z-index:99999;background:#050506;color:#eee;overflow:auto;display:none;font-family:Montserrat,system-ui,sans-serif;-webkit-overflow-scrolling:touch}
 #gn.on{display:block}
 #gn .gi{max-width:860px;margin:0 auto;padding:22px 14px 80px}
@@ -532,7 +534,8 @@ function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;"
 function load(){try{return JSON.parse(localStorage.getItem("msnd_d")||"{}")}catch(e){return{}}}
 function zapFmt(){var n=ZAP.slice(2);return"WhatsApp ("+n.slice(0,2)+") "+n.slice(2,3)+" "+n.slice(3,7)+"-"+n.slice(7)+" · @marsallaeventos"}
 var LOGO="img/logo.png",LOGOR="";
-(function(){var im=new Image();im.onload=function(){var p=60,c=D.createElement("canvas");c.width=im.naturalWidth+p*2;c.height=im.naturalHeight+p*2;var x=c.getContext("2d"),t=D.createElement("canvas");t.width=im.naturalWidth;t.height=im.naturalHeight;var y=t.getContext("2d");y.drawImage(im,0,0);y.globalCompositeOperation="source-in";y.fillStyle="#ff2a3d";y.fillRect(0,0,t.width,t.height);x.shadowColor="rgba(255,42,61,.95)";x.shadowBlur=34;x.drawImage(t,p,p);x.shadowBlur=12;x.drawImage(t,p,p);LOGOR=c.toDataURL("image/png")};im.src=LOGO})();
+(function(){var im=new Image();im.onload=function(){var p=60,W=im.naturalWidth,H=im.naturalHeight,X=20,c=D.createElement("canvas");c.width=W+p*2;c.height=H+X+p*2;var x=c.getContext("2d"),t=D.createElement("canvas");t.width=W;t.height=H+X;var y=t.getContext("2d");y.drawImage(im,0,0);y.globalCompositeOperation="source-in";y.fillStyle="#ff2a3d";y.fillRect(0,0,W,H);y.globalCompositeOperation="source-over";y.fillStyle="#ff2a3d";y.font="700 34px Montserrat,Arial,sans-serif";y.textBaseline="alphabetic";var s="STAGE",sp=17,w=0,i;for(i=0;i<s.length;i++)w+=y.measureText(s[i]).width+sp;w-=sp;var tx=W*.97-w;for(i=0;i<s.length;i++){y.fillText(s[i],tx,H-14);tx+=y.measureText(s[i]).width+sp}
+x.shadowColor="rgba(255,42,61,.95)";x.shadowBlur=34;x.drawImage(t,p,p);x.shadowBlur=12;x.drawImage(t,p,p);LOGOR=c.toDataURL("image/png")};im.src=LOGO})();
 // abrir painel: 5 toques na logo
 var tp=0,tt;var lg=$("#top .logo,#top img,#top a");
 function abre(){$("#gn").classList.add("on");$("#gn").setAttribute("aria-hidden","false");var d=load();["nome","cpf","banco","pix","foro"].forEach(function(k){if(d[k])$("#d-"+k).value=d[k]});if(d.sinal!=null)$("#d-sinal").value=d.sinal}
