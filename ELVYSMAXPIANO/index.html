@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR" style="background:#000"><head><meta charset="utf-8"><style>html,body{background:#000}</style>
+<html lang="pt-BR" style="background:#000"><head><meta charset="utf-8"><style>html,body{background:#000}html body #prop .pev{text-align:center;margin-top:4px}</style>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Elvys Max Piano</title>
 <meta name="theme-color" content="#000000">
@@ -2348,6 +2348,18 @@ var PROBECSS="div[style*=\"visibility: hidden\"]{line-height:normal!important}di
 function css(){if(document.getElementById("pdfcss"))return;var st=document.createElement("style");st.id="pdfcss";st.textContent=PROBECSS;document.head.appendChild(st)}
 function nm(t){return String(t||"").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^A-Za-z0-9]+/g,"_").replace(/^_+|_+$/g,"").slice(0,40)}
 function esperar(ms){return new Promise(function(r){setTimeout(r,ms)})}
+window.nativo=async function(el,o){var d=el.ownerDocument,r=el.getBoundingClientRect(),W=o.width,H=o.height,S=o.scale||2,vw=d.documentElement.clientWidth||900,vh=d.documentElement.clientHeight||1300;
+ function mk(){var doc=document.implementation.createHTMLDocument(""),ht=doc.createElement("html"),bd=doc.createElement("body");bd.setAttribute("style","margin:0;background:transparent;overflow:hidden;width:"+vw+"px;height:"+vh+"px");ht.setAttribute("style","overflow:hidden");
+  [].forEach.call(d.querySelectorAll("style"),function(s){var c=doc.createElement("style");c.textContent=s.textContent.replace(/:root/g,"html");bd.appendChild(c)});
+  [].forEach.call(d.body.childNodes,function(n){if(n.nodeType===1)bd.appendChild(doc.importNode(n,true))});
+  ht.appendChild(bd);
+  var x=new XMLSerializer().serializeToString(ht).replace(/^<html[^>]*>/,'<html xmlns="http://www.w3.org/1999/xhtml" style="overflow:hidden">');
+  var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+vw*S+'" height="'+vh*S+'" viewBox="0 0 '+vw+' '+vh+'"><foreignObject x="0" y="0" width="'+vw+'" height="'+vh+'">'+x+'</foreignObject></svg>';
+  return new Promise(function(ok,no){var im=new Image();im.onload=function(){ok(im)};im.onerror=function(){no(new Error("render"))};im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg)})}
+ var cv=document.createElement("canvas");cv.width=Math.round(W*S);cv.height=Math.round(H*S);var c=cv.getContext("2d");
+ for(var n=0;n<2;n++){var im=await mk();await new Promise(function(r2){setTimeout(r2,n?150:450)});c.fillStyle="#fff";c.fillRect(0,0,cv.width,cv.height);c.drawImage(im,r.left*S,r.top*S,W*S,H*S,0,0,cv.width,cv.height)}
+ return cv};
+
 async function fontes(d){try{if(d.fonts){await Promise.all(["Great Vibes","Cormorant Garamond","Montserrat"].map(function(f){return d.fonts.load('20px "'+f+'"').catch(function(){})}));await d.fonts.ready}}catch(e){}}
 function pageStyles(){var o=[];[].forEach.call(document.querySelectorAll("style"),function(st){if(st.id==="pdfcss")return;o.push(st.textContent.replace(/url\(\s*(["']?)data:(?:image|video|audio)[^)]{20000,}\)/g,"none"))});return o.join("\n")}
 function quadro(w,h,estilo){
@@ -2357,7 +2369,7 @@ function quadro(w,h,estilo){
   d.write('<!doctype html><html><head><meta charset="utf-8"><style>'+estilo+'</style></head><body style="margin:0;background:#fff"></body></html>');d.close();
   return fr}
 function J(){var j=window.jspdf&&window.jspdf.jsPDF;if(!j||!window.html2canvas)throw new Error("Biblioteca de PDF não carregou. Recarregue a página.");return j}
-async function foto(el){return window.html2canvas(el,{scale:2.2,backgroundColor:"#ffffff",useCORS:true,logging:false,width:W,height:H,windowWidth:W,windowHeight:H,scrollX:0,scrollY:0})}
+async function foto(el){return window.nativo(el,{scale:2.2,backgroundColor:"#ffffff",useCORS:true,logging:false,width:W,height:H,windowWidth:W,windowHeight:H,scrollX:0,scrollY:0})}
 async function geraContrato(){
   css();var JS=J(),c=document.getElementById("ctr"),wm=c.querySelector("img.wm");
   var fr=quadro(W,H,PGCSS);
@@ -2391,7 +2403,7 @@ async function geraProposta(){
     var t=d.getElementById("prop");t.className=p.className;t.innerHTML=p.innerHTML;
     var w=d.getElementById("propw");w.style.width="794px";
     await fontes(d);await esperar(450);
-    var cv=await window.html2canvas(t,{scale:2.2,backgroundColor:null,useCORS:true,logging:false,width:794,height:Math.min(Math.max(t.offsetHeight,1123),1123),windowWidth:900,windowHeight:1300,scrollX:0,scrollY:0});
+    var cv=await window.nativo(t,{scale:2.2,backgroundColor:null,useCORS:true,logging:false,width:794,height:Math.min(Math.max(t.offsetHeight,1123),1123),windowWidth:900,windowHeight:1300,scrollX:0,scrollY:0});
     var doc=new JS({unit:"mm",format:"a4",compress:true});
     doc.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297,undefined,"FAST");
     return{blob:doc.output("blob"),nome:"Proposta_"+(nm(document.getElementById("pp-nome").value)||"Elvys_Max_Piano")+".pdf",txt:"Proposta de apresentação musical — Elvys Max Piano"};
