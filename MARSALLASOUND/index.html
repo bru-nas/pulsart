@@ -153,6 +153,10 @@ section:not(.alt):not(.hero){background:var(--bg)}
 /* espaçamento enxuto + linha neon piscando entre as seções */
 section{padding:clamp(64px,8vw,96px) 0}
 section:not(.hero)::before{content:"";position:absolute;left:25%;width:50%;top:0;height:1px;background:linear-gradient(90deg,transparent,#ff2a3d 20%,#ffb3ba 50%,#ff2a3d 80%,transparent);box-shadow:0 0 8px rgba(255,42,61,.9),0 0 22px rgba(255,42,61,.55);animation:linha 2.6s ease-in-out infinite}
+/* feixe de luz passando pela linha de cada seção */
+section:not(.hero)::after{content:"";position:absolute;left:25%;width:50%;top:-1px;height:3px;pointer-events:none;background:linear-gradient(90deg,transparent,#fff 50%,transparent) no-repeat;background-size:24% 100%;background-position:-40% 0;filter:drop-shadow(0 0 5px #ff2a3d) drop-shadow(0 0 12px #ff2a3d) drop-shadow(0 0 26px rgba(255,42,61,.8));animation:feixe 3.6s cubic-bezier(.45,.05,.55,.95) infinite}
+section:nth-of-type(even)::after{animation-delay:-1.6s}
+@keyframes feixe{0%{background-position:-40% 0;opacity:0}8%{opacity:1}62%{background-position:140% 0;opacity:1}70%,100%{background-position:140% 0;opacity:0}}
 @keyframes linha{0%,100%{opacity:.25}8%{opacity:1}14%{opacity:.35}22%{opacity:1}60%{opacity:.85}78%{opacity:.3}}
 /* carrossel de vídeos */
 .car{position:relative;margin-top:46px}
@@ -342,14 +346,18 @@ function on(){return ctx&&ctx.state==="running"}
 function wake(){if(ctx&&ctx.state==="suspended")ctx.resume()}
 ["pointerdown","keydown","touchstart","click"].forEach(function(ev){addEventListener(ev,wake,{passive:true})});
 function tone(type,f0,f1,d,g,t0){var t=ctx.currentTime+(t0||0),o=ctx.createOscillator();o.type=type;o.frequency.setValueAtTime(f0,t);if(f1&&f1!==f0)o.frequency.exponentialRampToValueAtTime(f1,t+d);var e=ctx.createGain();e.gain.setValueAtTime(.0001,t);e.gain.exponentialRampToValueAtTime(g,t+.012);e.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(e);e.connect(out);o.start(t);o.stop(t+d+.02);return e}
-/* zumbido elétrico grave (sem chiado): serra filtrada em 60 Hz */
-function buzz(d,g,f){if(!on())return;var t=ctx.currentTime,o=ctx.createOscillator();o.type="sawtooth";o.frequency.value=(f||100)>105?60:50;var lp=ctx.createBiquadFilter();lp.type="lowpass";lp.frequency.value=280;lp.Q.value=2;var e=ctx.createGain();e.gain.setValueAtTime(.0001,t);e.gain.exponentialRampToValueAtTime(Math.max(.02,g*.5),t+.01);e.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(lp);lp.connect(e);e.connect(out);o.start(t);o.stop(t+d+.02);tone("sine",60,60,d,g*.35)}
+/* ruído da luz falhando (o original, que ela aprovou) */
+function noise(d){var n=ctx.sampleRate*d,b=ctx.createBuffer(1,n,ctx.sampleRate),a=b.getChannelData(0);for(var i=0;i<n;i++)a[i]=Math.random()*2-1;var s=ctx.createBufferSource();s.buffer=b;return s}
+function buzz(d,g,f){if(!on())return;var t=ctx.currentTime,gn=ctx.createGain();gn.gain.setValueAtTime(g,t);gn.gain.exponentialRampToValueAtTime(.001,t+d);gn.connect(out);
+ var o=ctx.createOscillator();o.type="sawtooth";o.frequency.value=f||100;o.connect(gn);o.start(t);o.stop(t+d);
+ var o2=ctx.createOscillator();o2.type="square";o2.frequency.value=(f||100)*2.01;var g2=ctx.createGain();g2.gain.value=.35;o2.connect(g2);g2.connect(gn);o2.start(t);o2.stop(t+d);
+ var n=noise(d),bp=ctx.createBiquadFilter();bp.type="bandpass";bp.frequency.value=2600;bp.Q.value=.8;var g3=ctx.createGain();g3.gain.value=.9;n.connect(bp);bp.connect(g3);g3.connect(gn);n.start(t)}
 /* batida grave: bumbo de subgrave */
 function thump(){if(!on())return;tone("sine",95,38,.5,1);tone("sine",190,76,.18,.35);tone("sine",48,34,.6,.7)}
 /* ligar a luz: swell grave subindo + toque de energia baixo */
 function zap(){if(!on())return;tone("sine",40,110,.55,.8);tone("sawtooth",55,55,.5,.12);tone("sine",80,30,.7,.6,.35)}
-/* abrir a página: descida grave */
-function open_(){if(!on())return;tone("sine",150,34,1.0,.85);tone("sine",300,70,.5,.2)}
+/* abrir a página: o gravizão */
+function open_(){if(!on())return;tone("sine",120,26,1.5,1);tone("sine",58,26,1.7,.85);tone("sine",240,64,.45,.35)}
 function fim(){if(done)return;done=true;I.classList.add("gone");document.getElementById("fio").style.display="none";B.classList.remove("lock");setTimeout(function(){I.remove();if(ctx)ctx.close&&ctx.close()},1200)}
 function at(ms,f){setTimeout(function(){if(!done)f()},ms)}
 /* linha do tempo (começa quando o som está liberado) */
@@ -361,8 +369,8 @@ at(700,function(){I.classList.add("off")});
 at(2500,function(){I.classList.add("on");zap();buzz(.12,.5,110);at(0,function(){});setTimeout(function(){buzz(.1,.45,115)},240);setTimeout(function(){buzz(.08,.5,120)},520)});
 at(3300,function(){I.classList.add("snd1")});
 at(3900,function(){I.classList.add("beat");thump();setTimeout(thump,460);setTimeout(thump,920)});
-at(5450,function(){I.classList.add("open");document.getElementById("fio").classList.add("go");open_()});
-at(6750,fim);
+at(5300,function(){I.classList.add("open");document.getElementById("fio").classList.add("go");open_()});
+at(6600,fim);
 }
 function go(){wake();if(ctx&&ctx.state==="suspended"){ctx.resume().then(run,run);setTimeout(run,350)}else run()}
 if(!ctx){run()}else{setTimeout(function(){if(ctx.state==="running")run();else if(!started){gate.hidden=false}},180)}
