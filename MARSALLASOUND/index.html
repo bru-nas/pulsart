@@ -123,6 +123,12 @@ section:not(.alt):not(.hero){background:var(--bg)}
 .ph{position:relative}
 .two.rev .ph{order:0}.two.rev>div{text-align:left}
 @media(min-width:900px){.two.rev{grid-template-columns:.95fr 1.05fr}}
+.pl{position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;padding:0;border:0;background:none;cursor:pointer;z-index:5;transition:opacity .25s,transform .25s;filter:drop-shadow(0 0 8px rgba(255,42,61,.55))}
+.pl svg{width:100%;height:100%;display:block;fill:none;stroke:var(--rd);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.pl:hover{transform:scale(1.07)}
+.pl.h{opacity:0;pointer-events:none}
+.vd:not(.on) .pl{pointer-events:none;opacity:0}
+.ph.vid{position:relative}
 .ph.vid{max-width:420px;margin:0 auto;width:100%}
 .ph.vid video{width:100%;aspect-ratio:9/16;max-height:78vh;object-fit:cover;display:block;border:1px solid var(--line);background:#000}
 .ph img{width:100%;aspect-ratio:1/1;object-fit:cover;border:1px solid var(--line);filter:saturate(.85) contrast(1.05)}
@@ -215,7 +221,6 @@ footer a{color:var(--rd2)}
 <section class="hero">
   <div class="bg"></div>
   <div class="wrap in">
-    <span class="kick">Sonorização e iluminação</span>
     <h1>Sonorização e iluminação para eventos que <b>não permitem improviso.</b></h1>
     <p class="lead">Uma estrutura técnica preparada para que cada detalhe seja percebido como deveria: com clareza, equilíbrio e atmosfera.</p>
     <a class="btn" href="#contato">Falar com a Marsalla Sound</a><a class="btn ghost" href="#metodo">Nosso método</a>
@@ -232,13 +237,13 @@ footer a{color:var(--rd2)}
       <p>A iluminação não deve apenas iluminar um ambiente. Deve valorizar os espaços, acompanhar os momentos e contribuir para a atmosfera que os anfitriões desejam construir.</p>
       <p>A diferença não está apenas nos equipamentos utilizados. Está na forma como toda a estrutura é planejada e conduzida.</p>
     </div>
-    <figure class="ph vid rv"><video src="v/v6.mp4" poster="img/v6.jpg" preload="none" playsinline controls></video></figure>
+    <figure class="ph vid rv"><video src="v/v6.mp4" poster="img/v6.jpg" preload="none" playsinline></video></figure>
   </div>
 </section>
 
 <section id="filosofia">
   <div class="wrap two rev">
-    <figure class="ph vid rv"><video src="v/v4.mp4" poster="img/v4.jpg" preload="none" playsinline controls></video></figure>
+    <figure class="ph vid rv"><video src="v/v4.mp4" poster="img/v4.jpg" preload="none" playsinline></video></figure>
     <div class="rv">
       <span class="kick">Nossa filosofia</span>
     <h2 class="st">O som <em>transmite.</em> A iluminação <em>transforma.</em><br>A estrutura sustenta a experiência.</h2>
@@ -297,7 +302,7 @@ footer a{color:var(--rd2)}
     <p>Um evento não permanece igual do início ao fim. Existem momentos de recepção, discursos, apresentações, celebração e festa. Cada um deles possui necessidades diferentes de sonorização e iluminação.</p>
     <p>Por isso, nossa atenção está na integração entre os equipamentos, o ambiente e a programação. O objetivo é que a estrutura acompanhe essas mudanças sem comprometer a experiência dos convidados.</p>
     <p>O melhor resultado é aquele em que a parte técnica funciona sem precisar se tornar o centro das atenções.</p></div>
-    <div class="car rv"><div class="cglow"></div><div class="cv" id="cv"><figure class="vd p"><video src="v/v3.mp4" poster="img/v3.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v1.mp4" poster="img/v1.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v2.mp4" poster="img/v2.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v5.mp4" poster="img/v5.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v7.mp4" poster="img/v7.jpg" preload="none" playsinline controls></video></figure><figure class="vd p"><video src="v/v8.mp4" poster="img/v8.jpg" preload="none" playsinline controls></video></figure></div></div>
+    <div class="car rv"><div class="cglow"></div><div class="cv" id="cv"><figure class="vd p"><video src="v/v3.mp4" poster="img/v3.jpg" preload="none" playsinline></video></figure><figure class="vd p"><video src="v/v1.mp4" poster="img/v1.jpg" preload="none" playsinline></video></figure><figure class="vd p"><video src="v/v2.mp4" poster="img/v2.jpg" preload="none" playsinline></video></figure><figure class="vd p"><video src="v/v5.mp4" poster="img/v5.jpg" preload="none" playsinline></video></figure><figure class="vd p"><video src="v/v7.mp4" poster="img/v7.jpg" preload="none" playsinline></video></figure><figure class="vd p"><video src="v/v8.mp4" poster="img/v8.jpg" preload="none" playsinline></video></figure></div></div>
   </div>
 </section>
 
@@ -383,7 +388,7 @@ document.querySelectorAll(".rv").forEach(function(e){io.observe(e)});
 function layout(){var h=cv.clientHeight,w=h*9/16,step=w*.56;var N=C.length,half=Math.floor(N/2);C.forEach(function(c,i){var d=((i-cur+N+half)%N)-half,a=Math.abs(d);
  c.style.setProperty("--x",(d*step)+"px");c.style.setProperty("--s",Math.max(.5,1-a*.14));c.style.setProperty("--o",a>2?0:(1-a*.3));
  c.style.setProperty("--f",a?"brightness(.5) blur("+(a*1.4)+"px)":"none");c.style.setProperty("--z",20-a);c.style.pointerEvents=a>2?"none":"auto";
- c.classList.toggle("on",!a);var v=c.querySelector("video");v.controls=!a;if(a)v.pause()})}
+ c.classList.toggle("on",!a);var v=c.querySelector("video");if(a)v.pause()})}
 function go(n){cur=((n%C.length)+C.length)%C.length;layout()}
 function dn(e){if(e.button>0)return;var t=e.target,on=C[cur];if(t===on.querySelector("video")){var r=t.getBoundingClientRect();if(e.clientY>r.bottom-64)return}
  drag=true;moved=false;sx=e.clientX;sy=e.clientY;dx=0;id=e.pointerId}
@@ -396,8 +401,216 @@ cv.addEventListener("pointerdown",dn);cv.addEventListener("pointermove",mv);cv.a
 cv.addEventListener("wheel",function(e){if(Math.abs(e.deltaX)>Math.abs(e.deltaY)&&Math.abs(e.deltaX)>25){e.preventDefault();var n=Date.now();if(!cv._w||n-cv._w>450){cv._w=n;go(cur+(e.deltaX>0?1:-1))}}},{passive:false});
 addEventListener("resize",layout);layout()})();
 var vl=[].slice.call(document.querySelectorAll(".cv .vd video,.ph.vid video"));
+vl.forEach(function(v){var f=v.parentNode,b=document.createElement("button");b.className="pl";b.type="button";b.setAttribute("aria-label","Reproduzir");
+ b.innerHTML='<svg viewBox="0 0 84 84"><circle cx="42" cy="42" r="39"/><path d="M34 27L60 42L34 57Z"/></svg>';f.appendChild(b);
+ b.addEventListener("click",function(e){e.stopPropagation();v.play()});
+ v.addEventListener("play",function(){b.classList.add("h");v.controls=true});
+ v.addEventListener("pause",function(){if(v.ended)return;v.controls=false;b.classList.remove("h")});
+ v.addEventListener("ended",function(){v.controls=false;b.classList.remove("h")});
+ });
 vl.forEach(function(v){v.addEventListener("play",function(){vl.forEach(function(o){if(o!==v)o.pause()})})});
 })();
 </script>
+
+<!--GEN--><style>#gn{position:fixed;inset:0;z-index:99999;background:#050506;color:#eee;overflow:auto;display:none;font-family:Montserrat,system-ui,sans-serif;-webkit-overflow-scrolling:touch}
+#gn.on{display:block}
+#gn .gi{max-width:860px;margin:0 auto;padding:22px 14px 80px}
+#gn h3{font-weight:300;font-size:22px;letter-spacing:.02em;margin:0 0 4px}#gn h3 b{color:#ff2a3d;font-weight:700}
+#gn .gx{position:absolute;right:14px;top:14px;background:none;border:1px solid #333;color:#ccc;padding:8px 14px;cursor:pointer;font:600 11px Montserrat;letter-spacing:.14em}
+#gn .gt{display:flex;gap:8px;margin:18px 0}
+#gn .gt button{flex:1;padding:12px;background:none;border:1px solid #333;color:#aaa;font:600 12px Montserrat;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
+#gn .gt button.on{border-color:#ff2a3d;color:#fff;box-shadow:0 0 14px rgba(255,42,61,.3)}
+#gn label{display:block;font:600 10px Montserrat;letter-spacing:.16em;text-transform:uppercase;color:#ff5566;margin:12px 0 5px}
+#gn input,#gn select,#gn textarea{width:100%;box-sizing:border-box;background:#0d0d10;border:1px solid #2a2a30;color:#fff;padding:11px 12px;font:14px Montserrat,sans-serif;border-radius:0}
+#gn textarea{min-height:64px;resize:vertical}
+#gn .gr{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+#gn .gb{background:#ff2a3d;border:0;color:#fff;padding:14px 22px;font:700 12px Montserrat;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;margin:16px 8px 0 0}
+#gn .gb.g2{background:none;border:1px solid #444;color:#ddd}
+#gn .ge{color:#ff5566;font-size:13px;margin-top:10px;min-height:16px}
+#gn .gd{border:1px solid #1d1d22;padding:4px 14px 16px;margin:14px 0}
+#gn .gd summary{cursor:pointer;font:600 11px Montserrat;letter-spacing:.14em;text-transform:uppercase;color:#aaa;padding:10px 0}
+#gn .gv{display:none}#gn .gv.on{display:block}
+#gn #gw{margin-top:16px;overflow:hidden}
+#gn .pg{position:relative;width:794px;height:1123px;box-sizing:border-box;background:#050506;overflow:hidden;margin:0 0 20px;color:#e9e9ec;font-family:Montserrat,sans-serif}
+/* proposta */
+.pg.pr .ps{position:absolute;left:0;top:0;bottom:0;width:92px;background:#000;border-right:1px solid rgba(255,42,61,.35)}
+.pg.pr .ps:after{content:"";position:absolute;left:10px;right:10px;top:10px;bottom:10px;border:1.5px solid #ff2a3d;box-shadow:0 0 10px rgba(255,42,61,.45) inset,0 0 10px rgba(255,42,61,.35)}
+.pg.pr .ps img{position:absolute;left:50%;top:50%;width:205px;transform:translate(-50%,-50%) rotate(-90deg);z-index:2}
+.pg.pr:before{content:"";position:absolute;left:102px;right:10px;top:10px;bottom:10px;border:1.5px solid rgba(255,42,61,.7);pointer-events:none}
+.pg.pr .pb{position:absolute;left:122px;right:30px;top:30px;bottom:26px;display:flex;flex-direction:column;justify-content:space-between}
+.pg.pr small{display:block;font:600 11px Montserrat;letter-spacing:.34em;text-transform:uppercase;color:#ff2a3d;text-align:center}
+.pg.pr .ptt{text-align:center}
+.pg.pr .ptt h1{font-weight:300;font-size:44px;margin:8px 0 4px;letter-spacing:.01em;color:#fff;line-height:1.1}
+.pg.pr .pev{font-size:14px;letter-spacing:.08em;color:#ff5566;margin:0}
+.pg.pr .pint{text-align:center;color:#bbb;font-size:13px;line-height:1.7;margin:0 24px}
+.pg.pr .pcol{display:grid;grid-template-columns:1.15fr 1fr;gap:26px}
+.pg.pr h2{font-weight:600;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#fff;margin:0 0 8px}
+.pg.pr p{margin:0 0 7px;font-size:12.5px;line-height:1.65;color:#c9c9ce}
+.pg.pr ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.pg.pr li{border:1px solid rgba(255,42,61,.7);padding:6px 10px;font:600 9px Montserrat;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+.pg.pr dl{margin:0;display:grid;grid-template-columns:70px 1fr;gap:9px 10px;align-items:baseline}
+.pg.pr dt{font:700 9.5px Montserrat;letter-spacing:.18em;text-transform:uppercase;color:#ff2a3d}
+.pg.pr dd{margin:0;font-size:12.5px;color:#eee}
+.pg.pr .pfm{text-align:center;border-top:1px solid #26262b;padding-top:14px}
+.pg.pr .pfx{display:inline-block;text-align:left;border:1.5px solid #ff2a3d;box-shadow:0 0 14px rgba(255,42,61,.3);padding:14px 26px;min-width:340px;background:#0a0a0c}
+.pg.pr .pit{display:grid;grid-template-columns:190px 1fr;gap:0 14px;align-items:baseline}
+.pg.pr .pit b{font-weight:600;font-size:21px;color:#fff}.pg.pr .pit span{font-size:12px;color:#bbb}
+.pg.pr .pnote{border:1px solid #26262b;text-align:center;padding:12px 18px}
+.pg.pr .pnote h2{text-transform:none;font-weight:600;font-size:18px;margin:0 0 4px}
+.pg.pr .pnote p{margin:0;color:#bbb}
+.pg.pr .pinv{text-align:center;border-top:1px solid #26262b;padding-top:10px}
+.pg.pr .pinv small{color:#999;letter-spacing:.3em;font-weight:500}
+.pg.pr .pvl{font-weight:600;font-size:38px;color:#fff;text-shadow:0 0 18px rgba(255,42,61,.6);margin:2px 0}
+.pg.pr .pinv p{margin:0 0 4px}.pg.pr .pinv .pcd{color:#ff8a96;font-size:12px}
+.pg.pr ol{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+.pg.pr ol li{border:0;border-top:1.5px solid #ff2a3d;padding:8px 0 0;display:block;text-transform:none;letter-spacing:0;font-weight:400;color:#c9c9ce;counter-increment:s;font-size:12px}
+.pg.pr ol li:before{content:"0" counter(s);display:block;color:#ff2a3d;font-weight:300;font-size:20px;margin-bottom:2px}
+.pg.pr ol li b{display:block;font:700 11px Montserrat;letter-spacing:.14em;text-transform:uppercase;color:#fff;margin-bottom:3px}
+.pg.pr .pft{text-align:center;border-top:1px solid #26262b;padding-top:10px}
+.pg.pr .pq{font-weight:300;font-size:20px;color:#fff;margin:0 0 4px}
+.pg.pr .pct{font:700 11px Montserrat;letter-spacing:.2em;text-transform:uppercase;color:#ff2a3d;margin:0 0 4px}
+.pg.pr .pem{font-size:10.5px;color:#777;margin:0}
+/* contrato */
+.pg.ct .pwm{position:absolute;left:50%;top:50%;width:560px;transform:translate(-50%,-50%);opacity:.06;pointer-events:none}
+.pg.ct:before{content:"";position:absolute;left:14px;right:14px;top:14px;bottom:14px;border:1px solid rgba(255,42,61,.55)}
+.pg.ct .cb{position:absolute;left:66px;right:66px;top:62px;bottom:70px;overflow:hidden;text-align:justify;font-family:'Times New Roman',Georgia,serif;font-size:var(--cfs,12px);line-height:var(--clh,1.3);color:#e4e4e7}
+.pg.ct h1{font:600 19px Montserrat;letter-spacing:.06em;text-align:center;margin:0 0 14px;color:#fff;text-transform:uppercase;line-height:1.35}
+.pg.ct h4{font:700 calc(var(--cfs,12px) - 2px) Montserrat;letter-spacing:.06em;color:#ff2a3d;margin:calc(var(--cfs,12px)*.85*var(--cg,1)) 0 calc(var(--cfs,12px)*.25*var(--cg,1));text-transform:uppercase;text-align:left}
+.pg.ct p{margin:0 0 calc(var(--cfs,12px)*.28*var(--cg,1))}
+.pg.ct .dt{text-align:right;margin-top:12px}
+.pg.ct .sg{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:34px;text-align:center;font-size:calc(var(--cfs,12px) - 1px)}
+.pg.ct .sg div{border-top:1px solid #ff2a3d;padding-top:5px}
+.pg.ct .cpn{position:absolute;left:0;right:0;bottom:30px;text-align:center;font:600 8.5px Montserrat;letter-spacing:.3em;text-transform:uppercase;color:#ff2a3d}
+</style><div id="gn" aria-hidden="true"><div class="gi"><button class="gx" id="gx">FECHAR</button>
+<h3>Marsalla <b>Sound</b> · Painel</h3>
+<div class="gt"><button data-t="p" class="on">Proposta</button><button data-t="c">Contrato</button></div>
+<details class="gd"><summary>Meus dados (usados no contrato)</summary>
+<div class="gr"><div><label>Nome / razão social</label><input id="d-nome"></div><div><label>CPF / CNPJ</label><input id="d-cpf"></div>
+<div><label>Banco</label><input id="d-banco"></div><div><label>Chave Pix</label><input id="d-pix"></div>
+<div><label>Sinal (%)</label><input id="d-sinal" type="number" min="0" max="100" value="50"></div><div><label>Cidade do foro</label><input id="d-foro" placeholder="Goiânia - GO"></div></div>
+<button class="gb g2" id="d-salvar">Salvar dados</button></details>
+<div class="gv on" id="gv-p">
+<div class="gr"><div><label>Nome do cliente</label><input id="pp-nome"></div><div><label>Tipo de evento</label><input id="pp-tipo" value="Casamento"></div>
+<div><label>Data</label><input id="pp-data" type="date"></div><div><label>Horário</label><input id="pp-hora" type="time"></div></div>
+<label>Local</label><input id="pp-local">
+<div class="gr"><div><label>Serviço</label><select id="pp-fmt"><option>Sonorização</option><option>Iluminação</option><option selected>Sonorização e iluminação</option></select></div><div><label>Valor (R$)</label><input id="pp-val" type="number" min="0" step="0.01"></div></div>
+<label>Equipamentos / estrutura</label><textarea id="pp-form" placeholder="Ex.: Line array, mesa digital, 2 microfones sem fio, 8 moving heads, par LED"></textarea>
+<label>Observações</label><textarea id="pp-obs"></textarea>
+<button class="gb" id="pp-gerar">Gerar proposta</button><div class="ge" id="pp-e"></div></div>
+<div class="gv" id="gv-c">
+<div class="gr"><div><label>Contratante (nome)</label><input id="c-nome"></div><div><label>CPF / CNPJ</label><input id="c-cpf"></div></div>
+<label>Local do evento</label><input id="c-local">
+<div class="gr"><div><label>Data</label><input id="c-data" type="date"></div><div><label>Início</label><input id="c-hora" type="time"></div>
+<div><label>Duração (horas)</label><input id="c-dur" type="number" min="0.5" step="0.5" value="5"></div><div><label>Serviço</label><select id="c-fmt"><option>Sonorização</option><option>Iluminação</option><option selected>Sonorização e iluminação</option></select></div>
+<div><label>Valor (R$)</label><input id="c-val" type="number" min="0" step="0.01"></div><div><label>Custo extra (R$)</label><input id="c-ext" type="number" min="0" step="0.01"></div>
+<div><label>Motivo do extra</label><select id="c-mot"><option>Deslocamento</option><option>Hora extra</option><option>Montagem especial</option><option>Outro</option></select></div><div><label>Detalhe do extra</label><input id="c-comp"></div></div>
+<label>Equipamentos / estrutura</label><textarea id="c-form"></textarea>
+<label>Informações adicionais</label><textarea id="c-obs"></textarea>
+<button class="gb" id="c-gerar">Gerar contrato</button><div class="ge" id="c-e"></div></div>
+<div id="gres" style="display:none"><button class="gb g2" id="r-voltar">Voltar</button><button class="gb" id="r-pdf">Baixar PDF</button><button class="gb g2" id="r-copy">Copiar texto</button><button class="gb g2" id="r-zap">WhatsApp</button><div class="ge" id="r-e"></div><div id="gw"><div id="gdoc"></div></div></div>
+</div></div>
+<script>(function(){
+var D=document,$=function(s){return D.querySelector(s)},$$=function(s,r){return [].slice.call((r||D).querySelectorAll(s))};
+var ZAP="5562999214563",TXT="",MODE="p";
+var MESES=["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+var UN=["","um","dois","três","quatro","cinco","seis","sete","oito","nove","dez","onze","doze","treze","quatorze","quinze","dezesseis","dezessete","dezoito","dezenove"];
+var DZ=["","","vinte","trinta","quarenta","cinquenta","sessenta","setenta","oitenta","noventa"];
+var CT=["","cento","duzentos","trezentos","quatrocentos","quinhentos","seiscentos","setecentos","oitocentos","novecentos"];
+function a999(n){if(n===100)return"cem";var c=Math.floor(n/100),r=n%100,p=[];if(c)p.push(CT[c]);if(r){if(r<20)p.push(UN[r]);else{var d=Math.floor(r/10),u=r%10;p.push(DZ[d]+(u?" e "+UN[u]:""))}}return p.join(" e ")}
+function iext(n){if(n===0)return"zero";var mi=Math.floor(n/1000),re=n%1000,p=[];if(mi)p.push(mi===1?"mil":a999(mi)+" mil");if(re){if(mi&&(re<100||re%100===0))p.push("e "+a999(re));else p.push(a999(re))}return p.join(" ").replace(/ e e /g," e ")}
+function rext(v){var r=Math.floor(v+1e-9),c=Math.round((v-r)*100),s=iext(r)+(r===1?" real":" reais");if(c)s+=" e "+iext(c)+(c===1?" centavo":" centavos");return s}
+function brl(v){return"R$ "+v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function dext(d){var a=d.split("-");return+a[2]+" de "+MESES[+a[1]-1]+" de "+a[0]}
+function hext(t){var a=t.split(":");return a[1]==="00"?(+a[0])+"h":(+a[0])+":"+a[1]+"h"}
+function durext(h){var n=+h,i=Math.floor(n),m=(n-i)>=.5;if(!i)return"30 minutos (meia hora)";var f=i===1?"uma":i===2?"duas":iext(i),pl=i>1?"horas":"hora";return m?i+"h30 ("+f+" "+pl+" e meia)":i+"h ("+f+" "+pl+")"}
+function esc(s){return String(s).replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
+function load(){try{return JSON.parse(localStorage.getItem("msnd_d")||"{}")}catch(e){return{}}}
+function zapFmt(){var n=ZAP.slice(2);return"WhatsApp ("+n.slice(0,2)+") "+n.slice(2,3)+" "+n.slice(3,7)+"-"+n.slice(7)+" · @marsallaeventos"}
+var LOGO="img/logo.png";
+// abrir painel: 5 toques na logo
+var tp=0,tt;var lg=$("#top .logo,#top img,#top a");
+function abre(){$("#gn").classList.add("on");$("#gn").setAttribute("aria-hidden","false");var d=load();["nome","cpf","banco","pix","foro"].forEach(function(k){if(d[k])$("#d-"+k).value=d[k]});if(d.sinal!=null)$("#d-sinal").value=d.sinal}
+D.addEventListener("click",function(e){var l=e.target.closest&&e.target.closest("#top img,#top .logo,#top .lg");if(!l)return;clearTimeout(tt);tp++;tt=setTimeout(function(){tp=0},1400);if(tp>=5){tp=0;abre()}});
+if(location.hash==="#painel")setTimeout(abre,300);
+$("#gx").onclick=function(){$("#gn").classList.remove("on")};
+$$("#gn .gt button").forEach(function(b){b.onclick=function(){MODE=b.dataset.t;$$("#gn .gt button").forEach(function(x){x.classList.toggle("on",x===b)});$("#gv-p").classList.toggle("on",MODE==="p");$("#gv-c").classList.toggle("on",MODE==="c");$("#gres").style.display="none"}});
+$("#d-salvar").onclick=function(){var s={nome:$("#d-nome").value.trim(),cpf:$("#d-cpf").value.trim(),banco:$("#d-banco").value.trim(),pix:$("#d-pix").value.trim(),sinal:+$("#d-sinal").value||0,foro:$("#d-foro").value.trim()};try{localStorage.setItem("msnd_d",JSON.stringify(s))}catch(e){}$("#d-salvar").textContent="Salvo ✓";setTimeout(function(){$("#d-salvar").textContent="Salvar dados"},1800)};
+function mostra(){$("#gv-p").classList.remove("on");$("#gv-c").classList.remove("on");$("#gres").style.display="block";fit()}
+$("#r-voltar").onclick=function(){$("#gres").style.display="none";$("#gv-"+MODE).classList.add("on")};
+function fit(){var w=$("#gw"),d=$("#gdoc");d.style.transform="";var av=Math.min(794,($("#gn").clientWidth)-28),sc=Math.min(1,av/794);d.style.transformOrigin="top left";d.style.transform=sc<1?"scale("+sc+")":"";w.style.height=(d.offsetHeight*sc)+"px";w.style.width=(794*sc)+"px"}
+addEventListener("resize",function(){if($("#gres").style.display==="block")fit()});
+/* PROPOSTA */
+$("#pp-gerar").onclick=function(){
+ var e=$("#pp-e");e.textContent="";
+ var nome=$("#pp-nome").value.trim(),tipo=$("#pp-tipo").value.trim()||"Evento",dt=$("#pp-data").value,hr=$("#pp-hora").value,loc=$("#pp-local").value.trim(),val=+$("#pp-val").value||0,obs=$("#pp-obs").value.trim(),f=$("#pp-fmt").value,fi=$("#pp-form").value.trim();
+ if(!nome||!dt){e.textContent="Preencha o nome do cliente e a data do evento.";return}
+ var sp=load().sinal;if(sp==null)sp=50;var hj=new Date(),hjs=hj.getFullYear()+"-"+String(hj.getMonth()+1).padStart(2,"0")+"-"+String(hj.getDate()).padStart(2,"0");
+ var dtx=dext(dt),sem=["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"][new Date(+dt.slice(0,4),+dt.slice(5,7)-1,+dt.slice(8,10)).getDay()];
+ var sin=Math.round(val*sp)/100,cond=val?(sp>0&&sp<100?"Sinal de "+sp+"% no ato da contratação ("+brl(sin)+") e saldo de "+brl(val-sin)+" no dia do evento.":(sp>=100?"Pagamento integral no ato da contratação.":"Pagamento no dia do evento.")):"";
+ var info=[["Data",sem+", "+dtx]].concat(hr?[["Horário",hext(hr)]]:[]).concat(loc?[["Local",esc(loc)]]:[]).concat([["Evento",esc(tipo)]]);
+ $("#gdoc").innerHTML='<div class="pg pr"><aside class="ps"><img alt="Marsalla Sound" src="'+LOGO+'"></aside><div class="pb">'+
+ '<div class="ptt"><small>Proposta de sonorização e iluminação</small><h1>'+esc(nome)+'</h1><p class="pev">'+esc(tipo)+' · '+dtx+'</p></div>'+
+ '<p class="pint">Preparamos esta proposta para o seu evento, com cada detalhe de som e luz pensado para acontecer com clareza, equilíbrio e atmosfera.</p>'+
+ '<div class="pcol"><div><h2>Sobre a Marsalla Sound</h2><p>A Marsalla Sound cuida da sonorização e da iluminação de eventos que não permitem improviso. Estrutura, tempos e operação são planejados antes, para que ninguém precise se preocupar na hora.</p><p>Equipe técnica experiente, equipamentos revisados e alinhamento prévio com o local e com a produção.</p><ul><li>Planejamento</li><li>Alinhamento técnico</li><li>Operação ao vivo</li></ul></div>'+
+ '<div><h2>O seu evento</h2><dl>'+info.map(function(x){return"<dt>"+x[0]+"</dt><dd>"+x[1]+"</dd>"}).join("")+'</dl></div></div>'+
+ '<div class="pfm"><h2>Serviço proposto</h2><div class="pfx"><div class="pit"><b>'+esc(f)+'</b><span>'+esc(fi)+'</span></div></div></div>'+
+ '<div class="pnote"><h2>Menos improviso. Mais controle.</h2><p>Montagem, teste de som e ajuste de luz antes do evento, e um técnico responsável durante toda a operação.</p></div>'+
+ (val?'<div class="pinv"><small>INVESTIMENTO</small><div class="pvl">'+brl(val)+'</div><p>'+rext(val)+'</p>'+(cond?'<p class="pcd">'+esc(cond)+'</p>':"")+'</div>':"")+
+ (obs?'<div><h2>Observações</h2>'+obs.split(/\n+/).map(function(x){return"<p>"+esc(x)+"</p>"}).join("")+'</div>':"")+
+ '<div><h2>Próximos passos</h2><ol><li><b>Confirmação</b>Você aprova a proposta e reservamos a data.</li><li><b>Contrato</b>Formalizamos o combinado por escrito.</li><li><b>O evento</b>Nossa equipe monta e opera toda a estrutura.</li></ol></div>'+
+ '<div class="pft"><p class="pq">Menos improviso. Mais controle.</p><p class="pct">'+zapFmt()+'</p><p class="pem">Proposta emitida em '+dext(hjs)+'</p></div></div></div>';
+ TXT="PROPOSTA — MARSALLA SOUND\n\n"+tipo+": "+nome+"\nData: "+sem+", "+dtx+(hr?"\nHorário: "+hext(hr):"")+(loc?"\nLocal: "+loc:"")+"\nServiço: "+f+(fi?" · "+fi:"")+(val?"\nInvestimento: "+brl(val)+" ("+rext(val)+")"+(cond?"\n"+cond:""):"")+(obs?"\n\n"+obs:"")+"\n\nMenos improviso. Mais controle.\n"+zapFmt();
+ mostra()};
+/* CONTRATO */
+$("#c-gerar").onclick=function(){
+ var d=load(),e=$("#c-e");e.textContent="";
+ var f=$("#c-fmt").value,v=+$("#c-val").value,ext=+$("#c-ext").value||0,mot=$("#c-mot").value,comp=$("#c-comp").value.trim(),obs=$("#c-obs").value.trim(),hx=(mot==="Hora extra"&&ext>0),tot=hx?v:v+ext;
+ var cn=$("#c-nome").value.trim(),cc=$("#c-cpf").value.trim(),loc=$("#c-local").value.trim(),dt=$("#c-data").value,hr=$("#c-hora").value,du=$("#c-dur").value,fi=$("#c-form").value.trim();
+ if(!d.nome||!d.cpf||!d.pix||!d.foro){e.textContent="Preencha e salve primeiro 'Meus dados' (nome, CPF/CNPJ, Pix e cidade do foro).";return}
+ if(!cn||!cc||!loc||!dt||!hr||!du||!v){e.textContent="Preencha todos os campos do contrato.";return}
+ var sp=d.sinal==null?50:d.sinal,sinal=Math.round(tot*sp)/100,h0=new Date(),hj=h0.getFullYear()+"-"+String(h0.getMonth()+1).padStart(2,"0")+"-"+String(h0.getDate()).padStart(2,"0");
+ var pg=sp>0&&sp<100?sp+"% (sinal) no ato da contratação, no valor de "+brl(sinal)+" ("+rext(sinal)+"), e o saldo restante de "+brl(tot-sinal)+" ("+rext(tot-sinal)+") no dia do evento.":(sp>=100?"integralmente no ato da contratação.":"integralmente no dia do evento.");
+ var banco=d.banco?" — "+d.banco:"",cidade=d.foro,NA="MARSALLA SOUND";
+ var vals=hx?["Valor total dos serviços: "+brl(v)+" ("+rext(v)+").","Hora extra (facultativa): "+brl(ext)+" ("+rext(ext)+")"+(comp?" — "+comp:"")+". Esse valor não está incluído no valor total dos serviços e só será devido se houver prorrogação do evento por solicitação do CONTRATANTE."]:ext>0?["Valor do serviço: "+brl(v)+" ("+rext(v)+").","Custo extra: "+brl(ext)+" ("+rext(ext)+"), referente a "+(mot==="Outro"?(comp||"despesas adicionais"):mot.toLowerCase()+(comp?" — "+comp:""))+".","Valor total dos serviços: "+brl(tot)+" ("+rext(tot)+")."]:["Valor total dos serviços: "+brl(v)+" ("+rext(v)+")."];
+ var S=[["CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE SONORIZAÇÃO E ILUMINAÇÃO",null],
+ ["I – DA IDENTIFICAÇÃO DAS PARTES CONTRATANTES",["Contratante: "+cn.toUpperCase()+", inscrito(a) no CPF/CNPJ: "+cc+", doravante denominado(a) simplesmente CONTRATANTE.","Contratado: "+d.nome.toUpperCase()+", inscrito no CPF/CNPJ: "+d.cpf+", que atua comercialmente como "+NA+", doravante denominado simplesmente CONTRATADO."]],
+ ["II – DO OBJETO",["O presente contrato tem como objeto a prestação de serviços de "+f.toLowerCase()+" pelo CONTRATADO em favor do CONTRATANTE, incluindo fornecimento, montagem, operação e desmontagem dos equipamentos, conforme descrito nas cláusulas seguintes."]],
+ ["III – DO VALOR E FORMA DE PAGAMENTO",vals.concat(["O pagamento será efetuado da seguinte forma: "+pg,"PIX: "+d.pix+" — "+d.nome+banco+"."])],
+ ["IV – DA DATA E ESPECIFICAÇÃO DOS SERVIÇOS",["Evento a ser realizado em "+loc+", no dia "+dext(dt)+", a partir das "+hext(hr)+", com "+durext(du)+" de operação.","Serviço contratado: "+f+"."].concat(fi?["Estrutura e equipamentos: "+fi+"."]:[])]]
+ .concat(obs?[["INFORMAÇÕES ADICIONAIS",obs.split(/\n+/)]]:[]).concat([
+ ["V – DA RESPONSABILIDADE CIVIL",["Ambas as partes assumem a responsabilidade por eventuais danos causados a terceiros decorrentes da prestação dos serviços, sendo certo que cada uma responde pelos atos de seus prepostos."]],
+ ["VI – DAS OBRIGAÇÕES DO CONTRATANTE E DO CONTRATADO",["a) São obrigações do Contratante:","a.1) Providenciar local adequado, acesso para carga, montagem e desmontagem, e energia elétrica estável (trifásica/bifásica, conforme especificações técnicas), em quantidade suficiente para a estrutura contratada;","a.2) Informar ao CONTRATADO as regras e os horários de acesso do local, inclusive eventuais limites de volume;","a.3) Zelar pela segurança dos equipamentos do CONTRATADO;","a.4) Efetuar o pagamento nos termos acordados neste contrato;","a.5) Responsabilizar-se pela alimentação e pelas bebidas não alcoólicas da equipe técnica do CONTRATADO durante o evento;","a.6) Arcar com as despesas de deslocamento e hospedagem do CONTRATADO e de sua equipe, quando o evento for realizado fora da região de atuação do CONTRATADO.","b) São obrigações do Contratado:","b.1) Comparecer ao local na data e horário combinados, com os equipamentos e a equipe técnica necessários;","b.2) Realizar a montagem, o teste e a operação da sonorização e/ou da iluminação, nos termos do serviço contratado;","b.3) Realizar a desmontagem e a retirada dos equipamentos ao final do evento."]],
+ ["VII – DA GUARDA E PROTEÇÃO DOS EQUIPAMENTOS DO CONTRATADO",["Durante a realização do evento, o CONTRATANTE compromete-se a garantir a segurança e proteção dos equipamentos do CONTRATADO, responsabilizando-se por eventuais danos ou perdas causados por convidados, funcionários ou terceiros."]],
+ ["VIII – DAS SANÇÕES POR DESCUMPRIMENTO CONTRATUAL E HIPÓTESES DE RESCISÃO",["Em caso de descumprimento de qualquer cláusula deste contrato, a parte infratora estará sujeita às sanções previstas em lei, bem como à rescisão contratual, sem prejuízo das perdas e danos eventualmente causados.","Parágrafo primeiro: A inobservância, por parte do CONTRATANTE, de qualquer cláusula deste instrumento faculta ao CONTRATADO a rescisão do contrato, independentemente de notificações, avisos ou comunicações de qualquer natureza, ficando o CONTRATANTE sujeito ao ressarcimento integral de eventuais danos aos equipamentos.","Parágrafo segundo: Na hipótese de inadimplência superior a 30 (trinta) dias, o contrato será automaticamente rescindido, operando-se o vencimento antecipado de todas as parcelas vincendas, com incidência de multa, juros de mora e correção monetária pelo IGP-M.","Parágrafo terceiro: Havendo rescisão do contrato por parte do CONTRATANTE, o valor pago a título de sinal não será devolvido.","Parágrafo quarto: Caso haja algum problema no dia do evento, as partes poderão remarcar a data, devendo a nova data ser definida em até 30 (trinta) dias."]],
+ ["IX – DAS HIPÓTESES DE CASO FORTUITO E FORÇA MAIOR",["Caso haja impossibilidade de realização do serviço devido a caso fortuito ou força maior, as partes poderão acordar pela retenção dos valores já gastos em infraestrutura e pessoal, com a oportunidade de oferta de nova data para realização do evento, a ser agendada no prazo mínimo de 30 dias contados da situação fortuita ou de força maior (exemplos: embargos, situações danosas de origem natural, incêndios, desastres, entre outros)."]],
+ ["X – DA PROTEÇÃO DE DADOS PESSOAIS",["As partes comprometem-se a respeitar as disposições da Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018), garantindo a privacidade e a proteção dos dados pessoais eventualmente compartilhados no âmbito deste contrato."]],
+ ["XI – DO FORO",["Para dirimir quaisquer litígios decorrentes deste contrato, as partes elegem o foro da comarca de "+cidade+", renunciando a qualquer outro, por mais privilegiado que seja."]]]);
+ var fim="E, por estarem assim justas e contratadas, as partes assinam o presente contrato em duas vias, na presença de duas testemunhas, para que surta seus legais e jurídicos efeitos.",dataC=dext(hj);
+ var h='<h1>'+S[0][0]+'</h1>',t=S[0][0]+"\n";
+ S.slice(1).forEach(function(x){h+="<h4>"+esc(x[0])+"</h4>"+x[1].map(function(p){return"<p>"+esc(p)+"</p>"}).join("");t+="\n*"+x[0]+"*\n"+x[1].join("\n")+"\n"});
+ h+='<p style="margin-top:16px">'+fim+'</p><p class="dt">'+esc(cidade.split(",")[0])+", "+dataC+'.</p><div class="sg"><div>Assinatura do Contratante<br>'+esc(cn)+'</div><div>Assinatura do Contratado<br>'+esc(d.nome)+'</div></div>';
+ t+="\n"+fim+"\n\n"+cidade.split(",")[0]+", "+dataC+".\n\n______________________\nContratante: "+cn+"\n\n______________________\nContratado: "+d.nome;
+ TXT=t;mostra();folhas(h);fit()};
+function folhas(h){
+ var c=$("#gdoc"),tpl=D.createElement("div");tpl.innerHTML=h;var bl=[].slice.call(tpl.children);
+ function monta(fs,lh,cg){c.innerHTML="";c.style.setProperty("--cfs",fs.toFixed(1)+"px");c.style.setProperty("--clh",lh.toFixed(2));c.style.setProperty("--cg",cg.toFixed(2));var n=0;
+  function nova(){n++;var p=D.createElement("div");p.className="pg ct";p.innerHTML='<img class="pwm" alt="" src="'+LOGO+'"><div class="cb"></div><div class="cpn"></div>';c.appendChild(p);return p.querySelector(".cb")}
+  var cb=nova();bl.forEach(function(b){var k=b.cloneNode(true);cb.appendChild(k);if(cb.scrollHeight>cb.clientHeight+1&&cb.children.length>1){cb.removeChild(k);cb=nova();cb.appendChild(k)}});
+  var cbs=$$(".cb",c);cbs.forEach(function(x,i){var l=x.lastElementChild;if(l&&l.tagName==="H4"&&cbs[i+1])cbs[i+1].insertBefore(l,cbs[i+1].firstChild)});return n}
+ var ok=false,fs0=15.6,lh0=1.7;
+ for(var fs=15.6;fs>=10.2&&!ok;fs-=.3){for(var lh=1.7;lh>=1.28&&!ok;lh-=.04){if(monta(fs,lh,1)<=2){ok=true;fs0=fs;lh0=lh}}}
+ if(ok){var g=1;for(var t=1.15;t<=4;t+=.15){if(monta(fs0,lh0,t)<=2)g=t;else break}monta(fs0,lh0,g)}
+ $$(".cpn",c).forEach(function(x,i,a){x.textContent="Página "+(i+1)+" de "+a.length})}
+$("#r-copy").onclick=function(){var b=$("#r-copy");(navigator.clipboard?navigator.clipboard.writeText(TXT):Promise.reject()).then(function(){b.textContent="Copiado ✓"},function(){b.textContent="Não foi possível copiar"});setTimeout(function(){b.textContent="Copiar texto"},2000)};
+$("#r-zap").onclick=function(){var a=D.createElement("a");a.href="https://wa.me/?text="+encodeURIComponent(TXT);a.target="_blank";a.rel="noopener";D.body.appendChild(a);a.click();a.remove()};
+function lib(u){return new Promise(function(ok,no){var s=D.createElement("script");s.src=u;s.onload=ok;s.onerror=no;D.head.appendChild(s)})}
+$("#r-pdf").onclick=function(){var e=$("#r-e"),pgs=$$("#gdoc .pg");e.textContent="Gerando PDF…";var dc=$("#gdoc"),old=dc.style.transform;dc.style.transform="";
+ (window.html2canvas?Promise.resolve():lib("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js")).then(function(){return window.jspdf?0:lib("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js")}).then(function(){
+  var pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4"}),i=0;
+  function next(){if(i>=pgs.length){pdf.save((MODE==="p"?"Proposta":"Contrato")+"_Marsalla_Sound.pdf");dc.style.transform=old;e.textContent="PDF baixado ✓";return}
+   return html2canvas(pgs[i],{scale:2,backgroundColor:"#050506",useCORS:true}).then(function(cv){if(i)pdf.addPage();pdf.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",0,0,210,297);i++;return next()})}
+  return next()}).catch(function(){dc.style.transform=old;e.textContent="Não consegui gerar o PDF. Tente de novo com internet."})};
+})();
+</script><!--/GEN-->
 </body>
 </html>
