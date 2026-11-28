@@ -141,7 +141,7 @@ footer a{color:var(--mute)}
 
     <form class="card" id="f" autocomplete="on">
       <div class="st"><i>4</i><h2>Crie sua conta</h2></div>
-      <p class="nota" style="margin:0 0 4px">Com esta conta você entra na extensão. Depois do cadastro, você vai direto para o pagamento.</p>
+      <p class="nota" id="nConta" style="margin:0 0 4px">Com esta conta você entra na extensão. Depois do cadastro, você vai direto para o pagamento.</p>
       <label for="nm">Nome completo</label>
       <input id="nm" required autocomplete="name">
       <label for="em">E-mail</label>
@@ -238,7 +238,9 @@ function pintar() {
   $('oferCk').checked = extra;
   $('dUpg').hidden = true; $('dUpg').style.display = $('dUpg').hidden ? 'none' : '';
   $('hT').textContent = { siap:'Assine o K.Edu', corrige:'Assine o K.Edu Corrige', combo:'Assine o K.Edu + Corrige', upgrade:'Adicione o K.Edu Corrige', pacote30:'Mais redações no Corrige', pacote100:'Mais redações no Corrige' }[base];
-  $('hP').textContent = base === 'corrige' || base === 'upgrade' || base.startsWith('pacote') ? 'Pague e use: as redações são liberadas sozinhas assim que o pagamento é confirmado.' : 'Escolha o plano, pague e pronto: a licença é liberada sozinha assim que o pagamento é confirmado.';
+  const soCor = ['corrige','upgrade','pacote30','pacote100'].includes(base);
+  $('nConta').textContent = soCor ? 'Com esta conta você entra no app do K.Edu Corrige, no celular ou no computador. Depois do cadastro, você vai direto para o pagamento.' : (base === 'combo' ? 'Com esta conta você entra na extensão do SIAP e no app do Corrige. Depois do cadastro, você vai direto para o pagamento.' : 'Com esta conta você entra na extensão. Depois do cadastro, você vai direto para o pagamento.');
+  $('hP').textContent = base === 'corrige' || base === 'upgrade' || base.startsWith('pacote') ? 'Pague e use: as redações são liberadas sozinhas assim que o pagamento é confirmado.' : base === 'combo' ? 'Escolha o plano, pague e pronto: os dois são liberados sozinhos assim que o pagamento é confirmado.' : 'Escolha o plano, pague e pronto: a licença é liberada sozinha assim que o pagamento é confirmado.';
   $('sAnual').textContent = P.sAnual || '';
   if (!u) {
     $('pvM').innerHTML = brl(P.mensal[forma]) + '<small style="font-size:13px;font-weight:500;color:var(--mute)"> /mês</small>';
@@ -298,7 +300,7 @@ async function enviar(e) {
       body: JSON.stringify({ email: $('em').value.trim(), nome: $('nm').value.trim(), cpf: $('cp').value, produto: produto(), plano, forma }) });
     const j = await r.json().catch(() => ({}));
     if (r.ok && j.url) {
-      try { const pr = PROD[produto()], v = pr && (pr[plano] || pr.unico || pr.mensal); const val = v && v[forma]; if (val) localStorage.setItem('kedu_compra', JSON.stringify({ valor: val, nome: pr.nome, ts: Date.now() })); } catch (x) {}
+      try { const pr = PROD[produto()], v = pr && (pr[plano] || pr.unico || pr.mensal); const val = v && v[forma]; if (val) localStorage.setItem('kedu_compra', JSON.stringify({ valor: val, nome: pr.nome, prod: produto(), ts: Date.now() })); } catch (x) {}
       location.href = j.url; return;
     }
     $('erro').textContent = j.mensagem || 'Não consegui abrir o pagamento. Tente de novo.';

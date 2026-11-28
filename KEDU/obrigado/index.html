@@ -7,7 +7,7 @@
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','1668704894981150');
 fbq('track','PageView');
-(function(){var v=49.90,n='K.Edu';try{var c=JSON.parse(localStorage.getItem('kedu_compra')||'null');if(c&&c.valor>0&&Date.now()-c.ts<6*864e5){v=c.valor;n=c.nome||n}localStorage.removeItem('kedu_compra')}catch(x){}fbq('track','Purchase',{currency:'BRL',value:v,content_name:n})})();
+(function(){var v=49.90,n='K.Edu';try{var c=JSON.parse(localStorage.getItem('kedu_compra')||'null');if(c&&c.valor>0&&Date.now()-c.ts<6*864e5){v=c.valor;n=c.nome||n}}catch(x){}fbq('track','Purchase',{currency:'BRL',value:v,content_name:n})})();
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1668704894981150&ev=PageView&noscript=1"></noscript>
 <!-- End Meta Pixel -->
@@ -51,19 +51,33 @@ button:hover{background:var(--blue);color:#fff;transform:translateY(-2px)}
   <img class="mascote" src="comemorando.png" alt="K.Edu comemorando">
   <section class="card">
     <span class="sel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Pagamento recebido</span>
-    <h1>Parabéns! Agora você tem o <em>K.Edu</em></h1>
-    <p class="sub">Sua licença é liberada sozinha assim que o pagamento é confirmado. Falta só instalar:</p>
-    <ol>
+    <h1 id="oT">Parabéns! Agora você tem o <em>K.Edu</em></h1>
+    <p class="sub" id="oS">Sua licença é liberada sozinha assim que o pagamento é confirmado. Falta só instalar:</p>
+    <ol id="oL">
       <li>Clique no botão abaixo para baixar o K.Edu</li>
       <li>Abra o SIAP e clique no ícone do K.Edu</li>
       <li>Entre com o e-mail e a senha que você criou</li>
     </ol>
     <button type="button" id="baixar">Baixar o K.Edu</button>
+    <button type="button" id="abrirApp" hidden style="margin-top:10px">Abrir o K.Edu Corrige</button>
     <span class="zap">Dúvidas? Chame no WhatsApp <b>(62) 99669-0398</b></span>
   </section>
 </main>
 <script>
 document.getElementById('baixar').onclick=function(){window.open('https://chromewebstore.google.com/detail/mcbpphlllbiceebaoceplaiejjbcopoe','_blank','noopener')};
+document.getElementById('abrirApp').onclick=function(){location.href='/KEDU/corrige/app/'};
+(function(){var pr='';try{var c=JSON.parse(localStorage.getItem('kedu_compra')||'null');if(c&&Date.now()-c.ts<6*864e5)pr=c.prod||'';localStorage.removeItem('kedu_compra')}catch(x){}
+var so=['corrige','upgrade','pacote30','pacote100'].indexOf(pr)>-1;
+if(!so&&pr!=='combo')return;
+var L=document.getElementById('oL'),B=document.getElementById('baixar'),A=document.getElementById('abrirApp');
+if(so){document.getElementById('oT').innerHTML='Parabéns! Agora você tem o <em>K.Edu Corrige</em>';
+document.getElementById('oS').textContent=pr.indexOf('pacote')===0?'As redações extras entram na sua conta assim que o pagamento é confirmado.':'Seu acesso é liberado sozinho assim que o pagamento é confirmado. É só abrir o app:';
+L.innerHTML='<li>Abra o K.Edu Corrige</li><li>Entre com o e-mail e a senha que você criou</li><li>Tire a foto da redação e receba a nota</li>';
+B.hidden=true;A.hidden=false;A.style.marginTop='0'}
+else{document.getElementById('oT').innerHTML='Parabéns! Agora você tem o <em>K.Edu</em> e o <em>Corrige</em>';
+document.getElementById('oS').textContent='Os dois são liberados sozinhos assim que o pagamento é confirmado. Falta só começar:';
+L.innerHTML='<li>Para o SIAP: baixe o K.Edu, abra o SIAP e entre com a sua conta</li><li>Para as redações: abra o K.Edu Corrige e entre com a mesma conta</li>';
+A.hidden=false}})();
 /* confete */
 (function(){
   var c=document.getElementById('conf'),x=c.getContext('2d'),W,H,dpr=Math.min(2,window.devicePixelRatio||1);
