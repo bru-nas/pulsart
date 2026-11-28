@@ -2698,14 +2698,15 @@ var PROBECSS="div[style*=\"visibility: hidden\"]{line-height:normal!important}di
 function css(){if(document.getElementById("pdfcss"))return;var st=document.createElement("style");st.id="pdfcss";st.textContent=PROBECSS;document.head.appendChild(st)}
 function nm(t){return String(t||"").normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^A-Za-z0-9]+/g,"_").replace(/^_+|_+$/g,"").slice(0,40)}
 function esperar(ms){return new Promise(function(r){setTimeout(r,ms)})}
-window.nativo=async function(el,o){var d=el.ownerDocument,r=el.getBoundingClientRect(),W=o.width,H=o.height,S=o.scale||2,vw=d.documentElement.clientWidth||900,vh=d.documentElement.clientHeight||1300;
+window.nativo=async function(el,o){try{return await window.nativo2(el,o)}catch(e){var d0=el.ownerDocument;return window.html2canvas(el,{scale:2.2,backgroundColor:null,useCORS:true,logging:false,width:o.width,height:o.height,windowWidth:d0.documentElement.clientWidth||900,windowHeight:d0.documentElement.clientHeight||1300,scrollX:0,scrollY:0})}};
+window.nativo2=async function(el,o){var d=el.ownerDocument,r=el.getBoundingClientRect(),W=o.width,H=o.height,S=o.scale||2,vw=d.documentElement.clientWidth||900,vh=d.documentElement.clientHeight||1300;
  function mk(){var doc=document.implementation.createHTMLDocument(""),ht=doc.createElement("html"),bd=doc.createElement("body");bd.setAttribute("style","margin:0;background:transparent;overflow:hidden;width:"+vw+"px;height:"+vh+"px");ht.setAttribute("style","overflow:hidden");
   [].forEach.call(d.querySelectorAll("style"),function(s){var c=doc.createElement("style");c.textContent=s.textContent.replace(/:root/g,"html");bd.appendChild(c)});
   [].forEach.call(d.body.childNodes,function(n){if(n.nodeType===1)bd.appendChild(doc.importNode(n,true))});
   ht.appendChild(bd);
   var x=new XMLSerializer().serializeToString(ht).replace(/^<html[^>]*>/,'<html xmlns="http://www.w3.org/1999/xhtml" style="overflow:hidden">');
   var svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+vw*S+'" height="'+vh*S+'" viewBox="0 0 '+vw+' '+vh+'"><foreignObject x="0" y="0" width="'+vw+'" height="'+vh+'">'+x+'</foreignObject></svg>';
-  return new Promise(function(ok,no){var im=new Image();im.onload=function(){ok(im)};im.onerror=function(){no(new Error("render"))};im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg)})}
+  var pe=new DOMParser().parseFromString(svg,"image/svg+xml").querySelector("parsererror");if(pe)return Promise.reject(new Error("xml"));return new Promise(function(ok,no){var im=new Image();im.onload=function(){ok(im)};im.onerror=function(){no(new Error("render"))};im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg)})}
  var cv=document.createElement("canvas");cv.width=Math.round(W*S);cv.height=Math.round(H*S);var c=cv.getContext("2d");
  for(var n=0;n<2;n++){var im=await mk();await new Promise(function(r2){setTimeout(r2,n?150:450)});c.fillStyle="#fff";c.fillRect(0,0,cv.width,cv.height);c.drawImage(im,r.left*S,r.top*S,W*S,H*S,0,0,cv.width,cv.height)}
  return cv};
