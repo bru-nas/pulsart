@@ -181,8 +181,8 @@ section:nth-of-type(even)::after{animation-delay:-1.6s}
 /* galeria de fotos */
 .fgal{display:flex;align-items:center;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;margin:46px -20px 0;padding:14px 20px 22px;scroll-padding:0 20px;scrollbar-width:thin;scrollbar-color:#ff2a3d transparent}
 .fgal::-webkit-scrollbar{height:4px}.fgal::-webkit-scrollbar-thumb{background:#ff2a3d;border-radius:2px}
-.fgal figure{position:relative;flex:0 0 auto;overflow:hidden;border:2px solid #ff2a3d;box-shadow:0 0 10px rgba(255,42,61,.55),0 0 22px rgba(255,42,61,.25);margin:0;scroll-snap-align:center;cursor:zoom-in;background:#000}
-.fgal img{height:auto;width:auto;max-height:min(64vh,560px);max-width:86vw;display:block;transition:transform .6s}
+.fgal figure{position:relative;flex:0 0 auto;width:min(78vw,380px);aspect-ratio:3/4;overflow:hidden;border:2px solid #ff2a3d;box-shadow:0 0 10px rgba(255,42,61,.55),0 0 22px rgba(255,42,61,.25);margin:0;scroll-snap-align:center;cursor:zoom-in;background:#000}
+.fgal img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;transition:transform .6s}
 .fgal:after{content:"";flex:0 0 1px}
 @media(min-width:900px){.fgal{justify-content:flex-start}}
 .fgal figure:hover img{transform:scale(1.03)}
