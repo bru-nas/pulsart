@@ -97,22 +97,33 @@ footer a{color:var(--mute)}
 </div></header>
 
 <section class="hero"><div class="w">
-  <div><div class="eyebrow">Assinatura</div><h1>Assine o K.Edu</h1><p>Escolha o plano, pague e pronto: a licença é liberada sozinha assim que o pagamento é confirmado.</p></div>
+  <div><div class="eyebrow">Assinatura</div><h1 id="hT">Assine o K.Edu</h1><p id="hP">Escolha o plano, pague e pronto: a licença é liberada sozinha assim que o pagamento é confirmado.</p></div>
   <img src="../mascote.jpg" alt="">
 </div></section>
 
 <main class="w"><div class="grid">
   <div>
-    <section class="card">
-      <div class="st"><i>1</i><h2>Escolha o plano</h2></div>
+    <section class="card" id="cProd">
+      <div class="st"><i>1</i><h2>O que você quer assinar?</h2></div>
+      <div class="opts quatro" id="gProd">
+        <button type="button" class="opt" data-v="siap" aria-pressed="true"><b>K.Edu para o SIAP</b><small>Lança frequência, notas e planejamento</small></button>
+        <button type="button" class="opt" data-v="corrige" aria-pressed="false"><b>K.Edu Corrige</b><small>Corrige redações com IA, para qualquer professor</small></button>
+        <button type="button" class="opt" data-v="combo" aria-pressed="false"><span class="tag">Economiza</span><b>Os dois juntos</b><small>K.Edu + Corrige com desconto</small></button>
+      </div>
+      <label class="ofer" id="oferta" hidden style="display:flex;gap:10px;align-items:flex-start;font-weight:500;margin-top:16px;padding:12px;border:2px dashed var(--amber);border-radius:12px;background:#FFFBEB;cursor:pointer"><input type="checkbox" id="oferCk" style="width:22px;height:22px;margin:2px 0 0;flex:none"><span id="oferTx"></span></label>
+      <p class="dica" id="dUpg">Já tem o K.Edu pago e ativo? <a href="#" id="lUpg" style="color:var(--blue);font-weight:600">Pague só a diferença para ter o Corrige</a>.</p>
+    </section>
+
+    <section class="card" id="cPlano">
+      <div class="st"><i>2</i><h2>Escolha o plano</h2></div>
       <div class="opts dois" id="gPlano">
         <button type="button" class="opt" data-v="mensal" aria-pressed="true"><b>Mensal</b><small>Cobrança todo mês</small><span class="pv" id="pvM"></span></button>
-        <button type="button" class="opt" data-v="anual" aria-pressed="false"><span class="tag">Melhor valor</span><b>Anual</b><small>10 meses de aula, pagamento único</small><span class="pv" id="pvA"></span></button>
+        <button type="button" class="opt" data-v="anual" aria-pressed="false"><span class="tag">Melhor valor</span><b>Anual</b><small id="sAnual">10 meses de aula, pagamento único</small><span class="pv" id="pvA"></span></button>
       </div>
     </section>
 
     <section class="card">
-      <div class="st"><i>2</i><h2>Como prefere pagar?</h2></div>
+      <div class="st"><i>3</i><h2>Como prefere pagar?</h2></div>
       <div class="opts quatro" id="gForma">
         <button type="button" class="opt fm" data-v="pix" aria-pressed="true"><b id="bPix">Pix</b></button>
         <button type="button" class="opt fm" data-v="boleto" aria-pressed="false"><b>Boleto</b></button>
@@ -122,7 +133,7 @@ footer a{color:var(--mute)}
     </section>
 
     <form class="card" id="f" autocomplete="on">
-      <div class="st"><i>3</i><h2>Crie sua conta</h2></div>
+      <div class="st"><i>4</i><h2>Crie sua conta</h2></div>
       <p class="nota" style="margin:0 0 4px">Com esta conta você entra na extensão. Depois do cadastro, você vai direto para o pagamento.</p>
       <label for="nm">Nome completo</label>
       <input id="nm" required autocomplete="name">
@@ -138,18 +149,19 @@ footer a{color:var(--mute)}
 
   <aside class="card res">
     <h3>Resumo do pedido</h3>
+    <div class="lin"><span>Produto</span><b id="rProd"></b></div>
     <div class="lin"><span>Plano</span><b id="rPlano"></b></div>
     <div class="lin"><span>Pagamento</span><b id="rForma"></b></div>
     <div class="lin"><span>Valor</span><b id="rTipo"></b></div>
     <div class="tot"><span>Total</span><b id="tVal"></b></div>
-    <ul class="ok">
+    <ul class="ok" id="ulOk">
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Todos os recursos do K.Edu</li>
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>Licença liberada sozinha após o pagamento</li>
       <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>1 computador por licença</li>
     </ul>
     <button class="go" id="ir" type="button">Criar conta e ir para o checkout</button>
     <button class="go2" id="teste" type="button">Testar 24 horas grátis</button>
-    <div class="nota">Sem pagar nada. Um teste por CPF.</div>
+    <div class="nota" id="tNotaTeste">Sem pagar nada. Um teste por CPF.</div>
     <div id="erro" role="alert"></div>
     <div id="okteste"></div>
     <div class="seguro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>Você paga na página segura do Asaas. O K.Edu não guarda dados do seu cartão.</span></div>
@@ -161,29 +173,86 @@ footer a{color:var(--mute)}
 
 <script>
 const WORKER = 'https://kedu-leitor.miztella.workers.dev';
-const PRECOS = { mensal:{ pix:49.90, boleto:49.90, cartao:51.40 }, anual:{ pix:449.10, boleto:499.00, cartao:499.00 } };
+const cart = v => Math.round(v * 103) / 100;
+const trio = v => ({ pix: v, boleto: v, cartao: cart(v) });
+const trioA = (v, px) => ({ pix: px, boleto: v, cartao: v });
+const PROD = {
+  siap:     { nome:'K.Edu para o SIAP', mensal:{ pix:49.90, boleto:49.90, cartao:51.40 }, anual:{ pix:449.10, boleto:499.00, cartao:499.00 }, dias:300, sAnual:'10 meses de aula, pagamento único' },
+  corrige:  { nome:'K.Edu Corrige', mensal:trio(129.90), anual:trioA(1299, 1169.10), dias:365, sAnual:'12 meses, pagamento único' },
+  combo:    { nome:'K.Edu + K.Edu Corrige', mensal:trio(159.90), anual:trioA(1599, 1439.10), dias:300, sAnual:'12 meses, pagamento único' },
+  upgrade:  { nome:'K.Edu Corrige (só a diferença)', mensal:trio(110), anual:trioA(1100, 990), dias:365, sAnual:'12 meses, pagamento único' },
+  pacote30: { nome:'Pacote de 30 redações', unico:trio(29.90) },
+  pacote100:{ nome:'Pacote de 100 redações', unico:trio(79.90) }
+};
+const BENEF = {
+  siap: ['Todos os recursos do K.Edu', 'Licença liberada sozinha após o pagamento', '1 computador por licença'],
+  corrige: ['200 redações por mês, com relatório', 'Até 50 sobram para o mês seguinte', 'Funciona no celular, sem instalar nada'],
+  combo: ['K.Edu para o SIAP completo', 'K.Edu Corrige: 200 redações por mês', 'Notas do Corrige direto para o SIAP'],
+  upgrade: ['200 redações por mês, com relatório', 'Notas do Corrige direto para o SIAP', 'Vale para quem já tem o K.Edu ativo'],
+  pacote30: ['30 redações a mais, sem prazo', 'Usadas depois das 200 do mês', 'Para quem tem o Corrige ativo'],
+  pacote100: ['100 redações a mais, sem prazo', 'Usadas depois das 200 do mês', 'Para quem tem o Corrige ativo']
+};
 const NOMES = { pix:'Pix', boleto:'Boleto', cartao:'Cartão de crédito' };
 const $ = id => document.getElementById(id);
 const brl = v => 'R$ ' + v.toFixed(2).replace('.', ',');
 const q = new URLSearchParams(location.search);
-let plano = PRECOS[q.get('plano')] ? q.get('plano') : 'mensal';
-let forma = PRECOS.mensal[q.get('forma')] ? q.get('forma') : 'pix';
-const NOTAS = {
+let base = PROD[q.get('produto')] && q.get('produto') !== 'combo' ? q.get('produto') : (q.get('produto') === 'combo' ? 'combo' : 'siap');
+let extra = false; // caixinha de oferta: leva também o outro produto (vira combo)
+let plano = ['mensal','anual'].includes(q.get('plano')) ? q.get('plano') : 'mensal';
+let forma = ['pix','boleto','cartao'].includes(q.get('forma')) ? q.get('forma') : 'pix';
+const produto = () => (extra && (base === 'siap' || base === 'corrige')) ? 'combo' : base;
+const unico = () => !!PROD[produto()].unico;
+const tabela = () => PROD[produto()].unico || PROD[produto()][plano];
+const NOTAS = () => ({
   mensal: { pix:'Pix Automático: você autoriza uma vez no app do seu banco, ao pagar o primeiro Pix, e as próximas mensalidades são debitadas sozinhas. Se preferir, pode pagar cada mês manualmente.', boleto:'Todo mês você recebe o boleto por e-mail. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao:'O cartão é cobrado sozinho todo mês. Inclui a taxa da maquininha (3%).' },
-  anual: { pix:'Pagamento único com 10% de desconto. Vale por 300 dias.', boleto:'Pagamento único, vale por 300 dias. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao:'Pagamento único à vista, vale por 300 dias, sem acréscimo.' }
+  anual: { pix:'Pagamento único com 10% de desconto. Vale por ' + PROD[produto()].dias + ' dias.', boleto:'Pagamento único, vale por ' + PROD[produto()].dias + ' dias. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao:'Pagamento único à vista, vale por ' + PROD[produto()].dias + ' dias, sem acréscimo.' },
+  unico: { pix:'Pagamento único no Pix. As redações entram na sua conta assim que o pagamento é confirmado.', boleto:'Pagamento único. O boleto leva de 1 a 3 dias úteis para confirmar.', cartao:'Pagamento único no cartão. Inclui a taxa da maquininha (3%).' }
+});
+const OFERTA = {
+  siap: 'Quero também o <b>K.Edu Corrige</b> (corrige redações com IA): <b>+ R$ 110,00</b> por mês, total de R$ 159,90.',
+  corrige: 'Quero também o <b>K.Edu para o SIAP</b> (frequência, notas e planejamento): <b>+ R$ 30,00</b> por mês, total de R$ 159,90.'
 };
 function pintar() {
-  document.querySelectorAll('#gPlano .opt').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === plano));
-  document.querySelectorAll('#gForma .opt').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === forma));
-  $('pvM').innerHTML = brl(PRECOS.mensal[forma]) + '<small style="font-size:13px;font-weight:500;color:var(--mute)"> /mês</small>';
-  $('pvA').innerHTML = brl(PRECOS.anual[forma]) + '<small style="font-size:13px;font-weight:500;color:var(--mute)"> /ano</small>';
-  $('rPlano').textContent = plano === 'mensal' ? 'Mensal' : 'Anual (10 meses de aula)';
-  $('rForma').textContent = (forma==='pix' && plano==='mensal') ? 'Pix Automático' : NOMES[forma];
-  $('bPix').textContent = plano==='mensal' ? 'Pix Automático' : 'Pix';
-  $('rTipo').textContent = plano === 'mensal' ? 'por mês' : 'pagamento único';
-  $('tVal').textContent = brl(PRECOS[plano][forma]);
-  $('tNota') && ($('tNota').textContent = NOTAS[plano][forma]);
+  const pr = produto(), P = PROD[pr], u = !!P.unico, T = P.unico || P[plano];
+  const gr = (el, v) => document.querySelectorAll(el + ' .opt').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === v));
+  gr('#gProd', pr === 'combo' && (base === 'siap' || base === 'corrige') ? base : base);
+  gr('#gPlano', plano); gr('#gForma', forma);
+  const ehProd = ['siap', 'corrige', 'combo'].includes(base);
+  document.querySelectorAll('#gProd .opt').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === base));
+  $('cProd').hidden = !ehProd;
+  $('gProd').hidden = !ehProd;
+  $('cPlano').hidden = u;
+  const of = $('oferta'); of.hidden = !(base === 'siap' || base === 'corrige');
+  of.style.display = of.hidden ? 'none' : 'flex';
+  if (!of.hidden) $('oferTx').innerHTML = OFERTA[base];
+  $('oferCk').checked = extra;
+  $('dUpg').hidden = base === 'upgrade' || !ehProd; $('dUpg').style.display = $('dUpg').hidden ? 'none' : '';
+  $('hT').textContent = { siap:'Assine o K.Edu', corrige:'Assine o K.Edu Corrige', combo:'Assine o K.Edu + Corrige', upgrade:'Adicione o K.Edu Corrige', pacote30:'Mais redações no Corrige', pacote100:'Mais redações no Corrige' }[base];
+  $('hP').textContent = base === 'corrige' || base === 'upgrade' || base.startsWith('pacote') ? 'Pague e use: as redações são liberadas sozinhas assim que o pagamento é confirmado.' : 'Escolha o plano, pague e pronto: a licença é liberada sozinha assim que o pagamento é confirmado.';
+  $('sAnual').textContent = P.sAnual || '';
+  if (!u) {
+    $('pvM').innerHTML = brl(P.mensal[forma]) + '<small style="font-size:13px;font-weight:500;color:var(--mute)"> /mês</small>';
+    $('pvA').innerHTML = brl(P.anual[forma]) + '<small style="font-size:13px;font-weight:500;color:var(--mute)"> /ano</small>';
+  }
+  $('rProd').textContent = P.nome;
+  $('rPlano').textContent = u ? 'Pacote avulso' : plano === 'mensal' ? 'Mensal' : (pr === 'siap' ? 'Anual (10 meses de aula)' : 'Anual');
+  $('rForma').textContent = (forma==='pix' && plano==='mensal' && !u) ? 'Pix Automático' : NOMES[forma];
+  $('bPix').textContent = plano==='mensal' && !u ? 'Pix Automático' : 'Pix';
+  $('rTipo').textContent = u || plano === 'anual' ? 'pagamento único' : 'por mês';
+  $('tVal').textContent = brl(T[forma]);
+  $('tNota').textContent = NOTAS()[u ? 'unico' : plano][forma];
+  const li = '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>';
+  $('ulOk').innerHTML = BENEF[pr].map(t => li + t + '</li>').join('');
+  // teste grátis: 24 h para o K.Edu; 3 redações para o Corrige; nenhum para o combo e demais
+  const tb = $('teste'), tn = $('tNotaTeste');
+  const tem = pr === 'siap' || pr === 'corrige';
+  tb.hidden = !tem; tn.hidden = !tem; tb.style.display = tem ? '' : 'none'; tn.style.display = tem ? '' : 'none';
+  if (tem && !tb.disabled) tb.textContent = pr === 'corrige' ? 'Testar 3 redações grátis' : 'Testar 24 horas grátis';
+  tn.textContent = pr === 'corrige' ? 'Sem pagar nada. Você corrige 3 redações de graça.' : 'Sem pagar nada. Um teste por CPF.';
 }
+$('gProd').onclick = e => { const b = e.target.closest('.opt'); if (b) { base = b.dataset.v; extra = false; pintar(); } };
+$('oferCk').onchange = () => { extra = $('oferCk').checked; pintar(); };
+$('lUpg').onclick = e => { e.preventDefault(); base = 'upgrade'; extra = false; pintar(); };
 $('gPlano').onclick = e => { const b = e.target.closest('.opt'); if (b) { plano = b.dataset.v; pintar(); } };
 $('gForma').onclick = e => { const b = e.target.closest('.opt'); if (b) { forma = b.dataset.v; pintar(); } };
 $('cp').addEventListener('input', () => {
@@ -211,7 +280,7 @@ async function enviar(e) {
     }
     $('ir').textContent = 'Abrindo o pagamento...';
     const r = await fetch(WORKER + '/pagar/criar', { method:'POST', headers:{ 'Content-Type':'application/json' },
-      body: JSON.stringify({ email: $('em').value.trim(), nome: $('nm').value.trim(), cpf: $('cp').value, plano, forma }) });
+      body: JSON.stringify({ email: $('em').value.trim(), nome: $('nm').value.trim(), cpf: $('cp').value, produto: produto(), plano, forma }) });
     const j = await r.json().catch(() => ({}));
     if (r.ok && j.url) { location.href = j.url; return; }
     $('erro').textContent = j.mensagem || 'Não consegui abrir o pagamento. Tente de novo.';
@@ -222,7 +291,7 @@ async function enviar(e) {
 async function testar() {
   if (!$('f').reportValidity()) return;
   $('erro').textContent = ''; $('ir').disabled = true; $('teste').disabled = true; $('teste').textContent = 'Criando seu teste...';
-  const volta = () => { $('ir').disabled = false; $('teste').disabled = false; $('teste').textContent = 'Testar 24 horas grátis'; };
+  const volta = () => { $('ir').disabled = false; $('teste').disabled = false; pintar(); };
   try {
     const FB = 'AIzaSyCY-kjvz0zSg6sEwFI_6CqIxft3q0bsn4g', IDT = 'https://identitytoolkit.googleapis.com/v1/accounts:';
     const cred = { email: $('em').value.trim(), password: $('sn').value, returnSecureToken: true };
@@ -236,6 +305,10 @@ async function testar() {
       const m = (ja.error && ja.error.message) || '';
       $('erro').textContent = /WEAK_PASSWORD/.test(m) ? 'A senha precisa ter pelo menos 6 caracteres.' : /INVALID_EMAIL/.test(m) ? 'Confira o e-mail digitado.' : 'Não consegui criar a conta. Tente de novo.';
       return volta();
+    }
+    if (produto() === 'corrige') {
+      // Corrige: as 3 redações grátis já existem para toda conta nova. Vai direto para o app, já logado.
+      location.href = '../corrige/app/#rt=' + encodeURIComponent(ja.refreshToken); return;
     }
     const r = await fetch(WORKER + '/teste/iniciar', { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ idToken: ja.idToken, cpf: $('cp').value }) });
     const j = await r.json().catch(() => ({}));
@@ -255,5 +328,6 @@ $('teste').onclick = testar;
 $('f').addEventListener('submit', enviar);
 pintar();
 </script>
+<script src="/KEDU/g.js"></script>
 </body>
 </html>

@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>K.Edu Corrige</title>
+<meta name="theme-color" content="#0B1740">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="/KEDU/corrige/app/manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="48x48" href="/KEDU/k-48.png">
+<link rel="apple-touch-icon" href="/KEDU/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="K.Edu Corrige">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+:root{--ink:#0B1740;--blue:#173A8A;--sky:#3B82F6;--amber:#FFBF24;--paper:#F5F8FF;--card:#fff;--line:#DCE4F5;--mute:#52608A;--ok:#16A34A;--bad:#DC2626;--warn:#B45309}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:400 16px/1.5 Figtree,system-ui,sans-serif;min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
+h1,h2,h3,.btn,.nota,.chip b{font-family:Outfit,system-ui,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+.top{background:linear-gradient(160deg,#0B1F57,#173A8A);color:#fff;padding:calc(10px + env(safe-area-inset-top)) max(16px,env(safe-area-inset-left)) 12px max(16px,env(safe-area-inset-left))}
+.top .in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.top .mas{width:54px;height:62px;object-fit:contain;flex:none}
+.top h1{margin:0;font-size:20px;line-height:1.1;font-weight:700}
+.top h1 em{color:var(--amber);font-style:normal}
+.top small{display:block;color:#cbd8f7;font-size:12.5px;margin-top:2px}
+.top .sair{margin-left:auto;background:rgba(255,255,255,.12);border:0;color:#fff;border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer}
+main{max-width:720px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-left)) 40px max(16px,env(safe-area-inset-right))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+.card h2{margin:0 0 4px;font-size:18px}
+.card p.s{margin:0 0 12px;color:var(--mute);font-size:14px}
+label{display:block;font-weight:600;font-size:14px;margin:12px 0 4px}
+input[type=text],input[type=email],input[type=password],input[type=number],textarea,select{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;background:#fff;font-size:16px}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(59,130,246,.18)}
+textarea{resize:vertical;min-height:70px}
+.row{display:flex;gap:10px}.row>*{flex:1;min-width:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:13px 18px;font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;min-height:48px}
+.btn.p{background:var(--amber);color:var(--ink)}
+.btn.b{background:var(--blue);color:#fff}
+.btn.g{background:#fff;color:var(--blue);border:1.5px solid var(--line)}
+.btn.full{width:100%}
+.btn[disabled]{opacity:.5;cursor:default}
+.btn.sm{padding:8px 12px;min-height:38px;font-size:14px;border-radius:10px}
+.seg{display:flex;background:#E8EEFB;border-radius:12px;padding:4px;gap:4px;margin:6px 0}
+.seg button{flex:1;border:0;background:transparent;border-radius:9px;padding:10px 8px;font-weight:600;font-size:14.5px;color:var(--mute);cursor:pointer;min-height:44px}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(11,23,64,.15)}
+.chip{display:flex;align-items:center;gap:10px;background:#EAF1FF;border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;font-size:14px}
+.chip b{font-size:22px;color:var(--blue)}
+.chip a{margin-left:auto;color:var(--blue);font-weight:600;text-decoration:none;white-space:nowrap}
+.chip.low{background:#FFF7E0;border-color:#F5DC8D}
+.crit{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
+.crit .n{flex:1;min-width:0}.crit .p{width:74px;flex:none}
+.crit .x{flex:none;width:40px;height:44px;border:0;background:#fff;border:1.5px solid var(--line);border-radius:10px;color:var(--bad);font-size:20px;cursor:pointer}
+.crit textarea{min-height:46px;margin-top:6px;font-size:14px}
+.hint{color:var(--mute);font-size:13px;margin:6px 0 0}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.thumbs .t{position:relative;width:76px;height:96px;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:#E8EEFB}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+.thumbs button{position:absolute;top:3px;right:3px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(11,23,64,.8);color:#fff;font-size:14px;line-height:1}
+.err{background:#FEECEC;color:#8B1A1A;border:1px solid #F8C9C9;border-radius:12px;padding:10px 12px;font-size:14px;margin:10px 0}
+.okmsg{background:#E7F7EC;color:#14532D;border:1px solid #BFE6CB;border-radius:12px;padding:10px 12px;font-size:14px;margin:10px 0}
+.hide{display:none!important}
+.center{text-align:center}
+.mascot{display:block;margin:0 auto 6px;width:140px;max-width:45vw;height:auto}
+.bar{height:10px;background:#E8EEFB;border-radius:6px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--sky),var(--amber));width:0;transition:width .3s}
+.fila{list-style:none;margin:0;padding:0}
+.fila li{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.fila li:last-child{border:0}
+.fila .st{margin-left:auto;font-size:13px;color:var(--mute);white-space:nowrap}
+.fila .st.ok{color:var(--ok);font-weight:600}.fila .st.bad{color:var(--bad);font-weight:600}
+.res{border:1px solid var(--line);border-radius:14px;margin-bottom:10px;background:#fff;overflow:hidden}
+.res .h{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer}
+.res .h .nm{flex:1;min-width:0}
+.res .h .nm b{display:block;font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.res .h .nm span{font-size:13px;color:var(--mute)}
+.res .nota{font-size:22px;font-weight:700;color:var(--blue);min-width:62px;text-align:right}
+.res .nota small{font-size:12px;color:var(--mute);font-weight:500}
+.res .d{padding:0 14px 14px;border-top:1px solid var(--line);display:none}
+.res.open .d{display:block}
+.res h4{margin:14px 0 4px;font:700 13px/1 Outfit,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.res ul{margin:4px 0;padding-left:20px}
+.res .bom h4{color:var(--ok)}.res .mel h4{color:var(--warn)}
+.cr{display:flex;gap:8px;justify-content:space-between;font-size:14.5px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.cr em{display:block;font-style:normal;color:var(--mute);font-size:13.5px}
+.cr b{white-space:nowrap}
+.adj{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px}
+.adj input{width:90px;padding:8px 10px}
+.warn{background:#FFF7E0;border:1px solid #F5DC8D;color:#7A4B00;border-radius:10px;padding:8px 10px;font-size:13.5px;margin-top:10px}
+.nao{border-color:#F8C9C9;background:#FFF8F8}
+.nao .nm b{color:var(--bad)}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.tools .btn{flex:1;min-width:150px}
+.inst{background:#EAF1FF;border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:14px;margin-bottom:14px}
+.inst b{font-family:Outfit,sans-serif}
+.lnk{color:var(--blue);font-weight:600;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;font-size:inherit}
+.big{font-size:15px}
+.priv{font-size:12.5px;color:var(--mute);text-align:center;margin-top:18px}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <img class="mas" id="mas" src="/KEDU/img/mascote-pensando.png" alt="">
+  <div><h1>K<em>.</em>Edu Corrige</h1><small id="sub">Redações corrigidas, com o seu critério</small></div>
+  <button class="sair hide" id="bSair">Sair</button>
+</div></header>
+<main>
+
+<!-- Entrar -->
+<section id="vLogin" class="hide">
+  <div class="card center">
+    <img class="mascot" src="/KEDU/img/mascote-comemorando.png" alt="Mascote do K.Edu">
+    <h2>Entre com a sua conta do K.Edu</h2>
+    <p class="s">É a mesma conta da extensão. Se ainda não tem, crie agora: você ganha 3 redações grátis para testar.</p>
+  </div>
+  <div class="card">
+    <div class="seg" id="segLogin"><button class="on" data-m="in">Entrar</button><button data-m="up">Criar conta</button></div>
+    <label for="lEmail">E-mail</label><input id="lEmail" type="email" autocomplete="email" inputmode="email">
+    <label for="lSenha">Senha</label><input id="lSenha" type="password" autocomplete="current-password">
+    <div class="err hide" id="lErr"></div><div class="okmsg hide" id="lOk"></div>
+    <button class="btn p full" id="bEntrar" style="margin-top:14px">Entrar</button>
+    <p class="center" style="margin:12px 0 0"><button class="lnk" id="bEsqueci">Esqueci minha senha</button></p>
+  </div>
+</section>
+
+<!-- Nova correção -->
+<section id="vSetup" class="hide">
+  <div id="inst" class="inst hide"></div>
+  <div class="chip" id="chip"></div>
+
+  <div class="card">
+    <h2>Turma</h2>
+    <label for="cCol">Colégio</label><input id="cCol" type="text" autocomplete="off" placeholder="Ex.: Colégio Estadual Exemplo">
+    <label for="cTur">Série e turma</label><input id="cTur" type="text" autocomplete="off" placeholder="Ex.: 3º ano B">
+  </div>
+
+  <div class="card">
+    <h2>Redação</h2>
+    <label for="cTema">Tema ou pergunta</label>
+    <textarea id="cTema" placeholder="Ex.: Desafios para a valorização da cultura popular no Brasil"></textarea>
+    <label for="cVal">Quanto vale a redação?</label>
+    <input id="cVal" type="text" inputmode="decimal" value="10" style="max-width:140px">
+    <p class="hint">Pode usar décimos, como 2,5 ou 7,5. A nota final é calculada nessa escala.</p>
+  </div>
+
+  <div class="card">
+    <h2>Critérios</h2>
+    <div class="seg" id="segCrit"><button class="on" data-m="enem">ENEM</button><button data-m="meus">Meus critérios</button></div>
+    <div id="enemInfo" class="hint">As 5 competências do ENEM (norma culta, tema e tipo textual, argumentação, coesão e proposta de intervenção), cada uma de 0 a 200. A nota é convertida para o valor da sua redação.</div>
+    <div id="meusBox" class="hide">
+      <p class="hint" style="margin:0 0 10px">Cada critério recebe nota de 0 a 10. O peso diz o quanto ele pesa na nota final.</p>
+      <div id="critList"></div>
+      <button class="btn g sm" id="bAddCrit">+ Adicionar critério</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Redações</h2>
+    <div class="seg" id="segModo"><button class="on" data-m="um">Um aluno</button><button data-m="bloco">Várias de uma vez</button></div>
+    <div id="boxUm">
+      <label for="cAluno">Nome do aluno</label><input id="cAluno" type="text" autocomplete="off">
+      <div class="row" style="margin-top:12px">
+        <label class="btn b" style="margin:0;cursor:pointer"><input type="file" accept="image/*" capture="environment" id="fCam" class="hide">📷 Tirar foto</label>
+        <label class="btn g" style="margin:0;cursor:pointer"><input type="file" accept="image/*" multiple id="fGal" class="hide">Galeria</label>
+      </div>
+      <p class="hint">Se a redação tem mais de uma folha, tire uma foto de cada (até 4), na ordem.</p>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+    <div id="boxBloco" class="hide">
+      <label class="btn b full" style="margin:0;cursor:pointer"><input type="file" accept="image/*" multiple id="fBloco" class="hide">Escolher as fotos</label>
+      <p class="hint">O <b>nome de cada arquivo</b> tem que ser o nome do aluno (ex.: <i>Ana Souza.jpg</i>). Se a redação tem várias folhas, use o mesmo nome com o número no fim (<i>Ana Souza 1.jpg</i>, <i>Ana Souza 2.jpg</i>).</p>
+      <ul class="fila" id="blocoLista"></ul>
+    </div>
+  </div>
+
+  <div class="err hide" id="sErr"></div>
+  <button class="btn p full big" id="bIniciar">Corrigir</button>
+  <p class="priv">As fotos e os textos não ficam guardados nos nossos servidores. Eles servem só para a correção e são descartados em seguida.</p>
+</section>
+
+<!-- Corrigindo -->
+<section id="vRun" class="hide">
+  <div class="card center">
+    <img class="mascot" id="runMas" src="/KEDU/img/mascote-pensando.png" alt="">
+    <h2 id="runTit">Corrigindo…</h2>
+    <p class="s" id="runSub">Pode deixar esta tela aberta. Não precisa fazer nada.</p>
+    <div class="bar"><i id="runBar"></i></div>
+  </div>
+  <div class="card"><ul class="fila" id="runLista"></ul></div>
+  <button class="btn g full" id="bParar">Parar</button>
+</section>
+
+<!-- Resultado -->
+<section id="vRes" class="hide">
+  <div class="card center">
+    <img class="mascot" id="resMas" src="/KEDU/img/mascote-comemorando.png" alt="">
+    <h2 id="resTit"></h2>
+    <p class="s" id="resSub"></p>
+  </div>
+  <div class="tools">
+    <button class="btn b" id="bCopiar">Copiar lista</button>
+    <button class="btn g" id="bCsv">Baixar planilha</button>
+    <button class="btn g hide" id="bKedu">Enviar notas ao K.Edu</button>
+  </div>
+  <div class="okmsg hide" id="resMsg"></div>
+  <div id="naoBox" class="hide"><h3 style="margin:18px 0 8px">Não consegui corrigir</h3><p class="hint" style="margin:0 0 10px">Estas eu não adivinhei. Tire outra foto (mais perto, com luz e sem sombra) e tente de novo, ou coloque a nota você mesmo.</p><div id="naoLista"></div></div>
+  <h3 style="margin:18px 0 8px" id="okTit">Corrigidas, em ordem alfabética</h3>
+  <div id="resLista"></div>
+  <button class="btn p full" id="bNova" style="margin-top:12px">Corrigir mais redações</button>
+  <button class="btn g full" id="bLimpar" style="margin-top:10px">Limpar esta lista</button>
+</section>
+
+</main>
+<script>
+(function(){
+'use strict';
+var API='https://kedu-leitor.miztella.workers.dev',KEY='AIzaSyCY-kjvz0zSg6sEwFI_6CqIxft3q0bsn4g',SITE='/KEDU/assinar/';
+var $=function(s){return document.querySelector(s)},$$=function(s){return [].slice.call(document.querySelectorAll(s))};
+var S={tok:'',exp:0,rt:'',email:'',st:null,modo:'enem',entrada:'um',loginModo:'in',fotos:[],bloco:[],itens:[],run:null,crit:[]};
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function show(id){['vLogin','vSetup','vRun','vRes'].forEach(function(v){$('#'+v).classList.toggle('hide',v!==id)});$('#bSair').classList.toggle('hide',id==='vLogin');window.scrollTo(0,0)}
+function erro(el,m){el.textContent=m;el.classList.toggle('hide',!m)}
+function num(s){var n=parseFloat(String(s).replace(',','.'));return isFinite(n)?n:NaN}
+function fmt(n){return (Math.round(n*10)/10).toString().replace('.',',')}
+
+/* ---------- conta ---------- */
+function post(url,body){return fetch(url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})})}
+var MSG={EMAIL_EXISTS:'Já existe uma conta com esse e-mail. Use "Entrar".',EMAIL_NOT_FOUND:'Não achei esse e-mail. Confira ou crie a conta.',INVALID_PASSWORD:'Senha incorreta.',INVALID_LOGIN_CREDENTIALS:'E-mail ou senha incorretos.',WEAK_PASSWORD:'Use uma senha de pelo menos 6 caracteres.',INVALID_EMAIL:'Esse e-mail não parece correto.',TOO_MANY_ATTEMPTS_TRY_LATER:'Muitas tentativas. Espere um pouco.'};
+function msgAuth(j){var m=(j&&j.error&&j.error.message)||'';m=m.split(' ')[0];return MSG[m]||'Não consegui entrar agora. Tente de novo.'}
+function guardar(j){S.tok=j.idToken||j.id_token;S.rt=j.refreshToken||j.refresh_token||S.rt;S.exp=Date.now()+(parseInt(j.expiresIn||j.expires_in||'3600',10)-90)*1000;ls('kc_rt',S.rt)}
+function renovar(){
+  if(!S.rt)return Promise.reject();
+  return fetch('https://securetoken.googleapis.com/v1/token?key='+KEY,{method:'POST',headers:{'content-type':'application/x-www-form-urlencoded'},body:'grant_type=refresh_token&refresh_token='+encodeURIComponent(S.rt)})
+   .then(function(r){return r.json().then(function(j){if(!r.ok||!j.id_token)throw 0;guardar(j)})});
+}
+function token(){return Date.now()<S.exp&&S.tok?Promise.resolve(S.tok):renovar().then(function(){return S.tok})}
+function api(caminho,corpo,_t){
+  return token().then(function(t){return fetch(API+caminho,{method:'POST',headers:{'content-type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify(corpo||{})})})
+   .then(function(r){return r.json().catch(function(){return {}}).then(function(j){
+      if(r.status===401&&!_t){S.exp=0;return api(caminho,corpo,1)}
+      j._s=r.status;return j})},function(){return {erro:'rede',mensagem:'Sem conexão com a internet. Confira o sinal e tente de novo.',_s:0}});
+}
+function entrar(){
+  var em=$('#lEmail').value.trim().toLowerCase(),se=$('#lSenha').value;erro($('#lErr'),'');$('#lOk').classList.add('hide');
+  if(!em||se.length<6){erro($('#lErr'),'Digite o e-mail e uma senha de pelo menos 6 caracteres.');return}
+  var up=S.loginModo==='up';$('#bEntrar').disabled=true;
+  post('https://identitytoolkit.googleapis.com/v1/accounts:'+(up?'signUp':'signInWithPassword')+'?key='+KEY,{email:em,password:se,returnSecureToken:true}).then(function(r){
+    $('#bEntrar').disabled=false;
+    if(!r.ok){erro($('#lErr'),msgAuth(r.j));return}
+    guardar(r.j);S.email=em;abrir();
+  },function(){$('#bEntrar').disabled=false;erro($('#lErr'),'Sem conexão com a internet.')});
+}
+function esqueci(){
+  var em=$('#lEmail').value.trim().toLowerCase();erro($('#lErr'),'');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){erro($('#lErr'),'Digite seu e-mail acima e toque de novo em "Esqueci minha senha".');return}
+  post(API+'/senha/pedir',{email:em}).then(function(){var o=$('#lOk');o.textContent='Se esse e-mail tem conta, enviamos o link para criar uma senha nova. Olhe também o spam.';o.classList.remove('hide')},function(){erro($('#lErr'),'Sem conexão com a internet.')});
+}
+function sair(){S.tok='';S.rt='';S.exp=0;S.st=null;ls('kc_rt',null);show('vLogin')}
+
+/* ---------- situação da conta ---------- */
+function carregarStatus(){
+  return api('/corrige/status',{}).then(function(j){
+    if(j._s===401){sair();return}
+    if(j.ok){S.st=j;S.email=j.email||S.email}
+    desenharChip();return j;
+  });
+}
+function desenharChip(){
+  var s=S.st,c=$('#chip');if(!s){c.classList.add('hide');return}c.classList.remove('hide');
+  var h;
+  if(s.modo==='teste'){
+    h='<b>'+s.restam+'</b><span>de '+s.gratis+' redações grátis'+(s.restam?'':' · acabaram')+'</span><a href="'+SITE+'?produto=corrige">Assinar</a>';
+  }else{
+    var det=[];if(s.acumulo)det.push(s.acumulo+' acumuladas do mês passado');if(s.pacote)det.push(s.pacote+' de pacote');
+    h='<b>'+s.restam+'</b><span>redações disponíveis'+(det.length?'<br><small>'+det.join(' · ')+'</small>':'')+'</span><a href="'+SITE+'?produto=pacote30">Mais redações</a>';
+  }
+  c.className='chip'+(s.restam<=10?' low':'');c.innerHTML=h;
+  $('#bKedu').classList.toggle('hide',!(s.siap&&S.itens.some(function(i){return i.estado==='ok'||i.estado==='manual'})));
+}
+
+/* ---------- critérios ---------- */
+function lerCrit(){try{var a=JSON.parse(ls('kc_crit')||'[]');return Array.isArray(a)&&a.length?a:[{nome:'Argumentação',peso:3,desc:''},{nome:'Norma culta',peso:2,desc:''},{nome:'Coesão',peso:2,desc:''}]}catch(e){return []}}
+function desenharCrit(){
+  $('#critList').innerHTML=S.crit.map(function(c,i){return '<div class="crit"><div class="n"><input type="text" data-i="'+i+'" data-k="nome" value="'+esc(c.nome)+'" placeholder="Nome do critério"><textarea data-i="'+i+'" data-k="desc" placeholder="O que avaliar (opcional)">'+esc(c.desc)+'</textarea></div><input class="p" type="text" inputmode="decimal" data-i="'+i+'" data-k="peso" value="'+esc(c.peso)+'" aria-label="Peso"><button class="x" data-del="'+i+'" aria-label="Remover">×</button></div>'}).join('');
+}
+function salvarCrit(){ls('kc_crit',JSON.stringify(S.crit))}
+
+/* ---------- fotos ---------- */
+function reduzir(file){
+  return new Promise(function(res,rej){
+    var fim=function(src,w,h,rev){
+      var m=1600,k=Math.min(1,m/Math.max(w,h)),cw=Math.round(w*k),ch=Math.round(h*k),cv=document.createElement('canvas');cv.width=cw;cv.height=ch;
+      var cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,cw,ch);cx.drawImage(src,0,0,cw,ch);if(rev)rev();
+      var u=cv.toDataURL('image/jpeg',.82);res({b64:u.split(',')[1],thumb:u})};
+    if(window.createImageBitmap){
+      createImageBitmap(file,{imageOrientation:'from-image'}).then(function(b){fim(b,b.width,b.height,function(){b.close&&b.close()})},function(){viaImg()});
+    }else viaImg();
+    function viaImg(){var u=URL.createObjectURL(file),im=new Image();im.onload=function(){fim(im,im.naturalWidth,im.naturalHeight,function(){URL.revokeObjectURL(u)})};im.onerror=function(){URL.revokeObjectURL(u);rej()};im.src=u}
+  });
+}
+function addFotos(files){
+  var l=[].slice.call(files||[]);if(!l.length)return;
+  var lim=4-S.fotos.length;if(l.length>lim){erro($('#sErr'),'Cada redação aceita até 4 folhas. Usei as primeiras.');l=l.slice(0,Math.max(0,lim))}
+  Promise.all(l.map(reduzir)).then(function(a){S.fotos=S.fotos.concat(a);desenharThumbs()},function(){erro($('#sErr'),'Não consegui abrir uma das fotos.')});
+}
+function desenharThumbs(){$('#thumbs').innerHTML=S.fotos.map(function(f,i){return '<div class="t"><img src="'+f.thumb+'" alt="Folha '+(i+1)+'"><button data-rm="'+i+'" aria-label="Remover">×</button></div>'}).join('')}
+
+function nomeDoArquivo(n){
+  var s=n.replace(/\.[^.]+$/,'').replace(/[_]+/g,' ').replace(/\s+/g,' ').trim();
+  var pag=0,m=s.match(/^(.*?)[\s\-]*(?:\((\d{1,2})\)|(?:p[aá]g(?:ina)?\.?|p\.?|folha|f)\s*(\d{1,2})|[\-\s](\d{1,2}))$/i);
+  if(m&&m[1].trim().length>=2){s=m[1].trim();pag=parseInt(m[2]||m[3]||m[4],10)||0}
+  s=s.replace(/[\s\-]+$/,'');
+  s=s.toLowerCase().replace(/(^|\s)(\S)/g,function(_,a,b){return a+b.toUpperCase()}).replace(/\b(Da|De|Do|Das|Dos|E)\b/g,function(x){return x.toLowerCase()});
+  return {nome:s,pag:pag};
+}
+function addBloco(files){
+  var l=[].slice.call(files||[]);if(!l.length)return;
+  var g={},ord=[];
+  l.forEach(function(f){var n=nomeDoArquivo(f.name),k=n.nome.toLowerCase();if(!g[k]){g[k]={nome:n.nome,arqs:[]};ord.push(k)}g[k].arqs.push({f:f,pag:n.pag,nm:f.name})});
+  S.bloco=ord.map(function(k){var x=g[k];x.arqs.sort(function(a,b){return a.pag-b.pag||a.nm.localeCompare(b.nm,'pt',{numeric:true})});return x});
+  desenharBloco();
+}
+function desenharBloco(){
+  $('#blocoLista').innerHTML=S.bloco.map(function(g,i){return '<li><span>'+esc(g.nome)+'</span><span class="st">'+g.arqs.length+(g.arqs.length>1?' folhas':' folha')+(g.arqs.length>4?' (uso 4)':'')+'</span><button class="lnk" data-rb="'+i+'">remover</button></li>'}).join('');
+}
+
+/* ---------- correção ---------- */
+function montarPedido(){
+  var v=num($('#cVal').value);
+  if(!(v>0)||v>1000)throw 'Diga quanto vale a redação (ex.: 10 ou 2,5).';
+  var p={tema:$('#cTema').value.trim(),valor:v,serie:$('#cTur').value.trim()};
+  if(S.modo==='enem'){p.enem=true}
+  else{
+    var cs=S.crit.map(function(c){return {nome:String(c.nome||'').trim(),peso:num(c.peso)||1,desc:String(c.desc||'').trim()}}).filter(function(c){return c.nome});
+    if(!cs.length)throw 'Coloque pelo menos um critério.';
+    p.criterios=cs;
+  }
+  return p;
+}
+function iniciar(){
+  erro($('#sErr'),'');
+  var base;try{base=montarPedido()}catch(e){erro($('#sErr'),e);return}
+  if(!$('#cTur').value.trim()){erro($('#sErr'),'Escreva a série e a turma.');return}
+  var fila=[];
+  if(S.entrada==='um'){
+    var n=$('#cAluno').value.trim();
+    if(!n){erro($('#sErr'),'Escreva o nome do aluno.');return}
+    if(!S.fotos.length){erro($('#sErr'),'Tire a foto da redação.');return}
+    fila=[{nome:n,imgs:S.fotos.map(function(f){return f.b64}),prontas:true}];
+  }else{
+    if(!S.bloco.length){erro($('#sErr'),'Escolha as fotos das redações.');return}
+    fila=S.bloco.map(function(g){return {nome:g.nome,arqs:g.arqs.slice(0,4).map(function(a){return a.f})}});
+  }
+  var st=S.st;
+  if(st&&st.restam<=0){erro($('#sErr'),st.modo==='teste'?'Suas 3 redações grátis acabaram. Toque em "Assinar" lá em cima para continuar.':'Você usou todas as redações disponíveis. Veja "Mais redações" lá em cima.');return}
+  var turma=$('#cTur').value.trim(),col=$('#cCol').value.trim();
+  ls('kc_form',JSON.stringify({col:col,tur:turma,modo:S.modo}));salvarCrit();
+  var lote=fila.map(function(f,i){return {id:Date.now()+'-'+i,nome:f.nome,serie:turma,col:col,estado:'fila',_f:f,pedido:base}});
+  S.itens=S.itens.filter(function(i){return i.estado==='ok'||i.estado==='manual'}).concat(lote);
+  S.run={parar:false,total:lote.length,feitas:0};
+  show('vRun');$('#runTit').textContent='Corrigindo…';$('#runMas').src='/KEDU/img/mascote-pensando.png';$('#mas').src='/KEDU/img/mascote-pensando.png';
+  desenharRun();rodar(lote);
+}
+function desenharRun(){
+  var t=S.itens.filter(function(i){return i.estado==='fila'||i.estado==='lendo'||i.estado==='feito'||i.estado==='nao'||i.estado==='ok'&&i._novo});
+  $('#runLista').innerHTML=t.map(function(i){var c=i.estado==='lendo'?'':i.estado==='ok'||i.estado==='feito'?' ok':i.estado==='nao'?' bad':'';var tx={fila:'na fila',lendo:'lendo…',ok:'pronta',nao:'não consegui ler'}[i.estado]||'';return '<li><span>'+esc(i.nome)+'</span><span class="st'+c+'">'+tx+'</span></li>'}).join('');
+  var r=S.run;if(r){$('#runBar').style.width=Math.round(r.feitas/Math.max(1,r.total)*100)+'%';$('#runSub').textContent=r.feitas+' de '+r.total+' · pode deixar esta tela aberta'}
+}
+function rodar(lote){
+  var idx=0,ativos=0,MAX=lote.length>1?3:1,fim=false;
+  function prox(){
+    if(fim)return;
+    if(S.run.parar||S.run.limite){if(!ativos){terminar()}return}
+    if(idx>=lote.length){if(!ativos)terminar();return}
+    var it=lote[idx++];ativos++;it.estado='lendo';desenharRun();
+    preparar(it).then(function(imgs){return corrigirUma(it,imgs,0)}).then(function(){},function(){it.estado='nao';it.msg='Não consegui abrir as fotos desta redação.'}).then(function(){
+      ativos--;S.run.feitas++;if(it.estado==='ok'){it._novo=true}desenharRun();prox()});
+    if(ativos<MAX)prox();
+  }
+  function terminar(){if(fim)return;fim=true;lote.forEach(function(i){if(i.estado==='fila'||i.estado==='lendo'){i.estado='pend'}});fimLote()}
+  prox();if(MAX>1)prox();if(MAX>2)prox();
+}
+function preparar(it){
+  if(it._imgs)return Promise.resolve(it._imgs);
+  if(it._f.prontas){it._imgs=it._f.imgs;return Promise.resolve(it._imgs)}
+  return Promise.all(it._f.arqs.map(reduzir)).then(function(a){it._imgs=a.map(function(x){return x.b64});return it._imgs});
+}
+function corrigirUma(it,imgs,tent){
+  var p=Object.assign({},it.pedido,{imagens:imgs});
+  return api('/corrigir',p).then(function(j){
+    if(j.erro==='limite'){it.estado='pend';S.run.limite=j.mensagem;return}
+    if(j.erro==='login'||j._s===401){S.run.parar=true;it.estado='pend';return}
+    if(j.erro==='rede'||j.erro==='ia'||j.erro==='falha'){if(tent<1)return new Promise(function(r){setTimeout(r,1500)}).then(function(){return corrigirUma(it,imgs,tent+1)});it.estado='nao';it.msg=j.mensagem||'A correção falhou. Tente de novo.';return}
+    if(j.erro){it.estado='nao';it.msg=j.mensagem||'Não consegui corrigir esta redação.';return}
+    it.estado='ok';it.res={criterios:j.criterios,bom:j.bom||[],melhorar:j.melhorar||[],comentario:j.comentario||'',obs:j.observacoes||'',conf:j.confianca,valor:j.valor,auto:j.notaFinal};
+    it.nota=j.notaFinal;delete it._imgs;
+    if(S.st&&S.st.restam>0){S.st.restam--;if(S.st.modo==='teste')S.st.gratisUsadas++;desenharChip()}
+  });
+}
+function fimLote(){
+  var r=S.run,ok=S.itens.filter(function(i){return i.estado==='ok'&&i._novo}).length;
+  S.itens.forEach(function(i){delete i._novo});
+  salvarLista();carregarStatus().then(function(){mostrarRes(r&&r.limite?r.limite:'')});
+}
+
+/* ---------- resultado ---------- */
+function salvarLista(){
+  var l=S.itens.filter(function(i){return i.estado==='ok'||i.estado==='manual'}).map(function(i){return {id:i.id,nome:i.nome,serie:i.serie,col:i.col,estado:i.estado,nota:i.nota,res:i.res?{criterios:i.res.criterios,bom:i.res.bom,melhorar:i.res.melhorar,comentario:i.res.comentario,obs:i.res.obs,conf:i.res.conf,valor:i.res.valor,auto:i.res.auto}:null}});
+  ls('kc_lista',JSON.stringify(l));
+}
+function carregarLista(){try{var l=JSON.parse(ls('kc_lista')||'[]');if(Array.isArray(l))S.itens=l}catch(e){}}
+function ordenar(a){return a.slice().sort(function(x,y){return x.nome.localeCompare(y.nome,'pt',{sensitivity:'base'})})}
+function mostrarRes(aviso){
+  var oks=ordenar(S.itens.filter(function(i){return i.estado==='ok'||i.estado==='manual'})),nao=ordenar(S.itens.filter(function(i){return i.estado==='nao'})),pend=S.itens.filter(function(i){return i.estado==='pend'});
+  show('vRes');
+  var temNao=nao.length>0;
+  $('#resMas').src='/KEDU/img/'+(temNao?'mascote-erro.png':'mascote-comemorando.png');$('#mas').src='/KEDU/img/'+(temNao?'mascote-erro.png':'mascote-comemorando.png');
+  $('#resTit').textContent=oks.length+(oks.length===1?' redação corrigida':' redações corrigidas');
+  var sub=[];if(nao.length)sub.push(nao.length+(nao.length===1?' não deu para ler':' não deram para ler'));if(pend.length)sub.push(pend.length+' ficaram sem corrigir');
+  $('#resSub').textContent=sub.join(' · ')||'Confira os relatórios abaixo. Você pode ajustar qualquer nota.';
+  var msg=$('#resMsg');if(aviso){msg.textContent=aviso;msg.classList.remove('hide');msg.className='err'}else{msg.className='okmsg hide'}
+  $('#naoBox').classList.toggle('hide',!temNao&&!pend.length);
+  $('#naoLista').innerHTML=nao.concat(pend).map(function(i){return '<div class="res nao open"><div class="h"><div class="nm"><b>'+esc(i.nome)+'</b><span>'+esc(i.serie)+'</span></div></div><div class="d" style="display:block"><p style="margin:10px 0 8px">'+esc(i.estado==='pend'?'Não deu para corrigir porque as redações acabaram. Fica para depois.':i.msg||'Não consegui ler.')+'</p>'+(i._f?'<div class="row"><button class="btn b sm" data-re="'+i.id+'">Tentar de novo</button><button class="btn g sm" data-man="'+i.id+'">Colocar nota</button></div>':'<button class="btn g sm" data-man="'+i.id+'">Colocar nota</button>')+'<div class="adj hide" id="m'+i.id+'"><input type="text" inputmode="decimal" placeholder="Nota"><button class="btn p sm" data-okman="'+i.id+'">Salvar</button></div></div></div>'}).join('');
+  $('#okTit').classList.toggle('hide',!oks.length);
+  $('#resLista').innerHTML=oks.map(card).join('');
+  desenharChip();
+}
+function card(i){
+  var r=i.res,h='';
+  if(r){
+    h+='<div class="bom"><h4>O que foi bom</h4><ul>'+(r.bom.length?r.bom.map(function(x){return '<li>'+esc(x)+'</li>'}).join(''):'<li>—</li>')+'</ul></div>';
+    h+='<div class="mel"><h4>Para melhorar</h4><ul>'+(r.melhorar.length?r.melhorar.map(function(x){return '<li>'+esc(x)+'</li>'}).join(''):'<li>—</li>')+'</ul></div>';
+    h+='<h4>Por critério</h4>'+r.criterios.map(function(c){return '<div class="cr"><div>'+esc(c.nome)+'<em>'+esc(c.justificativa)+'</em></div><b>'+fmt(c.nota)+'/'+fmt(c.max)+'</b></div>'}).join('');
+    if(r.comentario)h+='<h4>Recado para o aluno</h4><p style="margin:4px 0">'+esc(r.comentario)+'</p>';
+    if(r.obs||r.conf==='baixa')h+='<div class="warn">⚠ '+esc(r.obs||'A leitura da letra teve baixa confiança. Confira esta nota.')+'</div>';
+  }else h+='<p class="hint">Nota colocada por você.</p>';
+  h+='<div class="adj">Ajustar nota: <input type="text" inputmode="decimal" value="'+esc(fmt(i.nota))+'" data-adj="'+i.id+'"> '+(r?'<span class="hint" style="margin:0">de '+fmt(r.valor)+'</span>':'')+'</div>';
+  return '<div class="res" id="r'+i.id+'"><div class="h" data-tg="'+i.id+'"><div class="nm"><b>'+esc(i.nome)+'</b><span>'+esc(i.serie)+(i.col?' · '+esc(i.col):'')+'</span></div><div class="nota">'+fmt(i.nota)+(r?'<small> /'+fmt(r.valor)+'</small>':'')+'</div></div><div class="d">'+h+'</div></div>';
+}
+function listaTexto(){return ordenar(S.itens.filter(function(i){return i.estado==='ok'||i.estado==='manual'})).map(function(i){return [i.nome,i.serie,fmt(i.nota)].join('\t')}).join('\n')}
+function csv(){
+  var q=function(s){return '"'+String(s==null?'':s).replace(/"/g,'""').replace(/\r?\n/g,' ')+'"'};
+  var L=[['Aluno','Série/turma','Colégio','Nota','Vale','O que foi bom','Para melhorar','Recado'].map(q).join(';')];
+  ordenar(S.itens.filter(function(i){return i.estado==='ok'||i.estado==='manual'})).forEach(function(i){var r=i.res;L.push([i.nome,i.serie,i.col,fmt(i.nota),r?fmt(r.valor):'',r?r.bom.join(' | '):'',r?r.melhorar.join(' | '):'',r?r.comentario:''].map(q).join(';'))});
+  return '﻿'+L.join('\r\n');
+}
+function copiar(txt,ok){
+  var f=function(){var t=document.createElement('textarea');t.value=txt;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();try{document.execCommand('copy');ok()}catch(e){}t.remove()};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,f);else f();
+}
+function aviso(m,bad){var e=$('#resMsg');e.textContent=m;e.className=bad?'err':'okmsg'}
+function enviarKedu(){
+  var notas=S.itens.filter(function(i){return i.estado==='ok'||i.estado==='manual'}).map(function(i){return {nome:i.nome,turma:i.serie,nota:i.nota}});
+  $('#bKedu').disabled=true;
+  api('/corrige/enviar',{titulo:(S.itens[0]&&S.itens[0].col)||'Corrige',notas:notas}).then(function(j){
+    $('#bKedu').disabled=false;
+    if(j.ok)aviso(j.qtd+' notas enviadas. Abra o SIAP com a extensão K.Edu e use "Notas do Corrige". Depois de lançadas, elas são apagadas.');
+    else aviso(j.mensagem||'Não consegui enviar. Tente de novo.',1);
+  });
+}
+
+/* ---------- eventos ---------- */
+function abrir(){
+  carregarLista();var f;try{f=JSON.parse(ls('kc_form')||'{}')}catch(e){f={}}
+  if(f.col)$('#cCol').value=f.col;if(f.tur)$('#cTur').value=f.tur;
+  S.crit=lerCrit();desenharCrit();
+  setModo(f.modo==='meus'?'meus':'enem');
+  carregarStatus().then(function(){
+    if(S.itens.length){mostrarRes('')}else show('vSetup');
+  });
+  instrucoes();
+}
+function setModo(m){S.modo=m;$$('#segCrit button').forEach(function(b){b.classList.toggle('on',b.dataset.m===m)});$('#enemInfo').classList.toggle('hide',m!=='enem');$('#meusBox').classList.toggle('hide',m!=='meus')}
+function setEntrada(m){S.entrada=m;$$('#segModo button').forEach(function(b){b.classList.toggle('on',b.dataset.m===m)});$('#boxUm').classList.toggle('hide',m!=='um');$('#boxBloco').classList.toggle('hide',m!=='bloco')}
+var evInstalar=null;
+function instrucoes(){
+  var box=$('#inst'),stand=window.matchMedia&&matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  if(stand||ls('kc_inst')==='1'){box.classList.add('hide');return}
+  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  if(ios)box.innerHTML='<b>Deixe na tela do celular:</b> toque em <b>Compartilhar</b> (o quadrado com a seta) e depois em <b>Adicionar à Tela de Início</b>. <button class="lnk" id="bFechaInst">Ok</button>';
+  else if(evInstalar)box.innerHTML='<b>Deixe o K.Edu Corrige na tela do celular</b> <button class="btn p sm" id="bInstalar" style="margin-left:6px">Instalar</button> <button class="lnk" id="bFechaInst">Agora não</button>';
+  else{box.classList.add('hide');return}
+  box.classList.remove('hide');
+}
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();evInstalar=e;if(S.rt)instrucoes()});
+document.addEventListener('click',function(e){
+  var t=e.target,d=t.dataset||{};
+  if(t.id==='bInstalar'&&evInstalar){evInstalar.prompt();evInstalar=null;$('#inst').classList.add('hide');return}
+  if(t.id==='bFechaInst'){ls('kc_inst','1');$('#inst').classList.add('hide');return}
+  if(t.closest('#segLogin button')){var b=t.closest('#segLogin button');S.loginModo=b.dataset.m;$$('#segLogin button').forEach(function(x){x.classList.toggle('on',x===b)});$('#bEntrar').textContent=b.dataset.m==='up'?'Criar conta':'Entrar';$('#lSenha').autocomplete=b.dataset.m==='up'?'new-password':'current-password';return}
+  if(t.closest('#segCrit button')){setModo(t.closest('button').dataset.m);return}
+  if(t.closest('#segModo button')){setEntrada(t.closest('button').dataset.m);return}
+  if(d.rm!==undefined){S.fotos.splice(+d.rm,1);desenharThumbs();return}
+  if(d.rb!==undefined){S.bloco.splice(+d.rb,1);desenharBloco();return}
+  if(d.del!==undefined){S.crit.splice(+d.del,1);desenharCrit();salvarCrit();return}
+  if(d.tg){var r=$('#r'+d.tg);r&&r.classList.toggle('open');return}
+  var h=t.closest&&t.closest('[data-tg]');if(h&&!(t.tagName==='INPUT')){var rr=$('#r'+h.dataset.tg);rr&&rr.classList.toggle('open');return}
+  if(d.re){var it=S.itens.filter(function(i){return i.id===d.re})[0];if(it){it.estado='fila';S.run={parar:false,total:1,feitas:0};show('vRun');desenharRun();rodar([it])}return}
+  if(d.man){var m=$('#m'+d.man);m&&m.classList.toggle('hide');return}
+  if(d.okman){var box=$('#m'+d.okman),v=num(box.querySelector('input').value),it2=S.itens.filter(function(i){return i.id===d.okman})[0];if(it2&&isFinite(v)&&v>=0){it2.estado='manual';it2.nota=Math.round(v*10)/10;it2.res=null;salvarLista();mostrarRes('')}return}
+});
+document.addEventListener('input',function(e){
+  var t=e.target,d=t.dataset||{};
+  if(d.k!==undefined&&d.i!==undefined){S.crit[+d.i][d.k]=t.value;salvarCrit()}
+});
+document.addEventListener('change',function(e){
+  var t=e.target;
+  if(t.dataset&&t.dataset.adj){var v=num(t.value),it=S.itens.filter(function(i){return i.id===t.dataset.adj})[0];if(it&&isFinite(v)&&v>=0){it.nota=Math.round(v*10)/10;salvarLista();var h=$('#r'+it.id+' .nota');if(h)h.innerHTML=fmt(it.nota)+(it.res?'<small> /'+fmt(it.res.valor)+'</small>':'')}else if(it)t.value=fmt(it.nota)}
+});
+$('#bEntrar').onclick=entrar;$('#bEsqueci').onclick=esqueci;$('#bSair').onclick=sair;
+$('#lSenha').addEventListener('keydown',function(e){if(e.key==='Enter')entrar()});
+$('#bAddCrit').onclick=function(){if(S.crit.length>=12)return;S.crit.push({nome:'',peso:1,desc:''});desenharCrit();salvarCrit()};
+$('#fCam').onchange=function(){addFotos(this.files);this.value=''};$('#fGal').onchange=function(){addFotos(this.files);this.value=''};$('#fBloco').onchange=function(){addBloco(this.files);this.value=''};
+$('#bIniciar').onclick=iniciar;
+$('#bParar').onclick=function(){if(S.run){S.run.parar=true;$('#runTit').textContent='Parando…'}};
+$('#bCopiar').onclick=function(){copiar(listaTexto(),function(){aviso('Lista copiada: nome, turma e nota. É só colar na planilha.')})};
+$('#bCsv').onclick=function(){var b=new Blob([csv()],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='redacoes-corrigidas.csv';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500)};
+$('#bKedu').onclick=enviarKedu;
+$('#bNova').onclick=function(){S.fotos=[];S.bloco=[];desenharThumbs();desenharBloco();$('#cAluno').value='';$('#sErr').classList.add('hide');$('#mas').src='/KEDU/img/mascote-pensando.png';show('vSetup');carregarStatus()};
+$('#bLimpar').onclick=function(){if(!S.itens.length||confirm('Apagar esta lista deste aparelho?')){S.itens=[];ls('kc_lista',null);show('vSetup')}};
+
+/* ---------- início ---------- */
+if('serviceWorker' in navigator)navigator.serviceWorker.register('/KEDU/corrige/app/sw.js',{scope:'/KEDU/corrige/app/'}).catch(function(){});
+var h=location.hash.match(/rt=([^&]+)/);
+if(h){S.rt=decodeURIComponent(h[1]);ls('kc_rt',S.rt);history.replaceState(null,'',location.pathname)}else S.rt=ls('kc_rt')||'';
+if(S.rt){renovar().then(abrir,function(){sair()})}else show('vLogin');
+})();
+</script>
+</body>
+</html>

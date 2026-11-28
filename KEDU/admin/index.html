@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>K.Edu · Painel</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0B1740">
+<link rel="icon" type="image/png" sizes="48x48" href="/KEDU/k-48.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+:root{--ink:#0B1740;--blue:#173A8A;--sky:#3B82F6;--amber:#FFBF24;--paper:#F5F8FF;--card:#fff;--line:#DCE4F5;--mute:#52608A;--ok:#16A34A;--bad:#DC2626;--warn:#D97706}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 15px/1.45 Figtree,system-ui,sans-serif;padding-bottom:env(safe-area-inset-bottom)}
+h1,h2,h3,.btn,.k b,.tab,.badge{font-family:Outfit,system-ui,sans-serif}
+button,input,select{font:inherit;color:inherit}
+[hidden]{display:none!important}
+.top{background:linear-gradient(160deg,#0B1F57,#173A8A);color:#fff;padding:calc(10px + env(safe-area-inset-top)) max(16px,env(safe-area-inset-left)) 0}
+.top .in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:10px}
+.top img{height:34px;border-radius:8px}
+.top h1{margin:0;font-size:19px}.top h1 em{color:var(--amber);font-style:normal}
+.top .dir{margin-left:auto;display:flex;gap:8px}
+.top a,.top button{background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer;text-decoration:none;font-weight:600}
+.tabs{max-width:1100px;margin:0 auto;display:flex;gap:6px}
+.tab{flex:1;max-width:220px;border:0;background:rgba(255,255,255,.1);color:#cbd8f7;padding:11px 8px;border-radius:12px 12px 0 0;font-weight:600;font-size:15px;cursor:pointer}
+.tab.on{background:var(--paper);color:var(--ink)}
+main{max-width:1100px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-left)) 50px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+#login{max-width:380px;margin:40px auto}
+label{display:block;font-weight:600;font-size:14px;margin:12px 0 4px}
+input,select{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:10px 12px;background:#fff;font-size:16px}
+input:focus,select:focus{outline:none;border-color:var(--sky);box-shadow:0 0 0 3px rgba(59,130,246,.18)}
+.btn{border:0;border-radius:10px;padding:9px 13px;font-weight:700;font-size:14px;cursor:pointer;min-height:40px;background:var(--blue);color:#fff}
+.btn.p{background:var(--amber);color:var(--ink)}.btn.g{background:#fff;color:var(--blue);border:1.5px solid var(--line)}.btn.r{background:#fff;color:var(--bad);border:1.5px solid #F4C3C3}.btn.v{background:var(--ok)}
+.btn[disabled]{opacity:.45;cursor:default}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:14px}
+.k{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;cursor:pointer}
+.k b{display:block;font-size:26px;line-height:1.1}.k span{font-size:12.5px;color:var(--mute)}
+.k.on{border-color:var(--blue);box-shadow:0 0 0 3px rgba(23,58,138,.12)}
+.busca{display:flex;gap:10px;margin-bottom:14px}.busca input{flex:1}
+.lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.it{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.it.aviso{border-color:#F5DC8D;background:#FFFCF0}
+.it .em{font-weight:600;word-break:break-all;font-size:15.5px}
+.it .l{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{font-size:12px;font-weight:700;color:#fff;padding:3px 10px;border-radius:99px}
+.s-ativo{background:var(--ok)}.s-venc{background:var(--warn)}.s-pend{background:var(--sky)}.s-susp{background:var(--bad)}.s-teste{background:#7C3AED}
+.mut{color:var(--mute);font-size:13.5px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g2 select{padding:8px 10px;font-size:14px}
+.acoes{display:flex;flex-wrap:wrap;gap:6px}
+.acoes .btn{padding:8px 11px;min-height:38px;font-size:13.5px}
+.obs{font-size:14px;padding:8px 10px}
+.use{height:8px;background:#E8EEFB;border-radius:5px;overflow:hidden}.use i{display:block;height:100%;background:linear-gradient(90deg,var(--sky),var(--amber))}
+.erro{color:var(--bad);margin:10px 0;font-size:14px}.ok{color:var(--ok);margin:10px 0;font-size:14px}
+.vazio{text-align:center;color:var(--mute);padding:30px}
+details summary{cursor:pointer;font-weight:600;color:var(--blue);font-size:13.5px}
+@media(max-width:520px){.lista{grid-template-columns:1fr}.top .dir{width:100%;margin-left:0}.top .dir>*{flex:1;text-align:center}}
+</style>
+</head>
+<body>
+<section id="login" class="card">
+  <h2 style="margin:0 0 4px">Painel K<span style="color:#D97706">.</span>Edu</h2>
+  <p class="mut" style="margin:0 0 6px">Área da administradora.</p>
+  <label for="em">E-mail</label><input id="em" type="email" autocomplete="username">
+  <label for="se">Senha</label><input id="se" type="password" autocomplete="current-password">
+  <p style="display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0"><button class="btn p" id="entrar">Entrar</button><button class="btn g" id="esqueci" type="button">Esqueci minha senha</button></p>
+  <div id="loginErro" class="erro"></div><div id="loginOk" class="ok"></div>
+</section>
+
+<section id="painel" hidden>
+  <header class="top"><div class="in">
+    <img src="/KEDU/logo.jpg" alt="K.Edu"><h1>Painel <em>K.Edu</em></h1>
+    <div class="dir"><a href="/KEDU/avisos/">Avisos no celular</a><button id="recarregar">Atualizar</button><button id="sair">Sair</button></div>
+  </div>
+  <div class="tabs"><button class="tab on" data-t="siap">K.Edu (SIAP)</button><button class="tab" data-t="corrige">K.Edu Corrige</button></div></header>
+  <main>
+    <div class="tiles" id="tiles"></div>
+    <div class="busca"><input id="busca" placeholder="Buscar por e-mail ou anotação" type="search"></div>
+    <div id="lista" class="lista"></div>
+    <div id="msg" class="erro"></div>
+  </main>
+</section>
+
+<script type="module">
+const firebaseConfig = { apiKey: "AIzaSyCY-kjvz0zSg6sEwFI_6CqIxft3q0bsn4g", authDomain: "kedu-ff626.firebaseapp.com", projectId: "kedu-ff626" };
+const AVISO_DIAS = 5;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc, setDoc, Timestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app);
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+const fmt = d => d ? d.toLocaleDateString('pt-BR') : '-';
+const dias = l => l.ate ? Math.ceil((l.ate.getTime() - Date.now()) / 86400000) : null;
+const LIM = 200;
+let aba = 'siap', filtro = '', licencas = [], corriges = [], notas = {};
+
+function statusSiap(l) {
+  if (l.ativo && l.ate && l.ate.getTime() > Date.now()) return l.plano === 'teste' ? ['Teste 24h', 's-teste'] : ['Ativo', 's-ativo'];
+  if (l.ativo && l.ate) return ['Vencido', 's-venc'];
+  if (!l.ate) return ['Pendente', 's-pend'];
+  return ['Suspenso', 's-susp'];
+}
+function statusCor(c) {
+  if (c.ativo && c.ate && c.ate.getTime() > Date.now()) return ['Ativo', 's-ativo'];
+  if (c.ativo && c.ate) return ['Vencido', 's-venc'];
+  if (c.ate) return ['Suspenso', 's-susp'];
+  return ['Teste grátis', 's-teste'];
+}
+const emailDe = id => (licencas.find(x => x.id === id) || {}).email || '';
+
+function desenhar() {
+  const q = $('busca').value.trim().toLowerCase();
+  const arr = aba === 'siap' ? licencas : corriges;
+  const stf = aba === 'siap' ? statusSiap : statusCor;
+  const nomes = aba === 'siap' ? ['Pendente', 'Ativo', 'Vencendo', 'Vencido', 'Suspenso', 'Teste 24h'] : ['Ativo', 'Vencendo', 'Vencido', 'Teste grátis', 'Suspenso'];
+  const venc = l => l.ativo && l.ate && dias(l) >= 0 && dias(l) <= AVISO_DIAS;
+  const cont = {}; nomes.forEach(n => cont[n] = 0);
+  arr.forEach(l => { cont[stf(l)[0]]++; if (venc(l)) cont['Vencendo']++; });
+  $('tiles').innerHTML = `<div class="k ${filtro === '' ? 'on' : ''}" data-f=""><b>${arr.length}</b><span>Todos</span></div>` + nomes.map(n => `<div class="k ${filtro === n ? 'on' : ''}" data-f="${n}"><b>${cont[n]}</b><span>${n}</span></div>`).join('');
+  let it = arr.filter(l => (!q || (l.email || '').toLowerCase().includes(q) || (notas[l.id] || '').toLowerCase().includes(q)) && (!filtro || (filtro === 'Vencendo' ? venc(l) : stf(l)[0] === filtro)));
+  const ordem = { 'Pendente': 0, 'Vencido': 1, 'Ativo': 2, 'Teste 24h': 3, 'Teste grátis': 3, 'Suspenso': 4 };
+  it.sort((a, b) => ordem[stf(a)[0]] - ordem[stf(b)[0]] || (a.ate ? a.ate.getTime() : 0) - (b.ate ? b.ate.getTime() : 0) || (a.email || '').localeCompare(b.email || ''));
+  $('lista').innerHTML = it.map(aba === 'siap' ? cartaoSiap : cartaoCor).join('') || '<div class="vazio">Ninguém encontrado.</div>';
+}
+const opt = (v, atual, rot) => `<option value="${v}" ${atual === v ? 'selected' : ''}>${rot}</option>`;
+function cartaoSiap(l) {
+  const [st, cls] = statusSiap(l), d = dias(l), aviso = l.ativo && l.ate && d >= 0 && d <= AVISO_DIAS, id = esc(l.id);
+  const temCor = corriges.some(c => c.id === l.id && c.ativo && c.ate && c.ate.getTime() > Date.now());
+  return `<div class="it ${aviso ? 'aviso' : ''}">
+    <div class="em">${esc(l.email) || '(sem e-mail)'}</div>
+    <div class="l"><span class="badge ${cls}">${st}</span><span class="mut">até ${fmt(l.ate)}${aviso ? ` · faltam ${d} dia${d === 1 ? '' : 's'}` : ''}</span>${temCor ? '<span class="badge s-ativo" style="background:var(--blue)">Corrige</span>' : ''}</div>
+    <div class="g2"><select data-c="plano" data-id="${id}">${opt('', l.plano || '', 'Plano: -')}${opt('mensal', l.plano, 'Mensal')}${opt('anual', l.plano, 'Anual')}${opt('teste', l.plano, 'Teste')}</select>
+    <select data-c="forma" data-id="${id}">${opt('', l.forma || '', 'Pagou: -')}${opt('pix', l.forma, 'Pix')}${opt('boleto', l.forma, 'Boleto')}${opt('cartao', l.forma, 'Cartão')}</select></div>
+    <div class="mut">Aparelho: ${l.aparelho ? 'registrado' : '-'} · SIAP: ${l.siap ? esc(l.siap) : '-'}</div>
+    <input class="obs" data-obs="${id}" value="${esc(notas[l.id] || '')}" placeholder="Anotação">
+    <div class="acoes">
+      <button class="btn v" data-a="mes" data-id="${id}">+30 dias</button><button class="btn v" data-a="ano" data-id="${id}">+300 dias</button>
+      <button class="btn g" data-a="d1" data-id="${id}">+1 dia</button><button class="btn g" data-a="d3" data-id="${id}">+3 dias</button>
+      <button class="btn p" data-a="dacor" data-id="${id}">Liberar Corrige</button>
+    </div>
+    <details><summary>Mais opções</summary><div class="acoes" style="margin-top:8px">
+      <button class="btn g" data-a="aparelho" data-id="${id}" ${l.aparelho ? '' : 'disabled'}>Liberar troca de aparelho</button>
+      <button class="btn g" data-a="siap" data-id="${id}" ${l.siap ? '' : 'disabled'}>Liberar troca de SIAP</button>
+      <button class="btn r" data-a="suspender" data-id="${id}">Suspender</button><button class="btn r" data-a="excluir" data-id="${id}">Excluir</button></div></details>
+  </div>`;
+}
+function cartaoCor(c) {
+  const [st, cls] = statusCor(c), d = dias(c), aviso = c.ativo && c.ate && d >= 0 && d <= AVISO_DIAS, id = esc(c.id);
+  const assin = c.ativo && c.ate && c.ate.getTime() > Date.now();
+  const mesAtual = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit' }).format(new Date());
+  const usadas = c.mes === mesAtual ? c.usadas : 0, carry = c.mes === mesAtual ? c.carry : 0;
+  const lim = LIM + carry;
+  const uso = assin ? `<div class="use"><i style="width:${Math.min(100, usadas / lim * 100)}%"></i></div><div class="mut">${usadas} de ${lim} no mês${carry ? ` (inclui ${carry} acumuladas)` : ''}${c.pacote ? ` · pacotes: ${c.pacote}` : ''}</div>` : `<div class="mut">Teste: ${c.gratis} de 3 redações usadas${c.pacote ? ` · pacotes: ${c.pacote}` : ''}</div>`;
+  return `<div class="it ${aviso ? 'aviso' : ''}">
+    <div class="em">${esc(c.email || emailDe(c.id)) || '(sem e-mail)'}</div>
+    <div class="l"><span class="badge ${cls}">${st}</span><span class="mut">${c.ate ? 'até ' + fmt(c.ate) : 'sem assinatura'}${aviso ? ` · faltam ${d} dia${d === 1 ? '' : 's'}` : ''}${c.plano ? ' · ' + esc(c.plano) : ''}</span></div>
+    ${uso}
+    <div class="acoes">
+      <button class="btn v" data-a="cmes" data-id="${id}">+30 dias</button><button class="btn v" data-a="cano" data-id="${id}">+365 dias</button>
+      <button class="btn p" data-a="p30" data-id="${id}">+30 redações</button><button class="btn p" data-a="p100" data-id="${id}">+100 redações</button>
+    </div>
+    <details><summary>Mais opções</summary><div class="acoes" style="margin-top:8px">
+      <button class="btn g" data-a="zerar" data-id="${id}">Zerar uso do mês</button>
+      <button class="btn r" data-a="csuspender" data-id="${id}">Suspender</button><button class="btn r" data-a="cexcluir" data-id="${id}">Excluir</button></div></details>
+  </div>`;
+}
+
+async function carregar() {
+  $('msg').textContent = '';
+  try {
+    licencas = (await getDocs(collection(db, 'licencas'))).docs.map(d => { const x = d.data(); return { id: d.id, email: x.email, ativo: !!x.ativo, ate: x.ate ? x.ate.toDate() : null, plano: x.plano || '', forma: x.forma || '', aparelho: x.aparelho || '', siap: x.siap || '' }; });
+    notas = {}; (await getDocs(collection(db, 'notas'))).docs.forEach(d => { notas[d.id] = d.data().texto || ''; });
+    try { corriges = (await getDocs(collection(db, 'corrige'))).docs.map(d => { const x = d.data(); return { id: d.id, email: x.email || '', ativo: !!x.ativo, ate: x.ate ? x.ate.toDate() : null, plano: x.plano || '', mes: x.mes || '', usadas: x.usadas || 0, carry: x.carry || 0, pacote: x.pacote || 0, gratis: x.gratis || 0 }; }); }
+    catch (e) { corriges = []; $('msg').textContent = 'A aba Corrige precisa das regras novas do Firestore (coleção "corrige"). ' + e.message; }
+    desenhar();
+  } catch (e) { $('msg').textContent = 'Não consegui carregar (confira as regras do Firestore): ' + e.message; }
+}
+const ts = ms => Timestamp.fromMillis(ms);
+const baseDe = x => (x && x.ativo && x.ate && x.ate.getTime() > Date.now()) ? x.ate.getTime() : Date.now();
+async function acao(a, id) {
+  const l = licencas.find(x => x.id === id), c = corriges.find(x => x.id === id);
+  try {
+    if (['mes', 'ano', 'd1', 'd3'].includes(a)) {
+      const n = { mes: 30, ano: 300, d1: 1, d3: 3 }[a], extra = { ativo: true, ate: ts(baseDe(l) + n * 86400000) };
+      if (!l.plano && (a === 'mes' || a === 'ano')) extra.plano = a === 'mes' ? 'mensal' : 'anual';
+      await updateDoc(doc(db, 'licencas', id), extra);
+    } else if (a === 'siap') await updateDoc(doc(db, 'licencas', id), { siap: '' });
+    else if (a === 'aparelho') await updateDoc(doc(db, 'licencas', id), { aparelho: '' });
+    else if (a === 'suspender') await updateDoc(doc(db, 'licencas', id), { ativo: false });
+    else if (a === 'excluir') { if (!confirm('Excluir ' + l.email + ' da lista do K.Edu? Ele poderá pedir liberação de novo.')) return; await deleteDoc(doc(db, 'licencas', id)); }
+    else if (a === 'dacor' || a === 'cmes' || a === 'cano') {
+      const n = a === 'cano' ? 365 : 30;
+      await setDoc(doc(db, 'corrige', id), { ativo: true, ate: ts(baseDe(c) + n * 86400000), plano: n === 365 ? 'anual' : 'mensal', email: (c && c.email) || (l && l.email) || '' }, { merge: true });
+    } else if (a === 'p30' || a === 'p100') await setDoc(doc(db, 'corrige', id), { pacote: ((c && c.pacote) || 0) + (a === 'p30' ? 30 : 100), email: (c && c.email) || emailDe(id) }, { merge: true });
+    else if (a === 'zerar') await updateDoc(doc(db, 'corrige', id), { usadas: 0 });
+    else if (a === 'csuspender') await updateDoc(doc(db, 'corrige', id), { ativo: false });
+    else if (a === 'cexcluir') { if (!confirm('Excluir os dados do Corrige de ' + (c.email || emailDe(id)) + '? Ele volta a ter as 3 redações grátis.')) return; await deleteDoc(doc(db, 'corrige', id)); }
+    await carregar();
+  } catch (e) { $('msg').textContent = 'Erro: ' + e.message; }
+}
+$('lista').addEventListener('click', e => { const b = e.target.closest('button[data-a]'); if (b) acao(b.dataset.a, b.dataset.id); });
+$('tiles').addEventListener('click', e => { const k = e.target.closest('.k'); if (k) { filtro = k.dataset.f; desenhar(); } });
+document.querySelector('.tabs').addEventListener('click', e => { const t = e.target.closest('.tab'); if (!t) return; aba = t.dataset.t; filtro = ''; document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === t)); desenhar(); });
+$('busca').addEventListener('input', desenhar);
+$('lista').addEventListener('change', async e => {
+  const sel = e.target.closest('select[data-c]'); if (!sel) return;
+  try { await updateDoc(doc(db, 'licencas', sel.dataset.id), { [sel.dataset.c]: sel.value }); const l = licencas.find(x => x.id === sel.dataset.id); if (l) l[sel.dataset.c] = sel.value; } catch (err) { $('msg').textContent = 'Erro: ' + err.message; }
+});
+$('lista').addEventListener('focusout', async e => {
+  const inp = e.target.closest('input[data-obs]'); if (!inp) return; const id = inp.dataset.obs;
+  if ((notas[id] || '') === inp.value) return;
+  try { await setDoc(doc(db, 'notas', id), { texto: inp.value }); notas[id] = inp.value; } catch (err) { $('msg').textContent = 'Erro ao salvar anotação: ' + err.message; }
+});
+$('recarregar').onclick = carregar; $('sair').onclick = () => signOut(auth);
+const entrar = async () => { $('loginErro').textContent = ''; try { await signInWithEmailAndPassword(auth, $('em').value.trim(), $('se').value); } catch (e) { $('loginErro').textContent = 'E-mail ou senha incorretos.'; } };
+$('entrar').onclick = entrar; $('se').addEventListener('keydown', e => { if (e.key === 'Enter') entrar(); });
+onAuthStateChanged(auth, u => { $('login').hidden = !!u; $('painel').hidden = !u; if (u) carregar(); });
+$('esqueci').onclick = async () => {
+  const e = $('loginErro'), ok = $('loginOk'), em = $('em').value.trim(); e.textContent = ''; ok.textContent = '';
+  if (!em) { e.textContent = 'Digite seu e-mail acima e clique de novo.'; return; }
+  try {
+    const r = await fetch('https://kedu-leitor.miztella.workers.dev/senha/pedir', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: em }) });
+    const j = await r.json().catch(() => ({})); if (!r.ok || !j.ok) throw 0;
+    ok.textContent = 'Se existir uma conta com ' + em + ', o link de nova senha chega em instantes. Confira o spam.';
+  } catch (x) { e.textContent = 'Não consegui enviar agora. Tente de novo em instantes.'; }
+};
+</script>
+</body>
+</html>
