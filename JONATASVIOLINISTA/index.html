@@ -1423,6 +1423,19 @@ html body .et>*,html body .eph img{opacity:1!important;transform:none!important;
 html body .eph img{animation:none!important}
 #intro .fl{animation:gdown 1.4s cubic-bezier(.6,0,.3,1) 1.4s forwards!important}
 @keyframes gdown{0%{opacity:1;transform:scaleY(0)}62%{opacity:1;transform:scaleY(1)}100%{opacity:0;transform:scaleY(1)}}
+
+/* abertura = logo (violino + nome); nome grande dentro da página */
+#intro .ilg{display:block!important;height:min(38vh,320px)!important;width:auto!important;max-width:80vw;object-fit:contain;animation:none!important}
+#intro .lw{gap:14px!important}
+#intro .ilt b{font-size:clamp(40px,12.5vw,84px)!important;letter-spacing:.12em!important;text-indent:.12em!important}
+#intro .ilt small{font-size:clamp(12px,3.6vw,18px)!important;letter-spacing:.6em!important;text-indent:.6em!important;margin-top:8px!important}
+html body .et h1.hl .nm{font-size:19.4vw!important;letter-spacing:.05em!important;text-indent:.05em!important;white-space:nowrap}
+html body .et h1.hl .nv{font-size:7.2vw!important;letter-spacing:.6em!important;text-indent:.6em!important;margin-top:3vw!important;white-space:nowrap}
+@media(min-width:900px){
+ #intro .ilt b{font-size:84px!important}
+ html body .et h1.hl .nm{font-size:88px!important;letter-spacing:.14em!important}
+ html body .et h1.hl .nv{font-size:17px!important;letter-spacing:.62em!important;margin-top:10px!important}
+}
 </style></head><body>
 <script>try{var L=document.getElementById("fvc");if(L){var n=L.cloneNode();L.remove();document.head.appendChild(n)}}catch(e){}</script>
 <div id="intro" aria-hidden="true"><i class="band"></i><i class="blob bA"></i><i class="blob bB"></i>
